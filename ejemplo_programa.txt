@@ -1,0 +1,14 @@
+#comienzo de programa (comentario)
+int var1
+var1 = 200
+int var2 = 65535 #desde 0 a 65535
+if(var1 > 100):
+var2 = var2 - 1000
+if(var1 > 150):
+var2 = var2 - 5000
+if(var1 > 200):
+var2 = var2 - 10000 
+while(var2 <= var1): #incluye el and y el or para múltiples condiciones?
+	var3 = 20
+	var2 = var3 + 20
+print(var2)
