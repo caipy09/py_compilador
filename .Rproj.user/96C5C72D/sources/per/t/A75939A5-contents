@@ -1,7 +1,8 @@
 
+
 #posicion de la lectura
 pos = 0
-file = "ejemplo_programa.txt"
+file = "test.txt"
 
 #apertura del archivo en modo lectura
 f = open(file,'r')
@@ -62,12 +63,23 @@ def getEven(char):
         return 17
     if(char == 'EOF'):
         return 18
+      
+
+
+
+
+
+
+
+
+
 
 #while que permite operar con todos los caracteres del archivo txt
 while pos < contents_size:
     c = getChar(contents)
     print("El valor es: ", c, " Y su id es: ", getEven(c))
-    
+
+
 
 
 #cierro la conexion con el archivo leido
