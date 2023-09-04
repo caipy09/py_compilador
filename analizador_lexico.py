@@ -39,30 +39,34 @@ def getEven(char):
         return 5
     if(char == '<'):
         return 6
-    if(char == '!'):
-        return 7
     if(char == '+'):
-        return 8
+        return 7
     if(char == '-'):
-        return 9
+        return 8
     if(char == '*'):
-        return 10
+        return 9
     if(char == '/'):
-        return 11
+        return 10
     if(char == '('):
-        return 12
+        return 11
     if(char == ')'):
+        return 12
+    if(char == '{'):
         return 13
-    if(char == ':'):
+    if(char == '}'):
         return 14
-    if(char == '\t'):
+    if(char == '&'):
         return 15
-    if(char == '\n'):
+    if(char == '|'):
         return 16
-    if(char == ' '):
+    if(char.startswith('\t')):
         return 17
-    if(char == 'EOF'):
+    if(char.startswith('\n')):
         return 18
+    if(char == ' '):
+        return 19
+    if(char == 'EOF'):
+        return 20
       
 
 
