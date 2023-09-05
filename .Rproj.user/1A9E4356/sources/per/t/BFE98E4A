@@ -1,26 +1,26 @@
 {
-    "id": "87CA326B",
+    "id": "BFE98E4A",
     "path": "~/GitHub/py_compilador/integracion_al.py",
     "project_path": "integracion_al.py",
     "type": "python",
-    "hash": "3463253055",
+    "hash": "3583090746",
     "contents": "",
     "dirty": false,
-    "created": 1693851783313.0,
+    "created": 1693917813388.0,
     "source_on_save": false,
-    "relative_order": 3,
+    "relative_order": 1,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "280,21",
-        "scrollLine": "265"
+        "cursorPosition": "282,19",
+        "scrollLine": "272"
     },
     "folds": "",
-    "lastKnownWriteTime": 1693853653,
+    "lastKnownWriteTime": 1693917792,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1693853653709,
+    "last_content_update": 1693917792,
     "read_only": false,
     "read_only_alternatives": []
 }

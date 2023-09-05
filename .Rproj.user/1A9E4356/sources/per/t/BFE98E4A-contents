@@ -277,19 +277,25 @@ estado_actual = 0
 
 #while que permite operar con todos los caracteres del archivo txt
 while pos < contents_size:
-  if(estado_actual == -1):
-    estado_actual = 0
-  
-  #ver por que pos sigue en 1 al ejecutar todo junto
-  c = getChar(contents)
-  #debug
-  #print("El valor es: ", c, " Y su id es: ", getEven(c))
-  #agrego el caracter leido segun sea al string temporal que corresponda
-  tabla_funciones[estado_actual][getEven(c)-1](c)
-  print(tabla_simbolos)
-  
-  #al finalizar hago la transicion al siguiente estado
-  estado_actual = tabla_estados[estado_actual][getEven(c)-1]
-
+	if(estado_actual != -1):
+		pass
+	else:
+		estado_actual = 0
+	#ver por que pos sigue en 1 al ejecutar todo junto
+	c = getChar(contents)
+	#debug
+	#print("El valor es: ", c, " Y su id es: ", getEven(c))
+	#agrego el caracter leido segun sea al string temporal que corresponda
+	tabla_funciones[estado_actual][getEven(c)-1](c)
+	print(tabla_simbolos)
+	#al finalizar hago la transicion al siguiente estado
+	estado_actual = tabla_estados[estado_actual][getEven(c)-1]
+	#para hacer el unread si es necesario
+	if tabla_unreads[estado_actual][getEven(c)-1] == 0:
+		pass
+	else:
+		unreadChar()
+	#fin while
+	
 #cierro la conexion con el archivo leido
 f.close()    

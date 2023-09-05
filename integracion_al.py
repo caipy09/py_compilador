@@ -7,6 +7,14 @@ tabla_simbolos["nombre"] = None
 tabla_simbolos["valor"] = None
 tabla_simbolos["longitud"] = None
 
+lista_tokens = pd.DataFrame()
+lista_tokens["id"] = None
+lista_tokens["lexema"] = None
+
+lista_lexemas = pd.DataFrame()
+lista_lexemas["id"] = [256, 257, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279]
+lista_lexemas["lexema"] = ["NA", "NA", "=", "==", "<>", "<", "<=", ">", ">=", "&", "|", "+", "-", "*", "/", "(", ")", "{", "}"]
+
 #variables
 identificador = ""
 long_max_identificador = 6
@@ -14,9 +22,19 @@ long_actual_identificador = 0
 constante = ""
 long_max_constante = pow(2, 16) - 1
 
+#posicion de la lectura
+pos = 0
+file = "C:/Users/fheredia/Documents/GitHub/py_compilador/test.txt"
 
-#Preguntas
-# como manejar los errores lexicos? ej. si el numero excede los 16 bits o si el identificador excede el largo definido
+#apertura del archivo en modo lectura
+f = open(file,'r')
+
+#se lee el contenido del archivo y se lo guarda en su completitud en la variable contents
+with open(file) as f:
+  contents = f.read()
+
+#defino la longitud de contents
+contents_size = len(contents)
 
 
 #funcion de respaldo que devuelve un 0 cuando el string esta vacio
@@ -43,6 +61,10 @@ def limpiarConstante():
 def guionId(identif):
   return "_" + identif
 
+#def completarLista():
+#    global lista_tokens
+#    for 
+
 
 #IDENTIFICADOR
 #inicializa un string con el contenido de los caracteres recibidos 
@@ -64,6 +86,15 @@ def f2(c):
   if a_numerico(aux) < long_max_constante:
     constante = aux
 
+#test de funcion para guardar los token que no son identificador ni constante
+def f3(c):
+    global lista_tokens
+    aux = tabla_tokens[estado_actual][getEven(c)-1]
+    if aux != -1:
+        token = [aux, "NA"]
+        lista_tokens.loc[len(lista_tokens)] = token
+
+
 #IDENTIFICADOR
 #si el presente identificador no está en TS, lo agrega
 # de lo contrario se lo omite
@@ -73,7 +104,10 @@ def f4(c):
     pass
   else:
     row = [guionId(identificador), identificador, long_actual_identificador]
+    token = [tabla_tokens[estado_actual][getEven(c)-1], identificador]
+    lista_tokens.loc[len(lista_tokens)] = token
     tabla_simbolos.loc[len(tabla_simbolos)] = row
+    limpiarIdentificador()
 
 #CONSTANTE
 #si el presente identificador no está en TS, lo agrega
@@ -85,7 +119,10 @@ def f5(c):
     pass
   else:
     row = [guionId(constante), constante, "-"]
+    token = [tabla_tokens[estado_actual][getEven(c)-1], constante]
+    lista_tokens.loc[len(lista_tokens)] = token
     tabla_simbolos.loc[len(tabla_simbolos)] = row
+    limpiarConstante()
 
 #funcion nula
 def f6(c):
@@ -173,39 +210,27 @@ tabla_funciones = [[f1, f2, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, 
                    [f1, f1, f4, f4, f4, f4, f4, f4, f4, f4, f4, f4, f4, f4, f4, f4, f4, f4, f4, f4], #ID
                    [f5, f2, f5, f5, f5, f5, f5, f5, f5, f5, f5, f5, f5, f5, f5, f5, f5, f5, f5, f5], #CTE
                    [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #comentario
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #ASIG
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #IGUALA
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #MAYOR
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #MAYORIGUAL
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #MENOR
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #MENORIGUAL
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #DIST
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #SUMA
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #RESTA
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #MULT
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #DIV
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #PARA
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #PARC
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #LLAVEA
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #LLAVEC
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6], #AND
-                   [f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6, f6]] #OR
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #ASIG
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #IGUALA
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #MAYOR
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #MAYORIGUAL
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #MENOR
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #MENORIGUAL
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #DIST
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #SUMA
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #RESTA
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #MULT
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #DIV
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #PARA
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #PARC
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #LLAVEA
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #LLAVEC
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3], #AND
+                   [f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3, f3]] #OR
 #                  L   D   #   =   >   <  +   -   *   /   (    )  {    }  &   |   \t  \n  "" EOF 
 
 
-#posicion de la lectura
-pos = 0
-file = "test.txt"
 
-#apertura del archivo en modo lectura
-f = open(file,'r')
-
-#se lee el contenido del archivo y se lo guarda en su completitud en la variable contents
-with open(file) as f:
-  contents = f.read()
-
-#defino la longitud de contents
-contents_size = len(contents)
 
 #funcion que permite leer secuencialmente el contenido de 'contents'
 # si llega al final devuelve un EOF
@@ -273,23 +298,30 @@ def getEven(char):
 
 
 estado_actual = 0
+d = ""
 
 
 #while que permite operar con todos los caracteres del archivo txt
 while pos < contents_size:
-  if(estado_actual == -1):
-    estado_actual = 0
-  
-  #ver por que pos sigue en 1 al ejecutar todo junto
-  c = getChar(contents)
-  #debug
-  #print("El valor es: ", c, " Y su id es: ", getEven(c))
-  #agrego el caracter leido segun sea al string temporal que corresponda
-  tabla_funciones[estado_actual][getEven(c)-1](c)
-  print(tabla_simbolos)
-  
-  #al finalizar hago la transicion al siguiente estado
-  estado_actual = tabla_estados[estado_actual][getEven(c)-1]
+	#ver por que pos sigue en 1 al ejecutar todo junto
+	c = getChar(contents)
+	
+	tabla_funciones[estado_actual][getEven(c)-1](c)
+	#estado_actual = tabla_estados[estado_actual][getEven(c)-1]
+	if tabla_unreads[estado_actual][getEven(c)-1] == 1:
+		unreadChar()
+	estado_actual = tabla_estados[estado_actual][getEven(c)-1]
+	if(estado_actual != -1):
+		pass
+	else:
+		estado_actual = 0
+	#print(tabla_simbolos)
+	#print(lista_tokens)
+    #fin while
+	
 
+print(tabla_simbolos)
+print(lista_tokens)
+    
 #cierro la conexion con el archivo leido
 f.close()    
