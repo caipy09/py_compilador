@@ -1,1 +1,7 @@
-var = 20
+int x
+int y
+int z
+
+x > y
+y == z
+z <> x

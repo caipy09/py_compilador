@@ -2,7 +2,7 @@
 
 #posicion de la lectura
 pos = 0
-file = "test.txt"
+file = "C:/Users/ferna/OneDrive/Documents/GitHub/py_compilador/test.txt"
 
 #apertura del archivo en modo lectura
 f = open(file,'r')

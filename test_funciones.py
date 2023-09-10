@@ -64,6 +64,7 @@ def f2(c):
   if a_numerico(aux) < long_max_constante:
     constante = aux
 
+
 #IDENTIFICADOR
 #si el presente identificador no está en TS, lo agrega
 # de lo contrario se lo omite
