@@ -1,6 +1,7 @@
 
 #importo biblioteca pandas
 import pandas as pd
+from lexToken import LexToken
 
 
 class Analyzer(object):
@@ -10,6 +11,7 @@ class Analyzer(object):
     constant_number = ""
     LONG_MAX_ID = 6
     long_id = 0
+    
 
 #                  L   D   #   =   >   <  +   -   *   /   (    )  {    }  &   |   \t  \n  "" EOF 
     state_matrix = [[ 1,  2,  3,  4,  6,  8, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,  0,  0,  0, -1], #inicial
@@ -92,7 +94,12 @@ class Analyzer(object):
                
 
     def __init__(self, filename):
-        
+
+        self.token_list = pd.DataFrame()
+        self.token_list["id"] = [256, 257, 258, 259, 260, 261, 262, 263, 264, 268, 269, 266, 267, 265, 272, 273, 274, 275, 276, 277, 278, 279, 270, 271]
+        self.token_list["nombre"] = ["ID", "CTE", "IF", "ELSE", "WHILE", "PRINT", "INT", "ASIG", "IGUALA", "MAYOR", "MAYORIGUAL", "MENOR", "MENORIGUAL", "DIST", "SUMA", "RESTA", "MULT", "DIV", "PARA", "PARC", "LLAVEA", "LLAVEC", "AND", "OR"]
+        self.token_list["valor"] = ["NA", "NA", "if", "else", "while", "print", "int", "=", "==", ">", ">=", "<", "<=", "<>", "+", "-", "*", "/", "(", ")", "{", "}", "&", "|"]
+
         #tabla de simbolos con columnas principales
         self.symbol_table = pd.DataFrame()
         self.symbol_table["nombre"] = None
@@ -228,7 +235,7 @@ class Analyzer(object):
     def fn(self, c):
         None
             
-    def lex(self):
+    def token(self):
         # defino estados 
         state = 0
         final_state = -1
@@ -242,9 +249,13 @@ class Analyzer(object):
             state = self.state_matrix[state][column]
         if self.unread_matrix[last_state][column] == 1:
             self._unreadChar()
-        token = self.token_matrix[last_state][column]
-        if(token == 256 and self._is_keyword(self.identificator)):
-            token = int(self.keywords[self.keywords["valor"] == self.identificator]["id"])
-        return token
+        tokenValue = self.token_matrix[last_state][column]
+        if(tokenValue == 256 and self._is_keyword(self.identificator)):
+            tokenValue = int(self.keywords[self.keywords["valor"] == self.identificator]["id"])
+        tokenType = "EOL"
+        if(tokenValue != -1):
+            tokenType = (self.token_list[self.token_list["id"] == tokenValue]["nombre"]).iloc[0]
+        tokenObject = LexToken(tokenType, tokenValue)
+        return tokenObject
 
 

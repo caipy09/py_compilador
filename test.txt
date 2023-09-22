@@ -1,1 +1,13 @@
-var = 20
+#probando los limites maximos de valores enteros
+int var1
+int var2
+int var3
+
+var1 = 0
+var2 = 65535
+var3 = var1 + var2
+
+#imprimo valores de variables
+print(var1)
+print(var2)
+print(var3)
