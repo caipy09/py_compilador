@@ -2,21 +2,28 @@
 #importo biblioteca pandas
 import pandas as pd
 
+#clase LexToken: la clase creará un objeto de este tipo y le asignará su type and value ya definidos para despues retornarlo
 class LexToken(object):
     
+    #variables
     type = ""
     value = ""
     
+    #constructor
     def __init__(self, att_type, att_value):
         self.type = att_type
         self.value = att_value
-        
+    
+    #metodo para impresion de tokens
     def __str__(self):
         return f'TOKEN <Type: {self.type}, Value: {self.value}>'
     
+    #Validacion de tokens: un token es valido si su 'value' esta entre 256 y 279
     def isValidToken(self):
-        return self.value != -1
+        flag = self.value >= 256 and self.value <= 279
+        return flag
 
+#clase principal Lexer: el analizador léxico propiamente definido.
 class Lexer(object):
 
     #variables
@@ -236,7 +243,7 @@ class Lexer(object):
                 row = [
                     self._add_underscore(self.constant_number), 
                     self.constant_number, 
-                    "-"
+                    len(self.constant_number)
                 ]
                 self.symbol_table.loc[len(self.symbol_table)] = row
 
@@ -260,15 +267,23 @@ class Lexer(object):
             self.function_matrix[state][column](c)
             last_state = state
             state = self.state_matrix[state][column]
+        #consulto la matriz de unreads para realizar la acción si es necesaria
         if self.unread_matrix[last_state][column] == 1:
             self._unreadChar()
+        #consulto matriz de tokens para asignar el valor
         tokenValue = self.token_matrix[last_state][column]
+        #si ocurre que el tokenValue es 256 (un identificador) y ese identificador existe dentro
+        # de la tabla de palabras reservadas, entonces es una palabra reservada y le reasigno el tokenValue correspondiente
         if(tokenValue == 256 and self._is_keyword(self.identificator)):
             tokenValue = int(self.keywords[self.keywords["valor"] == self.identificator]["id"])
-        tokenType = "eof"
+        tokenType = ""
+        #se asigna -1 cuando se alcanza el EOF
         if(tokenValue != -1):
             tokenType = (self.token_list[self.token_list["id"] == tokenValue]["nombre"]).iloc[0]
-        tokenObject = LexToken(tokenType, tokenValue)
-        return tokenObject
+            return LexToken(tokenType, tokenValue)
+        else:
+            #si se alcanzo EOF retorno None
+            return None
+        
 
 

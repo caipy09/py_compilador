@@ -1,0 +1,22 @@
+#con este ejemplo se evalua el uso sentencias de control
+int var1
+int var2
+int var3
+
+var1 = 50
+var2 = 0
+var3 = 5000
+
+#bucle while con if
+while(var1 > 0){
+  var2 = 1
+  if(var2 <> 0){
+	var3 = var3 - var1
+	var1 = var1 - 1
+  }
+  if(var3 < 4000){
+	var3 = 4200
+	var1 = 0
+  }
+}
+#fin de programa
