@@ -1,10 +1,23 @@
 
 #importo biblioteca pandas
 import pandas as pd
-from lexToken import LexToken
 
+class LexToken(object):
+    
+    type = ""
+    value = ""
+    
+    def __init__(self, att_type, att_value):
+        self.type = att_type
+        self.value = att_value
+        
+    def __str__(self):
+        return f'TOKEN <Type: {self.type}, Value: {self.value}>'
+    
+    def isValidToken(self):
+        return self.value != -1
 
-class Analyzer(object):
+class Lexer(object):
 
     #variables
     identificator = ""
@@ -252,7 +265,7 @@ class Analyzer(object):
         tokenValue = self.token_matrix[last_state][column]
         if(tokenValue == 256 and self._is_keyword(self.identificator)):
             tokenValue = int(self.keywords[self.keywords["valor"] == self.identificator]["id"])
-        tokenType = "EOL"
+        tokenType = "eof"
         if(tokenValue != -1):
             tokenType = (self.token_list[self.token_list["id"] == tokenValue]["nombre"]).iloc[0]
         tokenObject = LexToken(tokenType, tokenValue)
