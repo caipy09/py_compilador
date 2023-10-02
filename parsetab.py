@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'left+-left*/rightUMINUSNAME NUMBERstatement : NAME "=" expressionstatement : expressionexpression : expression \'+\' expression\n                  | expression \'-\' expression\n                  | expression \'*\' expression\n                  | expression \'/\' expressionexpression : \'-\' expression %prec UMINUSexpression : \'(\' expression \')\'expression : NUMBERexpression : NAME'
+_lr_signature = 'CTE DIV MULT PARA PARC RESTA SUMAexpression : expression SUMA termexpression : expression RESTA termexpression : termterm : term MULT factorterm : term DIV factorterm : factorfactor : CTEfactor : PARA expression PARC'
     
-_lr_action_items = {'NAME':([0,4,5,7,8,9,10,11,],[2,13,13,13,13,13,13,13,]),'-':([0,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,],[4,-10,9,4,4,-9,4,4,4,4,4,-7,-10,9,9,-3,-4,-5,-6,-8,]),'(':([0,4,5,7,8,9,10,11,],[5,5,5,5,5,5,5,5,]),'NUMBER':([0,4,5,7,8,9,10,11,],[6,6,6,6,6,6,6,6,]),'$end':([1,2,3,6,12,13,15,16,17,18,19,20,],[0,-10,-2,-9,-7,-10,-1,-3,-4,-5,-6,-8,]),'=':([2,],[7,]),'+':([2,3,6,12,13,14,15,16,17,18,19,20,],[-10,8,-9,-7,-10,8,8,-3,-4,-5,-6,-8,]),'*':([2,3,6,12,13,14,15,16,17,18,19,20,],[-10,10,-9,-7,-10,10,10,10,10,-5,-6,-8,]),'/':([2,3,6,12,13,14,15,16,17,18,19,20,],[-10,11,-9,-7,-10,11,11,11,11,-5,-6,-8,]),')':([6,12,13,14,16,17,18,19,20,],[-9,-7,-10,20,-3,-4,-5,-6,-8,]),}
+_lr_action_items = {'CTE':([0,5,6,7,8,9,],[4,4,4,4,4,4,]),'PARA':([0,5,6,7,8,9,],[5,5,5,5,5,5,]),'$end':([1,2,3,4,11,12,13,14,15,],[0,-3,-6,-7,-1,-2,-4,-5,-8,]),'SUMA':([1,2,3,4,10,11,12,13,14,15,],[6,-3,-6,-7,6,-1,-2,-4,-5,-8,]),'RESTA':([1,2,3,4,10,11,12,13,14,15,],[7,-3,-6,-7,7,-1,-2,-4,-5,-8,]),'PARC':([2,3,4,10,11,12,13,14,15,],[-3,-6,-7,15,-1,-2,-4,-5,-8,]),'MULT':([2,3,4,11,12,13,14,15,],[8,-6,-7,8,8,-4,-5,-8,]),'DIV':([2,3,4,11,12,13,14,15,],[9,-6,-7,9,9,-4,-5,-8,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,4,5,7,8,9,10,11,],[3,12,14,15,16,17,18,19,]),}
+_lr_goto_items = {'expression':([0,5,],[1,10,]),'term':([0,5,6,7,],[2,2,11,12,]),'factor':([0,5,6,7,8,9,],[3,3,3,3,13,14,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,15 +26,13 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> statement","S'",1,None,None,None),
-  ('statement -> NAME = expression','statement',3,'p_statement_assign','main.py',28),
-  ('statement -> expression','statement',1,'p_statement_expr','main.py',33),
-  ('expression -> expression + expression','expression',3,'p_expression_binop','main.py',38),
-  ('expression -> expression - expression','expression',3,'p_expression_binop','main.py',39),
-  ('expression -> expression * expression','expression',3,'p_expression_binop','main.py',40),
-  ('expression -> expression / expression','expression',3,'p_expression_binop','main.py',41),
-  ('expression -> - expression','expression',2,'p_expression_uminus','main.py',53),
-  ('expression -> ( expression )','expression',3,'p_expression_group','main.py',58),
-  ('expression -> NUMBER','expression',1,'p_expression_number','main.py',63),
-  ('expression -> NAME','expression',1,'p_expression_name','main.py',68),
+  ("S' -> expression","S'",1,None,None,None),
+  ('expression -> expression SUMA term','expression',3,'p_expression_suma','test_parser.py',39),
+  ('expression -> expression RESTA term','expression',3,'p_expression_resta','test_parser.py',43),
+  ('expression -> term','expression',1,'p_expression_term','test_parser.py',47),
+  ('term -> term MULT factor','term',3,'p_term_mult','test_parser.py',51),
+  ('term -> term DIV factor','term',3,'p_term_div','test_parser.py',55),
+  ('term -> factor','term',1,'p_term_factor','test_parser.py',59),
+  ('factor -> CTE','factor',1,'p_factor_cte','test_parser.py',63),
+  ('factor -> PARA expression PARC','factor',3,'p_factor_expr','test_parser.py',67),
 ]

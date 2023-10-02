@@ -7,16 +7,18 @@ class LexToken(object):
     
     #variables
     type = ""
+    tokenId = ""
     value = ""
     
     #constructor
-    def __init__(self, att_type, att_value):
+    def __init__(self, att_type, att_tokenId, att_value):
         self.type = att_type
+        self.tokenId = att_tokenId
         self.value = att_value
     
     #metodo para impresion de tokens
     def __str__(self):
-        return f'TOKEN <Type: {self.type}, Value: {self.value}>'
+        return f'TOKEN <Type: {self.type}, id: {self.tokenId}, Value: {self.value}>'
     
     #Validacion de tokens: un token es valido si su 'value' esta entre 256 y 279
     def isValidToken(self):
@@ -254,6 +256,9 @@ class Lexer(object):
     #funcion nula
     def fn(self, c):
         None
+        
+    def searchTSbyName(self, kw):
+        return self.symbol_table.loc[self.symbol_table["nombre"] == self._add_underscore(kw)]
             
     def token(self):
         # defino estados 
@@ -270,17 +275,28 @@ class Lexer(object):
         #consulto la matriz de unreads para realizar la acción si es necesaria
         if self.unread_matrix[last_state][column] == 1:
             self._unreadChar()
-        #consulto matriz de tokens para asignar el valor
-        tokenValue = self.token_matrix[last_state][column]
-        #si ocurre que el tokenValue es 256 (un identificador) y ese identificador existe dentro
-        # de la tabla de palabras reservadas, entonces es una palabra reservada y le reasigno el tokenValue correspondiente
-        if(tokenValue == 256 and self._is_keyword(self.identificator)):
-            tokenValue = int(self.keywords[self.keywords["valor"] == self.identificator]["id"])
+        #consulto matriz de tokens para asignar el id
+        tokenId = self.token_matrix[last_state][column]
+        #si ocurre que el tokenId es 256 (un identificador) y ese identificador existe dentro
+        # de la tabla de palabras reservadas, entonces es una palabra reservada y le reasigno el tokenId correspondiente
+        if(tokenId == 256 and self._is_keyword(self.identificator)):
+            tokenId = int(self.keywords[self.keywords["valor"] == self.identificator]["id"])
+        #inicializo la variable que contendrá el tipo del token:
         tokenType = ""
+        #inicializo la variable que contendrá el lexema del token:
+        tokenValue = ""
         #se asigna -1 cuando se alcanza el EOF
-        if(tokenValue != -1):
-            tokenType = (self.token_list[self.token_list["id"] == tokenValue]["nombre"]).iloc[0]
-            return LexToken(tokenType, tokenValue)
+        if(tokenId != -1):
+            #defino el tipo del token obtenido consultando en la lista de tokens
+            tokenType = (self.token_list[self.token_list["id"] == tokenId]["nombre"]).iloc[0]
+            if(tokenId == 257):
+                tokenValue = int((self.searchTSbyName(self.constant_number)["valor"]).iloc[0])
+            elif(tokenId == 256):
+                tokenValue = (self.searchTSbyName(self.identificator)["valor"]).iloc[0]
+            else:
+                tokenValue = (self.token_list.loc[self.token_list["id"] == tokenId]["valor"]).iloc[0]
+            #teniendo todos los atributos del token definidos se procede a crear el objeto token y devolverlo
+            return LexToken(tokenType, tokenId, tokenValue)
         else:
             #si se alcanzo EOF retorno None
             return None
