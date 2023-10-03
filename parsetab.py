@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftSUMARESTAleftMULTDIVrightUMINUSASIG CTE DIV ID MULT PARA PARC RESTA SUMAstatement : expressionstatement : ID ASIG expressionexpression : expression SUMA termexpression : expression RESTA termexpression : termterm : term MULT factorterm : term DIV factorterm : factorfactor : CTEexpression : RESTA expression %prec UMINUSexpression : SUMA expressionfactor : PARA expression PARCexpression : ID'
+_lr_signature = 'leftSUMARESTAleftMULTDIVrightUMINUSASIG CTE DIV ID MULT PARA PARC RESTA SUMAprogram : program statementprogram : statementstatement : expressionstatement : ID ASIG expressionexpression : expression SUMA termexpression : expression RESTA termexpression : termexpression : RESTA expression %prec UMINUSexpression : SUMA expressionterm : term MULT factorterm : term DIV factorterm : factorfactor : CTEfactor : IDfactor : PARA expression PARC'
     
-_lr_action_items = {'ID':([0,4,6,9,12,],[3,14,14,14,14,]),'RESTA':([0,2,3,4,5,6,7,8,9,12,13,14,17,18,19,20,21,22,23,24,],[6,11,-13,6,-5,6,-8,-9,6,6,-11,-13,-10,11,-3,-4,11,-6,-7,-12,]),'SUMA':([0,2,3,4,5,6,7,8,9,12,13,14,17,18,19,20,21,22,23,24,],[4,10,-13,4,-5,4,-8,-9,4,4,-11,-13,-10,10,-3,-4,10,-6,-7,-12,]),'CTE':([0,4,6,9,10,11,12,15,16,],[8,8,8,8,8,8,8,8,8,]),'PARA':([0,4,6,9,10,11,12,15,16,],[9,9,9,9,9,9,9,9,9,]),'$end':([1,2,3,5,7,8,13,14,17,19,20,21,22,23,24,],[0,-1,-13,-5,-8,-9,-11,-13,-10,-3,-4,-2,-6,-7,-12,]),'ASIG':([3,],[12,]),'PARC':([5,7,8,13,14,17,18,19,20,22,23,24,],[-5,-8,-9,-11,-13,-10,24,-3,-4,-6,-7,-12,]),'MULT':([5,7,8,19,20,22,23,24,],[15,-8,-9,15,15,-6,-7,-12,]),'DIV':([5,7,8,19,20,22,23,24,],[16,-8,-9,16,16,-6,-7,-12,]),}
+_lr_action_items = {'ID':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,],[4,4,-2,-3,-14,16,-7,16,-12,-13,16,-1,16,16,16,-9,-14,16,16,-8,-5,-6,-4,-10,-11,-15,]),'RESTA':([0,1,2,3,4,5,6,7,8,9,10,11,14,15,16,19,20,21,22,23,24,25,26,],[7,7,-2,13,-14,7,-7,7,-12,-13,7,-1,7,-9,-14,-8,13,-5,-6,13,-10,-11,-15,]),'SUMA':([0,1,2,3,4,5,6,7,8,9,10,11,14,15,16,19,20,21,22,23,24,25,26,],[5,5,-2,12,-14,5,-7,5,-12,-13,5,-1,5,-9,-14,-8,12,-5,-6,12,-10,-11,-15,]),'CTE':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,],[9,9,-2,-3,-14,9,-7,9,-12,-13,9,-1,9,9,9,-9,-14,9,9,-8,-5,-6,-4,-10,-11,-15,]),'PARA':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,],[10,10,-2,-3,-14,10,-7,10,-12,-13,10,-1,10,10,10,-9,-14,10,10,-8,-5,-6,-4,-10,-11,-15,]),'$end':([1,2,3,4,6,8,9,11,15,16,19,21,22,23,24,25,26,],[0,-2,-3,-14,-7,-12,-13,-1,-9,-14,-8,-5,-6,-4,-10,-11,-15,]),'ASIG':([4,],[14,]),'MULT':([4,6,8,9,16,21,22,24,25,26,],[-14,17,-12,-13,-14,17,17,-10,-11,-15,]),'DIV':([4,6,8,9,16,21,22,24,25,26,],[-14,18,-12,-13,-14,18,18,-10,-11,-15,]),'PARC':([6,8,9,15,16,19,20,21,22,24,25,26,],[-7,-12,-13,-9,-14,-8,26,-5,-6,-10,-11,-15,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,4,6,9,12,],[2,13,17,18,21,]),'term':([0,4,6,9,10,11,12,],[5,5,5,5,19,20,5,]),'factor':([0,4,6,9,10,11,12,15,16,],[7,7,7,7,7,7,7,22,23,]),}
+_lr_goto_items = {'program':([0,],[1,]),'statement':([0,1,],[2,11,]),'expression':([0,1,5,7,10,14,],[3,3,15,19,20,23,]),'term':([0,1,5,7,10,12,13,14,],[6,6,6,6,6,21,22,6,]),'factor':([0,1,5,7,10,12,13,14,17,18,],[8,8,8,8,8,8,8,8,24,25,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,18 +26,20 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> statement","S'",1,None,None,None),
-  ('statement -> expression','statement',1,'p_statement_expr','test_parser.py',23),
-  ('statement -> ID ASIG expression','statement',3,'p_expression_asig','test_parser.py',28),
-  ('expression -> expression SUMA term','expression',3,'p_expression_suma','test_parser.py',33),
-  ('expression -> expression RESTA term','expression',3,'p_expression_resta','test_parser.py',38),
-  ('expression -> term','expression',1,'p_expression_term','test_parser.py',43),
-  ('term -> term MULT factor','term',3,'p_term_mult','test_parser.py',48),
-  ('term -> term DIV factor','term',3,'p_term_div','test_parser.py',53),
-  ('term -> factor','term',1,'p_term_factor','test_parser.py',58),
-  ('factor -> CTE','factor',1,'p_factor_cte','test_parser.py',63),
-  ('expression -> RESTA expression','expression',2,'p_expression_uminus','test_parser.py',68),
-  ('expression -> SUMA expression','expression',2,'p_expression_uplus','test_parser.py',73),
-  ('factor -> PARA expression PARC','factor',3,'p_factor_expr','test_parser.py',78),
-  ('expression -> ID','expression',1,'p_expression_ID','test_parser.py',82),
+  ("S' -> program","S'",1,None,None,None),
+  ('program -> program statement','program',2,'p_statement_prog','test_parser.py',24),
+  ('program -> statement','program',1,'p_statement_prog_s','test_parser.py',29),
+  ('statement -> expression','statement',1,'p_statement_expr','test_parser.py',34),
+  ('statement -> ID ASIG expression','statement',3,'p_expression_asig','test_parser.py',39),
+  ('expression -> expression SUMA term','expression',3,'p_expression_suma','test_parser.py',44),
+  ('expression -> expression RESTA term','expression',3,'p_expression_resta','test_parser.py',49),
+  ('expression -> term','expression',1,'p_expression_term','test_parser.py',54),
+  ('expression -> RESTA expression','expression',2,'p_expression_uminus','test_parser.py',59),
+  ('expression -> SUMA expression','expression',2,'p_expression_uplus','test_parser.py',64),
+  ('term -> term MULT factor','term',3,'p_term_mult','test_parser.py',77),
+  ('term -> term DIV factor','term',3,'p_term_div','test_parser.py',82),
+  ('term -> factor','term',1,'p_term_factor','test_parser.py',87),
+  ('factor -> CTE','factor',1,'p_factor_cte','test_parser.py',92),
+  ('factor -> ID','factor',1,'p_factor_alt','test_parser.py',97),
+  ('factor -> PARA expression PARC','factor',3,'p_factor_expr','test_parser.py',106),
 ]
