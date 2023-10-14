@@ -1,13 +1,12 @@
-#probando los limites maximos de valores enteros
-int var1
-int var2
-int var3
-
-var1 = 0
-var2 = 65535
-var3 = var1 + var2
-
-#imprimo valores de variables
-print(var1)
-print(var2)
-print(var3)
+x = 1
+y = 1
+z = 1
+x = 2
+y = 2
+z = 2
+x = 3
+y = 3
+z = 3
+x = 4
+y = 4
+z = 4
