@@ -1,7 +1,7 @@
 
 import lexer as dlv
 
-lexer = dlv.Lexer(filename='C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/test.txt')
+lexer = dlv.Lexer(filename='C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/ejemplo4.txt')
 
 #comienzo la impresion de tokens de ejemplo
 tok = lexer.token()

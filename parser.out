@@ -5,40 +5,47 @@ Grammar
 Rule 0     S' -> program
 Rule 1     program -> program statement
 Rule 2     program -> statement
-Rule 3     statement -> expression
-Rule 4     statement -> ID ASIG expression
-Rule 5     expression -> expression SUMA term
-Rule 6     expression -> expression RESTA term
-Rule 7     expression -> term
-Rule 8     term -> term MULT factor
-Rule 9     term -> term DIV factor
-Rule 10    term -> factor
-Rule 11    factor -> CTE
-Rule 12    factor -> RESTA CTE
-Rule 13    factor -> RESTA PARA expression PARC
-Rule 14    factor -> ID
-Rule 15    factor -> PARA expression PARC
+Rule 3     statement -> LLAVEA INT block_decl
+Rule 4     block_decl -> ID LLAVEC
+Rule 5     block_decl -> ID OR other_decl
+Rule 6     other_decl -> block_decl
+Rule 7     statement -> ID ASIG expression
+Rule 8     expression -> term
+Rule 9     expression -> expression SUMA term
+Rule 10    expression -> expression RESTA term
+Rule 11    term -> factor
+Rule 12    term -> term MULT factor
+Rule 13    term -> term DIV factor
+Rule 14    factor -> PARA expression PARC
+Rule 15    factor -> CTE
+Rule 16    factor -> ID
 
 Terminals, with rules where they appear
 
-ASIG                 : 4
-CTE                  : 11 12
-DIV                  : 9
-ID                   : 4 14
-MULT                 : 8
-PARA                 : 13 15
-PARC                 : 13 15
-RESTA                : 6 12 13
-SUMA                 : 5
+ASIG                 : 7
+CTE                  : 15
+DIV                  : 13
+ID                   : 4 5 7 16
+INT                  : 3
+LLAVEA               : 3
+LLAVEC               : 4
+MULT                 : 12
+OR                   : 5
+PARA                 : 14
+PARC                 : 14
+RESTA                : 10
+SUMA                 : 9
 error                : 
 
 Nonterminals, with rules where they appear
 
-expression           : 3 4 5 6 13 15
-factor               : 8 9 10
+block_decl           : 3 6
+expression           : 7 9 10 14
+factor               : 11 12 13
+other_decl           : 5
 program              : 1 0
 statement            : 1 2
-term                 : 5 6 7 8 9
+term                 : 8 9 10 12 13
 
 Parsing method: LALR
 
@@ -47,478 +54,380 @@ state 0
     (0) S' -> . program
     (1) program -> . program statement
     (2) program -> . statement
-    (3) statement -> . expression
-    (4) statement -> . ID ASIG expression
-    (5) expression -> . expression SUMA term
-    (6) expression -> . expression RESTA term
-    (7) expression -> . term
-    (8) term -> . term MULT factor
-    (9) term -> . term DIV factor
-    (10) term -> . factor
-    (11) factor -> . CTE
-    (12) factor -> . RESTA CTE
-    (13) factor -> . RESTA PARA expression PARC
-    (14) factor -> . ID
-    (15) factor -> . PARA expression PARC
+    (3) statement -> . LLAVEA INT block_decl
+    (7) statement -> . ID ASIG expression
 
+    LLAVEA          shift and go to state 3
     ID              shift and go to state 4
-    CTE             shift and go to state 8
-    RESTA           shift and go to state 6
-    PARA            shift and go to state 9
 
     program                        shift and go to state 1
     statement                      shift and go to state 2
-    expression                     shift and go to state 3
-    term                           shift and go to state 5
-    factor                         shift and go to state 7
 
 state 1
 
     (0) S' -> program .
     (1) program -> program . statement
-    (3) statement -> . expression
-    (4) statement -> . ID ASIG expression
-    (5) expression -> . expression SUMA term
-    (6) expression -> . expression RESTA term
-    (7) expression -> . term
-    (8) term -> . term MULT factor
-    (9) term -> . term DIV factor
-    (10) term -> . factor
-    (11) factor -> . CTE
-    (12) factor -> . RESTA CTE
-    (13) factor -> . RESTA PARA expression PARC
-    (14) factor -> . ID
-    (15) factor -> . PARA expression PARC
+    (3) statement -> . LLAVEA INT block_decl
+    (7) statement -> . ID ASIG expression
 
+    LLAVEA          shift and go to state 3
     ID              shift and go to state 4
-    CTE             shift and go to state 8
-    RESTA           shift and go to state 6
-    PARA            shift and go to state 9
 
-    statement                      shift and go to state 10
-    expression                     shift and go to state 3
-    term                           shift and go to state 5
-    factor                         shift and go to state 7
+    statement                      shift and go to state 5
 
 state 2
 
     (2) program -> statement .
 
+    LLAVEA          reduce using rule 2 (program -> statement .)
     ID              reduce using rule 2 (program -> statement .)
-    CTE             reduce using rule 2 (program -> statement .)
-    RESTA           reduce using rule 2 (program -> statement .)
-    PARA            reduce using rule 2 (program -> statement .)
     $end            reduce using rule 2 (program -> statement .)
 
 
 state 3
 
-    (3) statement -> expression .
-    (5) expression -> expression . SUMA term
-    (6) expression -> expression . RESTA term
+    (3) statement -> LLAVEA . INT block_decl
 
-  ! shift/reduce conflict for RESTA resolved as shift
-    ID              reduce using rule 3 (statement -> expression .)
-    CTE             reduce using rule 3 (statement -> expression .)
-    PARA            reduce using rule 3 (statement -> expression .)
-    $end            reduce using rule 3 (statement -> expression .)
-    SUMA            shift and go to state 11
-    RESTA           shift and go to state 12
-
-  ! RESTA           [ reduce using rule 3 (statement -> expression .) ]
+    INT             shift and go to state 6
 
 
 state 4
 
-    (4) statement -> ID . ASIG expression
-    (14) factor -> ID .
+    (7) statement -> ID . ASIG expression
 
-    ASIG            shift and go to state 13
-    MULT            reduce using rule 14 (factor -> ID .)
-    DIV             reduce using rule 14 (factor -> ID .)
-    SUMA            reduce using rule 14 (factor -> ID .)
-    RESTA           reduce using rule 14 (factor -> ID .)
-    ID              reduce using rule 14 (factor -> ID .)
-    CTE             reduce using rule 14 (factor -> ID .)
-    PARA            reduce using rule 14 (factor -> ID .)
-    $end            reduce using rule 14 (factor -> ID .)
+    ASIG            shift and go to state 7
 
 
 state 5
 
-    (7) expression -> term .
-    (8) term -> term . MULT factor
-    (9) term -> term . DIV factor
+    (1) program -> program statement .
 
-    SUMA            reduce using rule 7 (expression -> term .)
-    RESTA           reduce using rule 7 (expression -> term .)
-    ID              reduce using rule 7 (expression -> term .)
-    CTE             reduce using rule 7 (expression -> term .)
-    PARA            reduce using rule 7 (expression -> term .)
-    $end            reduce using rule 7 (expression -> term .)
-    PARC            reduce using rule 7 (expression -> term .)
-    MULT            shift and go to state 14
-    DIV             shift and go to state 15
+    LLAVEA          reduce using rule 1 (program -> program statement .)
+    ID              reduce using rule 1 (program -> program statement .)
+    $end            reduce using rule 1 (program -> program statement .)
 
 
 state 6
 
-    (12) factor -> RESTA . CTE
-    (13) factor -> RESTA . PARA expression PARC
+    (3) statement -> LLAVEA INT . block_decl
+    (4) block_decl -> . ID LLAVEC
+    (5) block_decl -> . ID OR other_decl
 
-    CTE             shift and go to state 16
-    PARA            shift and go to state 17
+    ID              shift and go to state 9
 
+    block_decl                     shift and go to state 8
 
 state 7
 
-    (10) term -> factor .
+    (7) statement -> ID ASIG . expression
+    (8) expression -> . term
+    (9) expression -> . expression SUMA term
+    (10) expression -> . expression RESTA term
+    (11) term -> . factor
+    (12) term -> . term MULT factor
+    (13) term -> . term DIV factor
+    (14) factor -> . PARA expression PARC
+    (15) factor -> . CTE
+    (16) factor -> . ID
 
-    MULT            reduce using rule 10 (term -> factor .)
-    DIV             reduce using rule 10 (term -> factor .)
-    SUMA            reduce using rule 10 (term -> factor .)
-    RESTA           reduce using rule 10 (term -> factor .)
-    ID              reduce using rule 10 (term -> factor .)
-    CTE             reduce using rule 10 (term -> factor .)
-    PARA            reduce using rule 10 (term -> factor .)
-    $end            reduce using rule 10 (term -> factor .)
-    PARC            reduce using rule 10 (term -> factor .)
+    PARA            shift and go to state 14
+    CTE             shift and go to state 15
+    ID              shift and go to state 10
 
+    expression                     shift and go to state 11
+    term                           shift and go to state 12
+    factor                         shift and go to state 13
 
 state 8
 
-    (11) factor -> CTE .
+    (3) statement -> LLAVEA INT block_decl .
 
-    MULT            reduce using rule 11 (factor -> CTE .)
-    DIV             reduce using rule 11 (factor -> CTE .)
-    SUMA            reduce using rule 11 (factor -> CTE .)
-    RESTA           reduce using rule 11 (factor -> CTE .)
-    ID              reduce using rule 11 (factor -> CTE .)
-    CTE             reduce using rule 11 (factor -> CTE .)
-    PARA            reduce using rule 11 (factor -> CTE .)
-    $end            reduce using rule 11 (factor -> CTE .)
-    PARC            reduce using rule 11 (factor -> CTE .)
+    LLAVEA          reduce using rule 3 (statement -> LLAVEA INT block_decl .)
+    ID              reduce using rule 3 (statement -> LLAVEA INT block_decl .)
+    $end            reduce using rule 3 (statement -> LLAVEA INT block_decl .)
 
 
 state 9
 
-    (15) factor -> PARA . expression PARC
-    (5) expression -> . expression SUMA term
-    (6) expression -> . expression RESTA term
-    (7) expression -> . term
-    (8) term -> . term MULT factor
-    (9) term -> . term DIV factor
-    (10) term -> . factor
-    (11) factor -> . CTE
-    (12) factor -> . RESTA CTE
-    (13) factor -> . RESTA PARA expression PARC
-    (14) factor -> . ID
-    (15) factor -> . PARA expression PARC
+    (4) block_decl -> ID . LLAVEC
+    (5) block_decl -> ID . OR other_decl
 
-    CTE             shift and go to state 8
-    RESTA           shift and go to state 6
-    ID              shift and go to state 19
-    PARA            shift and go to state 9
+    LLAVEC          shift and go to state 16
+    OR              shift and go to state 17
 
-    expression                     shift and go to state 18
-    term                           shift and go to state 5
-    factor                         shift and go to state 7
 
 state 10
 
-    (1) program -> program statement .
+    (16) factor -> ID .
 
-    ID              reduce using rule 1 (program -> program statement .)
-    CTE             reduce using rule 1 (program -> program statement .)
-    RESTA           reduce using rule 1 (program -> program statement .)
-    PARA            reduce using rule 1 (program -> program statement .)
-    $end            reduce using rule 1 (program -> program statement .)
+    MULT            reduce using rule 16 (factor -> ID .)
+    DIV             reduce using rule 16 (factor -> ID .)
+    SUMA            reduce using rule 16 (factor -> ID .)
+    RESTA           reduce using rule 16 (factor -> ID .)
+    LLAVEA          reduce using rule 16 (factor -> ID .)
+    ID              reduce using rule 16 (factor -> ID .)
+    $end            reduce using rule 16 (factor -> ID .)
+    PARC            reduce using rule 16 (factor -> ID .)
 
 
 state 11
 
-    (5) expression -> expression SUMA . term
-    (8) term -> . term MULT factor
-    (9) term -> . term DIV factor
-    (10) term -> . factor
-    (11) factor -> . CTE
-    (12) factor -> . RESTA CTE
-    (13) factor -> . RESTA PARA expression PARC
-    (14) factor -> . ID
-    (15) factor -> . PARA expression PARC
+    (7) statement -> ID ASIG expression .
+    (9) expression -> expression . SUMA term
+    (10) expression -> expression . RESTA term
 
-    CTE             shift and go to state 8
-    RESTA           shift and go to state 6
-    ID              shift and go to state 19
-    PARA            shift and go to state 9
+    LLAVEA          reduce using rule 7 (statement -> ID ASIG expression .)
+    ID              reduce using rule 7 (statement -> ID ASIG expression .)
+    $end            reduce using rule 7 (statement -> ID ASIG expression .)
+    SUMA            shift and go to state 18
+    RESTA           shift and go to state 19
 
-    term                           shift and go to state 20
-    factor                         shift and go to state 7
 
 state 12
 
-    (6) expression -> expression RESTA . term
-    (8) term -> . term MULT factor
-    (9) term -> . term DIV factor
-    (10) term -> . factor
-    (11) factor -> . CTE
-    (12) factor -> . RESTA CTE
-    (13) factor -> . RESTA PARA expression PARC
-    (14) factor -> . ID
-    (15) factor -> . PARA expression PARC
+    (8) expression -> term .
+    (12) term -> term . MULT factor
+    (13) term -> term . DIV factor
 
-    CTE             shift and go to state 8
-    RESTA           shift and go to state 6
-    ID              shift and go to state 19
-    PARA            shift and go to state 9
+    SUMA            reduce using rule 8 (expression -> term .)
+    RESTA           reduce using rule 8 (expression -> term .)
+    LLAVEA          reduce using rule 8 (expression -> term .)
+    ID              reduce using rule 8 (expression -> term .)
+    $end            reduce using rule 8 (expression -> term .)
+    PARC            reduce using rule 8 (expression -> term .)
+    MULT            shift and go to state 20
+    DIV             shift and go to state 21
 
-    term                           shift and go to state 21
-    factor                         shift and go to state 7
 
 state 13
 
-    (4) statement -> ID ASIG . expression
-    (5) expression -> . expression SUMA term
-    (6) expression -> . expression RESTA term
-    (7) expression -> . term
-    (8) term -> . term MULT factor
-    (9) term -> . term DIV factor
-    (10) term -> . factor
-    (11) factor -> . CTE
-    (12) factor -> . RESTA CTE
-    (13) factor -> . RESTA PARA expression PARC
-    (14) factor -> . ID
-    (15) factor -> . PARA expression PARC
+    (11) term -> factor .
 
-    CTE             shift and go to state 8
-    RESTA           shift and go to state 6
-    ID              shift and go to state 19
-    PARA            shift and go to state 9
+    MULT            reduce using rule 11 (term -> factor .)
+    DIV             reduce using rule 11 (term -> factor .)
+    SUMA            reduce using rule 11 (term -> factor .)
+    RESTA           reduce using rule 11 (term -> factor .)
+    LLAVEA          reduce using rule 11 (term -> factor .)
+    ID              reduce using rule 11 (term -> factor .)
+    $end            reduce using rule 11 (term -> factor .)
+    PARC            reduce using rule 11 (term -> factor .)
 
-    expression                     shift and go to state 22
-    term                           shift and go to state 5
-    factor                         shift and go to state 7
 
 state 14
 
-    (8) term -> term MULT . factor
-    (11) factor -> . CTE
-    (12) factor -> . RESTA CTE
-    (13) factor -> . RESTA PARA expression PARC
-    (14) factor -> . ID
-    (15) factor -> . PARA expression PARC
+    (14) factor -> PARA . expression PARC
+    (8) expression -> . term
+    (9) expression -> . expression SUMA term
+    (10) expression -> . expression RESTA term
+    (11) term -> . factor
+    (12) term -> . term MULT factor
+    (13) term -> . term DIV factor
+    (14) factor -> . PARA expression PARC
+    (15) factor -> . CTE
+    (16) factor -> . ID
 
-    CTE             shift and go to state 8
-    RESTA           shift and go to state 6
-    ID              shift and go to state 19
-    PARA            shift and go to state 9
+    PARA            shift and go to state 14
+    CTE             shift and go to state 15
+    ID              shift and go to state 10
 
-    factor                         shift and go to state 23
+    expression                     shift and go to state 22
+    term                           shift and go to state 12
+    factor                         shift and go to state 13
 
 state 15
 
-    (9) term -> term DIV . factor
-    (11) factor -> . CTE
-    (12) factor -> . RESTA CTE
-    (13) factor -> . RESTA PARA expression PARC
-    (14) factor -> . ID
-    (15) factor -> . PARA expression PARC
+    (15) factor -> CTE .
 
-    CTE             shift and go to state 8
-    RESTA           shift and go to state 6
-    ID              shift and go to state 19
-    PARA            shift and go to state 9
+    MULT            reduce using rule 15 (factor -> CTE .)
+    DIV             reduce using rule 15 (factor -> CTE .)
+    SUMA            reduce using rule 15 (factor -> CTE .)
+    RESTA           reduce using rule 15 (factor -> CTE .)
+    LLAVEA          reduce using rule 15 (factor -> CTE .)
+    ID              reduce using rule 15 (factor -> CTE .)
+    $end            reduce using rule 15 (factor -> CTE .)
+    PARC            reduce using rule 15 (factor -> CTE .)
 
-    factor                         shift and go to state 24
 
 state 16
 
-    (12) factor -> RESTA CTE .
+    (4) block_decl -> ID LLAVEC .
 
-    MULT            reduce using rule 12 (factor -> RESTA CTE .)
-    DIV             reduce using rule 12 (factor -> RESTA CTE .)
-    SUMA            reduce using rule 12 (factor -> RESTA CTE .)
-    RESTA           reduce using rule 12 (factor -> RESTA CTE .)
-    ID              reduce using rule 12 (factor -> RESTA CTE .)
-    CTE             reduce using rule 12 (factor -> RESTA CTE .)
-    PARA            reduce using rule 12 (factor -> RESTA CTE .)
-    $end            reduce using rule 12 (factor -> RESTA CTE .)
-    PARC            reduce using rule 12 (factor -> RESTA CTE .)
+    LLAVEA          reduce using rule 4 (block_decl -> ID LLAVEC .)
+    ID              reduce using rule 4 (block_decl -> ID LLAVEC .)
+    $end            reduce using rule 4 (block_decl -> ID LLAVEC .)
 
 
 state 17
 
-    (13) factor -> RESTA PARA . expression PARC
-    (5) expression -> . expression SUMA term
-    (6) expression -> . expression RESTA term
-    (7) expression -> . term
-    (8) term -> . term MULT factor
-    (9) term -> . term DIV factor
-    (10) term -> . factor
-    (11) factor -> . CTE
-    (12) factor -> . RESTA CTE
-    (13) factor -> . RESTA PARA expression PARC
-    (14) factor -> . ID
-    (15) factor -> . PARA expression PARC
+    (5) block_decl -> ID OR . other_decl
+    (6) other_decl -> . block_decl
+    (4) block_decl -> . ID LLAVEC
+    (5) block_decl -> . ID OR other_decl
 
-    CTE             shift and go to state 8
-    RESTA           shift and go to state 6
-    ID              shift and go to state 19
-    PARA            shift and go to state 9
+    ID              shift and go to state 9
 
-    expression                     shift and go to state 25
-    term                           shift and go to state 5
-    factor                         shift and go to state 7
+    other_decl                     shift and go to state 23
+    block_decl                     shift and go to state 24
 
 state 18
 
-    (15) factor -> PARA expression . PARC
-    (5) expression -> expression . SUMA term
-    (6) expression -> expression . RESTA term
+    (9) expression -> expression SUMA . term
+    (11) term -> . factor
+    (12) term -> . term MULT factor
+    (13) term -> . term DIV factor
+    (14) factor -> . PARA expression PARC
+    (15) factor -> . CTE
+    (16) factor -> . ID
 
-    PARC            shift and go to state 26
-    SUMA            shift and go to state 11
-    RESTA           shift and go to state 12
+    PARA            shift and go to state 14
+    CTE             shift and go to state 15
+    ID              shift and go to state 10
 
+    term                           shift and go to state 25
+    factor                         shift and go to state 13
 
 state 19
 
-    (14) factor -> ID .
+    (10) expression -> expression RESTA . term
+    (11) term -> . factor
+    (12) term -> . term MULT factor
+    (13) term -> . term DIV factor
+    (14) factor -> . PARA expression PARC
+    (15) factor -> . CTE
+    (16) factor -> . ID
 
-    MULT            reduce using rule 14 (factor -> ID .)
-    DIV             reduce using rule 14 (factor -> ID .)
-    PARC            reduce using rule 14 (factor -> ID .)
-    SUMA            reduce using rule 14 (factor -> ID .)
-    RESTA           reduce using rule 14 (factor -> ID .)
-    ID              reduce using rule 14 (factor -> ID .)
-    CTE             reduce using rule 14 (factor -> ID .)
-    PARA            reduce using rule 14 (factor -> ID .)
-    $end            reduce using rule 14 (factor -> ID .)
+    PARA            shift and go to state 14
+    CTE             shift and go to state 15
+    ID              shift and go to state 10
 
+    term                           shift and go to state 26
+    factor                         shift and go to state 13
 
 state 20
 
-    (5) expression -> expression SUMA term .
-    (8) term -> term . MULT factor
-    (9) term -> term . DIV factor
+    (12) term -> term MULT . factor
+    (14) factor -> . PARA expression PARC
+    (15) factor -> . CTE
+    (16) factor -> . ID
 
-    SUMA            reduce using rule 5 (expression -> expression SUMA term .)
-    RESTA           reduce using rule 5 (expression -> expression SUMA term .)
-    ID              reduce using rule 5 (expression -> expression SUMA term .)
-    CTE             reduce using rule 5 (expression -> expression SUMA term .)
-    PARA            reduce using rule 5 (expression -> expression SUMA term .)
-    $end            reduce using rule 5 (expression -> expression SUMA term .)
-    PARC            reduce using rule 5 (expression -> expression SUMA term .)
-    MULT            shift and go to state 14
-    DIV             shift and go to state 15
+    PARA            shift and go to state 14
+    CTE             shift and go to state 15
+    ID              shift and go to state 10
 
+    factor                         shift and go to state 27
 
 state 21
 
-    (6) expression -> expression RESTA term .
-    (8) term -> term . MULT factor
-    (9) term -> term . DIV factor
+    (13) term -> term DIV . factor
+    (14) factor -> . PARA expression PARC
+    (15) factor -> . CTE
+    (16) factor -> . ID
 
-    SUMA            reduce using rule 6 (expression -> expression RESTA term .)
-    RESTA           reduce using rule 6 (expression -> expression RESTA term .)
-    ID              reduce using rule 6 (expression -> expression RESTA term .)
-    CTE             reduce using rule 6 (expression -> expression RESTA term .)
-    PARA            reduce using rule 6 (expression -> expression RESTA term .)
-    $end            reduce using rule 6 (expression -> expression RESTA term .)
-    PARC            reduce using rule 6 (expression -> expression RESTA term .)
-    MULT            shift and go to state 14
-    DIV             shift and go to state 15
+    PARA            shift and go to state 14
+    CTE             shift and go to state 15
+    ID              shift and go to state 10
 
+    factor                         shift and go to state 28
 
 state 22
 
-    (4) statement -> ID ASIG expression .
-    (5) expression -> expression . SUMA term
-    (6) expression -> expression . RESTA term
+    (14) factor -> PARA expression . PARC
+    (9) expression -> expression . SUMA term
+    (10) expression -> expression . RESTA term
 
-  ! shift/reduce conflict for RESTA resolved as shift
-    ID              reduce using rule 4 (statement -> ID ASIG expression .)
-    CTE             reduce using rule 4 (statement -> ID ASIG expression .)
-    PARA            reduce using rule 4 (statement -> ID ASIG expression .)
-    $end            reduce using rule 4 (statement -> ID ASIG expression .)
-    SUMA            shift and go to state 11
-    RESTA           shift and go to state 12
-
-  ! RESTA           [ reduce using rule 4 (statement -> ID ASIG expression .) ]
+    PARC            shift and go to state 29
+    SUMA            shift and go to state 18
+    RESTA           shift and go to state 19
 
 
 state 23
 
-    (8) term -> term MULT factor .
+    (5) block_decl -> ID OR other_decl .
 
-    MULT            reduce using rule 8 (term -> term MULT factor .)
-    DIV             reduce using rule 8 (term -> term MULT factor .)
-    SUMA            reduce using rule 8 (term -> term MULT factor .)
-    RESTA           reduce using rule 8 (term -> term MULT factor .)
-    ID              reduce using rule 8 (term -> term MULT factor .)
-    CTE             reduce using rule 8 (term -> term MULT factor .)
-    PARA            reduce using rule 8 (term -> term MULT factor .)
-    $end            reduce using rule 8 (term -> term MULT factor .)
-    PARC            reduce using rule 8 (term -> term MULT factor .)
+    LLAVEA          reduce using rule 5 (block_decl -> ID OR other_decl .)
+    ID              reduce using rule 5 (block_decl -> ID OR other_decl .)
+    $end            reduce using rule 5 (block_decl -> ID OR other_decl .)
 
 
 state 24
 
-    (9) term -> term DIV factor .
+    (6) other_decl -> block_decl .
 
-    MULT            reduce using rule 9 (term -> term DIV factor .)
-    DIV             reduce using rule 9 (term -> term DIV factor .)
-    SUMA            reduce using rule 9 (term -> term DIV factor .)
-    RESTA           reduce using rule 9 (term -> term DIV factor .)
-    ID              reduce using rule 9 (term -> term DIV factor .)
-    CTE             reduce using rule 9 (term -> term DIV factor .)
-    PARA            reduce using rule 9 (term -> term DIV factor .)
-    $end            reduce using rule 9 (term -> term DIV factor .)
-    PARC            reduce using rule 9 (term -> term DIV factor .)
+    LLAVEA          reduce using rule 6 (other_decl -> block_decl .)
+    ID              reduce using rule 6 (other_decl -> block_decl .)
+    $end            reduce using rule 6 (other_decl -> block_decl .)
 
 
 state 25
 
-    (13) factor -> RESTA PARA expression . PARC
-    (5) expression -> expression . SUMA term
-    (6) expression -> expression . RESTA term
+    (9) expression -> expression SUMA term .
+    (12) term -> term . MULT factor
+    (13) term -> term . DIV factor
 
-    PARC            shift and go to state 27
-    SUMA            shift and go to state 11
-    RESTA           shift and go to state 12
+    SUMA            reduce using rule 9 (expression -> expression SUMA term .)
+    RESTA           reduce using rule 9 (expression -> expression SUMA term .)
+    LLAVEA          reduce using rule 9 (expression -> expression SUMA term .)
+    ID              reduce using rule 9 (expression -> expression SUMA term .)
+    $end            reduce using rule 9 (expression -> expression SUMA term .)
+    PARC            reduce using rule 9 (expression -> expression SUMA term .)
+    MULT            shift and go to state 20
+    DIV             shift and go to state 21
 
 
 state 26
 
-    (15) factor -> PARA expression PARC .
+    (10) expression -> expression RESTA term .
+    (12) term -> term . MULT factor
+    (13) term -> term . DIV factor
 
-    MULT            reduce using rule 15 (factor -> PARA expression PARC .)
-    DIV             reduce using rule 15 (factor -> PARA expression PARC .)
-    SUMA            reduce using rule 15 (factor -> PARA expression PARC .)
-    RESTA           reduce using rule 15 (factor -> PARA expression PARC .)
-    ID              reduce using rule 15 (factor -> PARA expression PARC .)
-    CTE             reduce using rule 15 (factor -> PARA expression PARC .)
-    PARA            reduce using rule 15 (factor -> PARA expression PARC .)
-    $end            reduce using rule 15 (factor -> PARA expression PARC .)
-    PARC            reduce using rule 15 (factor -> PARA expression PARC .)
+    SUMA            reduce using rule 10 (expression -> expression RESTA term .)
+    RESTA           reduce using rule 10 (expression -> expression RESTA term .)
+    LLAVEA          reduce using rule 10 (expression -> expression RESTA term .)
+    ID              reduce using rule 10 (expression -> expression RESTA term .)
+    $end            reduce using rule 10 (expression -> expression RESTA term .)
+    PARC            reduce using rule 10 (expression -> expression RESTA term .)
+    MULT            shift and go to state 20
+    DIV             shift and go to state 21
 
 
 state 27
 
-    (13) factor -> RESTA PARA expression PARC .
+    (12) term -> term MULT factor .
 
-    MULT            reduce using rule 13 (factor -> RESTA PARA expression PARC .)
-    DIV             reduce using rule 13 (factor -> RESTA PARA expression PARC .)
-    SUMA            reduce using rule 13 (factor -> RESTA PARA expression PARC .)
-    RESTA           reduce using rule 13 (factor -> RESTA PARA expression PARC .)
-    ID              reduce using rule 13 (factor -> RESTA PARA expression PARC .)
-    CTE             reduce using rule 13 (factor -> RESTA PARA expression PARC .)
-    PARA            reduce using rule 13 (factor -> RESTA PARA expression PARC .)
-    $end            reduce using rule 13 (factor -> RESTA PARA expression PARC .)
-    PARC            reduce using rule 13 (factor -> RESTA PARA expression PARC .)
+    MULT            reduce using rule 12 (term -> term MULT factor .)
+    DIV             reduce using rule 12 (term -> term MULT factor .)
+    SUMA            reduce using rule 12 (term -> term MULT factor .)
+    RESTA           reduce using rule 12 (term -> term MULT factor .)
+    LLAVEA          reduce using rule 12 (term -> term MULT factor .)
+    ID              reduce using rule 12 (term -> term MULT factor .)
+    $end            reduce using rule 12 (term -> term MULT factor .)
+    PARC            reduce using rule 12 (term -> term MULT factor .)
 
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for RESTA in state 3 resolved as shift
-WARNING: shift/reduce conflict for RESTA in state 22 resolved as shift
+
+state 28
+
+    (13) term -> term DIV factor .
+
+    MULT            reduce using rule 13 (term -> term DIV factor .)
+    DIV             reduce using rule 13 (term -> term DIV factor .)
+    SUMA            reduce using rule 13 (term -> term DIV factor .)
+    RESTA           reduce using rule 13 (term -> term DIV factor .)
+    LLAVEA          reduce using rule 13 (term -> term DIV factor .)
+    ID              reduce using rule 13 (term -> term DIV factor .)
+    $end            reduce using rule 13 (term -> term DIV factor .)
+    PARC            reduce using rule 13 (term -> term DIV factor .)
+
+
+state 29
+
+    (14) factor -> PARA expression PARC .
+
+    MULT            reduce using rule 14 (factor -> PARA expression PARC .)
+    DIV             reduce using rule 14 (factor -> PARA expression PARC .)
+    SUMA            reduce using rule 14 (factor -> PARA expression PARC .)
+    RESTA           reduce using rule 14 (factor -> PARA expression PARC .)
+    LLAVEA          reduce using rule 14 (factor -> PARA expression PARC .)
+    ID              reduce using rule 14 (factor -> PARA expression PARC .)
+    $end            reduce using rule 14 (factor -> PARA expression PARC .)
+    PARC            reduce using rule 14 (factor -> PARA expression PARC .)
+
