@@ -185,10 +185,11 @@ class Lexer(object):
         if self._is_keyword(self.cache):
             pass
         else:
+            #print("deb:" ,self.ts.checkIfExist(self.cache))
             if self.ts.checkIfExist(self.cache):
                 pass
             else:
-                self.ts.addSymbol(self.cache, self.cache, self.cache, 1, False)
+                self.ts.addSymbol(self.cache, self.cache, self.cache, 0, False)
 
 
     #verifica si la CTE conformada no esta presente en TS.
@@ -224,20 +225,16 @@ class Lexer(object):
         #consulto la matriz de unreads para realizar la acción si es necesaria
         if self.unread_matrix[last_state][column] == 1:
             self._unreadChar()
-        
         #consulto matriz de tokens para asignar el id
         tokenId = self.token_matrix[last_state][column]
         #si ocurre que el tokenId es 256 (un identificador) y ese identificador existe dentro
         # de la tabla de palabras reservadas, entonces es una palabra reservada y le reasigno el tokenId correspondiente
-        if(tokenId == "ID" and self._is_keyword(self.cache)):
-            
-            tokenId = self.keywords[self.keywords["value"] == self.cache]["id"]
-            
+        if(tokenId == "ID" and self._is_keyword(self.cache)): 
+            tokenId = (self.keywords[self.keywords["value"] == self.cache]["id"]).iloc[0]
         #inicializo la variable que contendrá el tipo del token:
         tokenType = ""
         #inicializo la variable que contendrá el lexema del token:
         tokenValue = ""
-        
         #se asigna -1 cuando se alcanza el EOF
         if(tokenId != None):
             #defino el tipo del token obtenido consultando en la lista de tokens

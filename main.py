@@ -8,7 +8,6 @@ import lexer as lex
 #creo el objeto lexer
 lexer = lex.Lexer(filename='C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/test.txt')
 
-
 ###############################################################
 #prueba del sintactico
 
@@ -64,41 +63,28 @@ def p_statement_prog_s(p):
 def p_statement_expr(p):
     'statement : expression'
     pass
-    #print("[DEBUG]: p[0]: ", p[0], " p[1]: ", p[1])
-
-# def p_expression_decl(p):
-#     'statement : INT ID'
-#     ts.setDeclaration(p[2])
 
 #para la asignacion de valores a variables (x = 2)
 def p_expression_asig(p):
     'statement : ID ASIG expression'
-    #print("[DEBUG]: p[1]: ", p[1], " = ", " p[3]: ", p[3])
     lexer.ts.setSymbolValue(p[1], p[3])
     lexer.ts.addSymbol(str(int(p[3])), str(int(p[3])), str(int(p[3])), len(str(int(p[3]))), None) #agrega constante calculada
-    
-    
+    lexer.ts.setSymbolLength(p[1], len(str(p[3])))
     #generacion de polaca inversa
     polaca_inversa.append(p[1])
     polaca_inversa.append(p[2])
-
-    #print("[DEBUG]: p[0]: ", p[0], " p[1]: ", p[1], " = ", " p[3]: ", p[3])
 
 #para la suma de variables/constantes (2 + 3)
 def p_expression_suma(p):
     'expression : expression SUMA term'
     p[0] = int(p[1]) + int(p[3])
-    
     #generacion de polaca inversa
     polaca_inversa.append("+")
-
-    #print("[DEBUG]: p[0]: ", p[0], " p[1]: ", p[1], " + ", " p[3]: ", p[3])
 
 #para la resta de variables/constantes (2 - 3)
 def p_expression_resta(p):
     'expression : expression RESTA term'
     p[0] = int(p[1]) - int(p[3])
-    
     #generacion de polaca inversa
     polaca_inversa.append("-")
 
@@ -112,20 +98,15 @@ def p_expression_term(p):
 def p_term_mult(p):
     'term : term MULT factor'
     p[0] = int(p[1]) * int(p[3])
-    
     #generacion de polaca inversa
     polaca_inversa.append("*")
     
-
-
 #para la division de variables/constantes (2 / 3)
 def p_term_div(p):
     'term : term DIV factor'
     p[0] = int(p[1]) / int(p[3])
-    
     #generacion de polaca inversa
     polaca_inversa.append("/")
-    
 
 
 #un termino puede ser un factor
@@ -137,7 +118,6 @@ def p_term_factor(p):
 def p_factor_cte(p):
     'factor : CTE'
     p[0] = p[1]
-    
     #generacion de polaca inversa
     polaca_inversa.append(p[1])
     
@@ -157,12 +137,11 @@ def p_factor_expr_n(p):
 def p_factor_id(p):
     'factor : ID'
     valorSimbolo = (lexer.ts.getSymbolByID(p[1])["value"]).iloc[0]
-    if (lexer.ts.getSymbolByID(p[1])).empty == False and valorSimbolo.isdigit(): 
-        p[0] = int(valorSimbolo) #asigno su valor
-        
+    #print(valorSimbolo)
+    if (lexer.ts.getSymbolByID(p[1])).empty == False: 
+        p[0] = valorSimbolo #asigno su valor
         #generacion de polaca inversa
         polaca_inversa.append(p[1])
-
     else:
         print("[ERR] Variable '%s' no inicializada" % p[1]) #descripcion del error
         p[0] = 0 #para evitar error a nivel lenguaje

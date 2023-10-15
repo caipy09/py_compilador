@@ -59,4 +59,9 @@ class SymbolTable(object):
         self.table.loc[self.table["id"] == self.addUnderscore(_id), "declared"] = True
 
     def getDeclaration(self, _id = None):
-        return self.table.loc[self.table["id"] == self.addUnderscore(_id), "declared"]
+        return (self.table.loc[self.table["id"] == self.addUnderscore(_id), "declared"]).iloc[0]
+    
+    
+    
+    
+    
