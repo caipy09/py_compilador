@@ -1,0 +1,16 @@
+{int a | b}
+a = 1
+b = 10
+if ( a < b & (3*3) == 9 ) { 
+   a = a + 1 
+}else{
+   b = b + 1
+}
+while (a < 3) {
+   {int c | d}
+   c = b - 3
+   if (c <= b) {
+	c = 12
+   }
+   d = a * 2 + c
+}
