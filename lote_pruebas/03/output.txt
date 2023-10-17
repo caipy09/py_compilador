@@ -1,0 +1,13 @@
+Errores/Warnings: 
+['[WAR] DIV result was casted to int: 3.0 >> 3']
+
+Tabla de simbolos: 
+   id name value  length declared
+0  _x    x     3       1     True
+1  _2    2     2       1     None
+2  _8    8     8       1     None
+3  _y    y   144       3     True
+4  _z    z    48       2     True
+
+polaca_inversa: 
+['2', '8', '*', 'x', '=', 'x', '2', '*', 'y', '=', 'x', 'y', '+', 'z', '=', 'z', 'z', 'y', 'x', '-', '/', 'x', '=', 'x', 'z', '*', 'y', '=', 'y', 'x', '-']

@@ -1,9 +1,9 @@
 Errores/Warnings: 
-["[ERR] Error de sintaxis en '{'"]
+["[ERR] Syntax error at '{'"]
 
 Tabla de simbolos: 
    id name value  length  declared
 0  _a    a     a       0     False
 
 polaca_inversa: 
-[]
+['a']

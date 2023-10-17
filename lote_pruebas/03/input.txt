@@ -1,0 +1,10 @@
+{int x}
+x = (2 * 8)
+{int y}
+y = x * 2
+{int z}
+z = x + y
+print(z)
+x = z / (y - x)
+y = x * z
+print(y - x)

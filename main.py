@@ -1,7 +1,7 @@
 
 ntest = "00"
-path_input = "C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
-path_output = "C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
+path_input = "C:/Users/fheredia/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
+path_output = "C:/Users/fheredia/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
 
 
 ############################################
@@ -100,6 +100,10 @@ def p_if_statement(p):
     'statement : if_statement'
     pass
 
+def p_expr_statement(p):
+    'statement : expression'
+    pass
+
 #bloque de declaraciones
 def p_statement_decl(p):
     'statement : LLAVEA INT block_decl'
@@ -108,6 +112,10 @@ def p_statement_decl(p):
 #el bloque de declaraciones puede tener solo una variable
 def p_block_decl(p):
     'block_decl : ID LLAVEC'
+    if(lexer.ts.getDeclaration(p[1])):
+        e = "[WAR] Var: " + p[1] + " is already declared."
+        err.append(e)
+        print(e)
     lexer.ts.setDeclaration(p[1])
 
 #el bloque de declaraciones puede tener multiples variables separadas por un OR
@@ -130,7 +138,7 @@ def p_statement_asig(p):
         polaca_inversa.append(p[1])
         polaca_inversa.append(p[2])        
     else:
-        e = "[ERR] Variable no declarada: ", p[1]
+        e = "[ERR] Var: " + p[1] + "not declared."
         err.append(e)
         print(e)
         raise(SyntaxError)
@@ -218,6 +226,14 @@ def p_print(p):
     'print_statement : PRINT PARA expression PARC'
     print("[PRINT]: ", p[3])
 
+def p_f_cond(p):
+    'f_cond : comp_statement'
+    pass
+
+def p_f_cond_2(p):
+    'f_cond : logic_statement'
+    pass
+
 #comparador ==
 def p_comparator_iguala(p):
     'comp_statement : expression IGUALA factor'
@@ -272,10 +288,14 @@ def p_comp_expression(p):
 #https://stackoverflow.com/questions/62603001/while-cycle-implementation-never-ends-in-ply-issue
 #https://copyprogramming.com/howto/python-ply-issue-with-if-else-and-while-statements#python-ply-issue-with-if-else-and-while-statements
 
+#regla complementaria del while para poder hacer los saltos
+def p_while(p): 
+    'while : WHILE'
+    pass
+
 #regla del while
-def p_while(p):
-    '''while_statement : WHILE PARA comp_statement PARC LLAVEA sub_program
-                       | WHILE PARA logic_statement PARC LLAVEA sub_program'''
+def p_iter_while(p):
+    'while_statement : while PARA f_cond PARC LLAVEA sub_program'
     #print("p_while")
 
 #regla del bloque de codigo dentro de una sentencia de control
@@ -284,8 +304,7 @@ def p_subprogram(p):
 
 #regla del if
 def p_condition_if(p):
-    '''if_statement : IF PARA comp_statement PARC LLAVEA sub_program else_statement
-                    | IF PARA logic_statement PARC LLAVEA sub_program else_statement'''
+    'if_statement : IF PARA f_cond PARC LLAVEA sub_program else_statement'
     #print("p_condition_if")    
 
 #regla del else
@@ -303,9 +322,9 @@ def p_empty(p):
 # Error rule for syntax errors
 def p_error(p):
     if p:
-        e = "[ERR] Error de sintaxis en '"+ p.value + "'"
+        e = "[ERR] Syntax error at '"+ p.value + "'"
     else:
-        e = "[ERR] Error de sintaxis en EOF"
+        e = "[ERR] Syntax error at EOF"
     err.append(e)
     print(e)
 
