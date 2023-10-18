@@ -1,0 +1,27 @@
+{int a | b | c | d | e}
+a = 10
+b = 20
+c = 30
+d = 40
+e = 50
+if(a < b){
+ if(b == c){
+  if(c >= d){
+   if(d <> e){
+    if(e > 60){
+     a = 100
+    }else{
+     a = 200
+    }
+   }else{
+    a = 300
+   }
+  }else{
+   a = 400
+  }
+ }else{
+  a = 500
+ }
+}else{
+ a = 600
+}

@@ -1,0 +1,25 @@
+Errores/Warnings: 
+[]
+
+Tabla de simbolos: 
+      id name value  length declared
+0     _a    a   600       3     True
+1     _b    b    20       2     True
+2     _c    c    30       2     True
+3     _d    d    40       2     True
+4     _e    e    50       2     True
+5    _10   10    10       2     None
+6    _20   20    20       2     None
+7    _30   30    30       2     None
+8    _40   40    40       2     None
+9    _50   50    50       2     None
+10   _60   60    60       2     None
+11  _100  100   100       3     None
+12  _200  200   200       3     None
+13  _300  300   300       3     None
+14  _400  400   400       3     None
+15  _500  500   500       3     None
+16  _600  600   600       3     None
+
+polaca_inversa: 
+['10', 'a', '=', '20', 'b', '=', '30', 'c', '=', '40', 'd', '=', '50', 'e', '=', 'a', 'b', 'b', 'c', 'c', 'd', 'd', 'e', 'e', '60', '100', 'a', '=', '200', 'a', '=', '300', 'a', '=', '400', 'a', '=', '500', 'a', '=', '600', 'a', '=']

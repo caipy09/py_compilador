@@ -1,7 +1,7 @@
 
-ntest = "00"
-path_input = "C:/Users/fheredia/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
-path_output = "C:/Users/fheredia/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
+ntest = "07"
+path_input = "C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
+path_output = "C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
 
 
 ############################################
@@ -208,18 +208,16 @@ def p_factor_2(p):
     #generacion de polaca inversa
     polaca_inversa.append(p[1])
 
-# =============================================================================
-# #estas reglas generan 1 shift-reduce, sin embargo permiten operaciones unarias con constantes y expresiones
-# #permite restas unarias, ej: x = -5
+#estas reglas generan 1 shift-reduce, sin embargo permiten operaciones unarias con constantes y expresiones
+#permite restas unarias, ej: x = -5
 # def p_factor_cte_n(p):
 #     "factor : RESTA CTE %prec URESTA"
 #     p[0] = -int(p[2])
-# 
+
 # #permite expresiones como por ej: -(-5 * 8)
 # def p_factor_expr_n(p):
 #     'factor : RESTA PARA expression PARC %prec URESTA'
 #     p[0] = -int(p[3])
-# =============================================================================
 
 #imprimir valor
 def p_print(p):
@@ -238,45 +236,61 @@ def p_f_cond_2(p):
 def p_comparator_iguala(p):
     'comp_statement : expression IGUALA factor'
     p[0] = p[1] == p[3]
+    #generacion de polaca inversa
+    polaca_inversa.append("==")
 
 #comparador <>
 def p_comparator_dist(p):
     'comp_statement : expression DIST factor'
     p[0] = p[1] != p[3]
     #print(p[0], " : ", p[1], " DIST ", p[3])
+    #generacion de polaca inversa
+    polaca_inversa.append("<>")
     
 #comparador <
 def p_comparator_menor(p):
     'comp_statement : expression MENOR factor'
     p[0] = p[1] < p[3]
     #print(p[0], " : ", p[1], " MENOR ", p[3])
+    #generacion de polaca inversa
+    polaca_inversa.append("<")
     
 #comparador <=
 def p_comparator_menorigual(p):
     'comp_statement : expression MENORIGUAL factor'
     p[0] = p[1] <= p[3]
+    #generacion de polaca inversa
+    polaca_inversa.append("<=")
     
 #comparador >
 def p_comparator_mayor(p):
     'comp_statement : expression MAYOR factor'
     p[0] = p[1] > p[3]
+    #generacion de polaca inversa
+    polaca_inversa.append(">")
     
 #comparador >=
 def p_comparator_mayorigual(p):
     'comp_statement : expression MAYORIGUAL factor'
     p[0] = p[1] >= p[3]
+    #generacion de polaca inversa
+    polaca_inversa.append(">=")
 
 #el operador logico OR puede ser usado en dos expresiones de comparacion
 def p_logic_expr_or(p):
     'logic_statement : comp_statement OR comp_expression'
     p[0] = p[1] or p[3]
     #print(p[0], " : ", p[1], " OR ", p[3])
+    #generacion de polaca inversa
+    polaca_inversa.append("|")
 
 #el operador logico AND puede ser usado en dos expresiones de comparacion
 def p_logic_expr_and(p):
     'logic_statement : comp_statement AND comp_expression'
     p[0] = p[1] and p[3]
     #print(p[0], " : ", p[1], " AND ", p[3])
+    #generacion de polaca inversa
+    polaca_inversa.append("&")
 
 #una expresion de comparacion es una declaracion de comparacion
 def p_comp_expression(p):
@@ -302,16 +316,28 @@ def p_iter_while(p):
 def p_subprogram(p):
     'sub_program : program LLAVEC'
 
+#reglas que permite saltos para los if
+def p_if_fcpo_1(p):
+    'fcpo1 : sub_program'
+    print("if")
+
+#reglas que permite saltos para los else if
+def p_if_fcpo_2(p):
+    'fcpo2 : sub_program'
+    print("else")
+
+
 #regla del if
 def p_condition_if(p):
-    'if_statement : IF PARA f_cond PARC LLAVEA sub_program else_statement'
-    #print("p_condition_if")    
+    'if_statement : IF PARA f_cond PARC LLAVEA fcpo1 else_statement'
+    pass
+    
 
 #regla del else
 def p_condition_else(p):
-    '''else_statement : ELSE LLAVEA sub_program
+    '''else_statement : ELSE LLAVEA fcpo2
                       | empty'''
-    #print("p_condition_if_else")
+    pass
 
 #regla lambda
 def p_empty(p):
