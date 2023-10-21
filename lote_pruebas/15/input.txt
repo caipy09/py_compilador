@@ -1,0 +1,17 @@
+{int a | b | c}
+a = 10
+b = 20
+c = 30
+if(b <> c){
+  {int d | e}
+  d = 40
+  e = 50
+  while(a<b){
+   a = e + 2
+   b = d - 1
+   if(b >= e){
+    {int f}
+    f = a * 12
+   }
+  }
+}

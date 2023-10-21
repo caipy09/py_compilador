@@ -1,0 +1,13 @@
+{int a | b | c}
+a = 10
+b = 20
+c = 30
+if(b <> c){
+  while(a<b){
+   a = a + 2
+   b = b - 1
+  if(b>a){
+   b = a * 12
+  }
+ }
+}

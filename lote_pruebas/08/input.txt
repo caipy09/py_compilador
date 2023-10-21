@@ -1,0 +1,8 @@
+{int id1 | id2 | id3}
+id1 = 10
+id2 = 20
+id3 = 30
+while(id1 >= 1){
+ id2 = id3 / 2
+ id1 = id1 - 3
+}

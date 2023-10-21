@@ -26,76 +26,79 @@ Rule 20    factor -> PARA expression PARC
 Rule 21    factor -> CTE
 Rule 22    factor -> ID
 Rule 23    print_statement -> PRINT PARA expression PARC
-Rule 24    f_cond -> comp_statement
-Rule 25    f_cond -> logic_statement
-Rule 26    comp_statement -> expression IGUALA factor
-Rule 27    comp_statement -> expression DIST factor
-Rule 28    comp_statement -> expression MENOR factor
-Rule 29    comp_statement -> expression MENORIGUAL factor
-Rule 30    comp_statement -> expression MAYOR factor
-Rule 31    comp_statement -> expression MAYORIGUAL factor
-Rule 32    logic_statement -> comp_statement OR comp_expression
-Rule 33    logic_statement -> comp_statement AND comp_expression
-Rule 34    comp_expression -> comp_statement
-Rule 35    while -> WHILE
-Rule 36    while_statement -> while PARA f_cond PARC LLAVEA sub_program
-Rule 37    sub_program -> program LLAVEC
-Rule 38    fcpo1 -> sub_program
-Rule 39    fcpo2 -> sub_program
-Rule 40    if_statement -> IF PARA f_cond PARC LLAVEA fcpo1 else_statement
-Rule 41    else_statement -> ELSE LLAVEA fcpo2
-Rule 42    else_statement -> empty
-Rule 43    empty -> <empty>
+Rule 24    comp_statement -> expression IGUALA factor
+Rule 25    comp_statement -> expression DIST factor
+Rule 26    comp_statement -> expression MENOR factor
+Rule 27    comp_statement -> expression MENORIGUAL factor
+Rule 28    comp_statement -> expression MAYOR factor
+Rule 29    comp_statement -> expression MAYORIGUAL factor
+Rule 30    logic_statement -> comp_statement OR comp_expression
+Rule 31    logic_statement -> comp_statement AND comp_expression
+Rule 32    comp_expression -> comp_statement
+Rule 33    sub_program -> program LLAVEC
+Rule 34    cond_while -> comp_statement
+Rule 35    cond_while -> logic_statement
+Rule 36    while -> WHILE
+Rule 37    while_statement -> while PARA cond_while PARC LLAVEA sub_program
+Rule 38    cond_if -> comp_statement
+Rule 39    cond_if -> logic_statement
+Rule 40    fcpo1 -> sub_program
+Rule 41    fcpo2 -> sub_program
+Rule 42    if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement
+Rule 43    else_statement -> ELSE LLAVEA fcpo2
+Rule 44    else_statement -> empty
+Rule 45    empty -> <empty>
 
 Terminals, with rules where they appear
 
-AND                  : 33
+AND                  : 31
 ASIG                 : 13
 CTE                  : 21
-DIST                 : 27
+DIST                 : 25
 DIV                  : 19
-ELSE                 : 41
+ELSE                 : 43
 ID                   : 10 11 13 22
-IF                   : 40
-IGUALA               : 26
+IF                   : 42
+IGUALA               : 24
 INT                  : 9
-LLAVEA               : 9 36 40 41
-LLAVEC               : 10 37
-MAYOR                : 30
-MAYORIGUAL           : 31
-MENOR                : 28
-MENORIGUAL           : 29
+LLAVEA               : 9 37 42 43
+LLAVEC               : 10 33
+MAYOR                : 28
+MAYORIGUAL           : 29
+MENOR                : 26
+MENORIGUAL           : 27
 MULT                 : 18
-OR                   : 11 32
-PARA                 : 20 23 36 40
-PARC                 : 20 23 36 40
+OR                   : 11 30
+PARA                 : 20 23 37 42
+PARC                 : 20 23 37 42
 PRINT                : 23
 RESTA                : 16
 SUMA                 : 15
-WHILE                : 35
+WHILE                : 36
 error                : 
 
 Nonterminals, with rules where they appear
 
 block_decl           : 9 12
-comp_expression      : 32 33
-comp_statement       : 4 24 32 33 34
-else_statement       : 40
-empty                : 42
-expression           : 8 13 15 16 20 23 26 27 28 29 30 31
-f_cond               : 36 40
-factor               : 17 18 19 26 27 28 29 30 31
-fcpo1                : 40
-fcpo2                : 41
+comp_expression      : 30 31
+comp_statement       : 4 30 31 32 34 38
+cond_if              : 42
+cond_while           : 37
+else_statement       : 42
+empty                : 44
+expression           : 8 13 15 16 20 23 24 25 26 27 28 29
+factor               : 17 18 19 24 25 26 27 28 29
+fcpo1                : 42
+fcpo2                : 43
 if_statement         : 7
-logic_statement      : 5 25
+logic_statement      : 5 35 39
 other_decl           : 11
 print_statement      : 3
-program              : 1 37 0
+program              : 1 33 0
 statement            : 1 2
-sub_program          : 36 38 39
+sub_program          : 37 40 41
 term                 : 14 15 16 18 19
-while                : 36
+while                : 37
 while_statement      : 6
 
 Parsing method: LALR
@@ -114,20 +117,20 @@ state 0
     (9) statement -> . LLAVEA INT block_decl
     (13) statement -> . ID ASIG expression
     (23) print_statement -> . PRINT PARA expression PARC
-    (26) comp_statement -> . expression IGUALA factor
-    (27) comp_statement -> . expression DIST factor
-    (28) comp_statement -> . expression MENOR factor
-    (29) comp_statement -> . expression MENORIGUAL factor
-    (30) comp_statement -> . expression MAYOR factor
-    (31) comp_statement -> . expression MAYORIGUAL factor
-    (32) logic_statement -> . comp_statement OR comp_expression
-    (33) logic_statement -> . comp_statement AND comp_expression
-    (36) while_statement -> . while PARA f_cond PARC LLAVEA sub_program
-    (40) if_statement -> . IF PARA f_cond PARC LLAVEA fcpo1 else_statement
+    (24) comp_statement -> . expression IGUALA factor
+    (25) comp_statement -> . expression DIST factor
+    (26) comp_statement -> . expression MENOR factor
+    (27) comp_statement -> . expression MENORIGUAL factor
+    (28) comp_statement -> . expression MAYOR factor
+    (29) comp_statement -> . expression MAYORIGUAL factor
+    (30) logic_statement -> . comp_statement OR comp_expression
+    (31) logic_statement -> . comp_statement AND comp_expression
+    (37) while_statement -> . while PARA cond_while PARC LLAVEA sub_program
+    (42) if_statement -> . IF PARA cond_if PARC LLAVEA fcpo1 else_statement
     (14) expression -> . term
     (15) expression -> . expression SUMA term
     (16) expression -> . expression RESTA term
-    (35) while -> . WHILE
+    (36) while -> . WHILE
     (17) term -> . factor
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
@@ -168,20 +171,20 @@ state 1
     (9) statement -> . LLAVEA INT block_decl
     (13) statement -> . ID ASIG expression
     (23) print_statement -> . PRINT PARA expression PARC
-    (26) comp_statement -> . expression IGUALA factor
-    (27) comp_statement -> . expression DIST factor
-    (28) comp_statement -> . expression MENOR factor
-    (29) comp_statement -> . expression MENORIGUAL factor
-    (30) comp_statement -> . expression MAYOR factor
-    (31) comp_statement -> . expression MAYORIGUAL factor
-    (32) logic_statement -> . comp_statement OR comp_expression
-    (33) logic_statement -> . comp_statement AND comp_expression
-    (36) while_statement -> . while PARA f_cond PARC LLAVEA sub_program
-    (40) if_statement -> . IF PARA f_cond PARC LLAVEA fcpo1 else_statement
+    (24) comp_statement -> . expression IGUALA factor
+    (25) comp_statement -> . expression DIST factor
+    (26) comp_statement -> . expression MENOR factor
+    (27) comp_statement -> . expression MENORIGUAL factor
+    (28) comp_statement -> . expression MAYOR factor
+    (29) comp_statement -> . expression MAYORIGUAL factor
+    (30) logic_statement -> . comp_statement OR comp_expression
+    (31) logic_statement -> . comp_statement AND comp_expression
+    (37) while_statement -> . while PARA cond_while PARC LLAVEA sub_program
+    (42) if_statement -> . IF PARA cond_if PARC LLAVEA fcpo1 else_statement
     (14) expression -> . term
     (15) expression -> . expression SUMA term
     (16) expression -> . expression RESTA term
-    (35) while -> . WHILE
+    (36) while -> . WHILE
     (17) term -> . factor
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
@@ -241,8 +244,8 @@ state 3
 state 4
 
     (4) statement -> comp_statement .
-    (32) logic_statement -> comp_statement . OR comp_expression
-    (33) logic_statement -> comp_statement . AND comp_expression
+    (30) logic_statement -> comp_statement . OR comp_expression
+    (31) logic_statement -> comp_statement . AND comp_expression
 
     LLAVEA          reduce using rule 4 (statement -> comp_statement .)
     ID              reduce using rule 4 (statement -> comp_statement .)
@@ -305,12 +308,12 @@ state 7
 state 8
 
     (8) statement -> expression .
-    (26) comp_statement -> expression . IGUALA factor
-    (27) comp_statement -> expression . DIST factor
-    (28) comp_statement -> expression . MENOR factor
-    (29) comp_statement -> expression . MENORIGUAL factor
-    (30) comp_statement -> expression . MAYOR factor
-    (31) comp_statement -> expression . MAYORIGUAL factor
+    (24) comp_statement -> expression . IGUALA factor
+    (25) comp_statement -> expression . DIST factor
+    (26) comp_statement -> expression . MENOR factor
+    (27) comp_statement -> expression . MENORIGUAL factor
+    (28) comp_statement -> expression . MAYOR factor
+    (29) comp_statement -> expression . MAYORIGUAL factor
     (15) expression -> expression . SUMA term
     (16) expression -> expression . RESTA term
 
@@ -423,14 +426,14 @@ state 13
 
 state 14
 
-    (36) while_statement -> while . PARA f_cond PARC LLAVEA sub_program
+    (37) while_statement -> while . PARA cond_while PARC LLAVEA sub_program
 
     PARA            shift and go to state 35
 
 
 state 15
 
-    (40) if_statement -> IF . PARA f_cond PARC LLAVEA fcpo1 else_statement
+    (42) if_statement -> IF . PARA cond_if PARC LLAVEA fcpo1 else_statement
 
     PARA            shift and go to state 36
 
@@ -465,9 +468,9 @@ state 16
 
 state 17
 
-    (35) while -> WHILE .
+    (36) while -> WHILE .
 
-    PARA            reduce using rule 35 (while -> WHILE .)
+    PARA            reduce using rule 36 (while -> WHILE .)
 
 
 state 18
@@ -515,14 +518,14 @@ state 19
 
 state 20
 
-    (32) logic_statement -> comp_statement OR . comp_expression
-    (34) comp_expression -> . comp_statement
-    (26) comp_statement -> . expression IGUALA factor
-    (27) comp_statement -> . expression DIST factor
-    (28) comp_statement -> . expression MENOR factor
-    (29) comp_statement -> . expression MENORIGUAL factor
-    (30) comp_statement -> . expression MAYOR factor
-    (31) comp_statement -> . expression MAYORIGUAL factor
+    (30) logic_statement -> comp_statement OR . comp_expression
+    (32) comp_expression -> . comp_statement
+    (24) comp_statement -> . expression IGUALA factor
+    (25) comp_statement -> . expression DIST factor
+    (26) comp_statement -> . expression MENOR factor
+    (27) comp_statement -> . expression MENORIGUAL factor
+    (28) comp_statement -> . expression MAYOR factor
+    (29) comp_statement -> . expression MAYORIGUAL factor
     (14) expression -> . term
     (15) expression -> . expression SUMA term
     (16) expression -> . expression RESTA term
@@ -545,14 +548,14 @@ state 20
 
 state 21
 
-    (33) logic_statement -> comp_statement AND . comp_expression
-    (34) comp_expression -> . comp_statement
-    (26) comp_statement -> . expression IGUALA factor
-    (27) comp_statement -> . expression DIST factor
-    (28) comp_statement -> . expression MENOR factor
-    (29) comp_statement -> . expression MENORIGUAL factor
-    (30) comp_statement -> . expression MAYOR factor
-    (31) comp_statement -> . expression MAYORIGUAL factor
+    (31) logic_statement -> comp_statement AND . comp_expression
+    (32) comp_expression -> . comp_statement
+    (24) comp_statement -> . expression IGUALA factor
+    (25) comp_statement -> . expression DIST factor
+    (26) comp_statement -> . expression MENOR factor
+    (27) comp_statement -> . expression MENORIGUAL factor
+    (28) comp_statement -> . expression MAYOR factor
+    (29) comp_statement -> . expression MAYORIGUAL factor
     (14) expression -> . term
     (15) expression -> . expression SUMA term
     (16) expression -> . expression RESTA term
@@ -575,7 +578,7 @@ state 21
 
 state 22
 
-    (26) comp_statement -> expression IGUALA . factor
+    (24) comp_statement -> expression IGUALA . factor
     (20) factor -> . PARA expression PARC
     (21) factor -> . CTE
     (22) factor -> . ID
@@ -588,7 +591,7 @@ state 22
 
 state 23
 
-    (27) comp_statement -> expression DIST . factor
+    (25) comp_statement -> expression DIST . factor
     (20) factor -> . PARA expression PARC
     (21) factor -> . CTE
     (22) factor -> . ID
@@ -601,7 +604,7 @@ state 23
 
 state 24
 
-    (28) comp_statement -> expression MENOR . factor
+    (26) comp_statement -> expression MENOR . factor
     (20) factor -> . PARA expression PARC
     (21) factor -> . CTE
     (22) factor -> . ID
@@ -614,7 +617,7 @@ state 24
 
 state 25
 
-    (29) comp_statement -> expression MENORIGUAL . factor
+    (27) comp_statement -> expression MENORIGUAL . factor
     (20) factor -> . PARA expression PARC
     (21) factor -> . CTE
     (22) factor -> . ID
@@ -627,7 +630,7 @@ state 25
 
 state 26
 
-    (30) comp_statement -> expression MAYOR . factor
+    (28) comp_statement -> expression MAYOR . factor
     (20) factor -> . PARA expression PARC
     (21) factor -> . CTE
     (22) factor -> . ID
@@ -640,7 +643,7 @@ state 26
 
 state 27
 
-    (31) comp_statement -> expression MAYORIGUAL . factor
+    (29) comp_statement -> expression MAYORIGUAL . factor
     (20) factor -> . PARA expression PARC
     (21) factor -> . CTE
     (22) factor -> . ID
@@ -778,17 +781,17 @@ state 34
 
 state 35
 
-    (36) while_statement -> while PARA . f_cond PARC LLAVEA sub_program
-    (24) f_cond -> . comp_statement
-    (25) f_cond -> . logic_statement
-    (26) comp_statement -> . expression IGUALA factor
-    (27) comp_statement -> . expression DIST factor
-    (28) comp_statement -> . expression MENOR factor
-    (29) comp_statement -> . expression MENORIGUAL factor
-    (30) comp_statement -> . expression MAYOR factor
-    (31) comp_statement -> . expression MAYORIGUAL factor
-    (32) logic_statement -> . comp_statement OR comp_expression
-    (33) logic_statement -> . comp_statement AND comp_expression
+    (37) while_statement -> while PARA . cond_while PARC LLAVEA sub_program
+    (34) cond_while -> . comp_statement
+    (35) cond_while -> . logic_statement
+    (24) comp_statement -> . expression IGUALA factor
+    (25) comp_statement -> . expression DIST factor
+    (26) comp_statement -> . expression MENOR factor
+    (27) comp_statement -> . expression MENORIGUAL factor
+    (28) comp_statement -> . expression MAYOR factor
+    (29) comp_statement -> . expression MAYORIGUAL factor
+    (30) logic_statement -> . comp_statement OR comp_expression
+    (31) logic_statement -> . comp_statement AND comp_expression
     (14) expression -> . term
     (15) expression -> . expression SUMA term
     (16) expression -> . expression RESTA term
@@ -803,7 +806,7 @@ state 35
     CTE             shift and go to state 18
     ID              shift and go to state 34
 
-    f_cond                         shift and go to state 56
+    cond_while                     shift and go to state 56
     comp_statement                 shift and go to state 57
     logic_statement                shift and go to state 58
     expression                     shift and go to state 41
@@ -812,17 +815,17 @@ state 35
 
 state 36
 
-    (40) if_statement -> IF PARA . f_cond PARC LLAVEA fcpo1 else_statement
-    (24) f_cond -> . comp_statement
-    (25) f_cond -> . logic_statement
-    (26) comp_statement -> . expression IGUALA factor
-    (27) comp_statement -> . expression DIST factor
-    (28) comp_statement -> . expression MENOR factor
-    (29) comp_statement -> . expression MENORIGUAL factor
-    (30) comp_statement -> . expression MAYOR factor
-    (31) comp_statement -> . expression MAYORIGUAL factor
-    (32) logic_statement -> . comp_statement OR comp_expression
-    (33) logic_statement -> . comp_statement AND comp_expression
+    (42) if_statement -> IF PARA . cond_if PARC LLAVEA fcpo1 else_statement
+    (38) cond_if -> . comp_statement
+    (39) cond_if -> . logic_statement
+    (24) comp_statement -> . expression IGUALA factor
+    (25) comp_statement -> . expression DIST factor
+    (26) comp_statement -> . expression MENOR factor
+    (27) comp_statement -> . expression MENORIGUAL factor
+    (28) comp_statement -> . expression MAYOR factor
+    (29) comp_statement -> . expression MAYORIGUAL factor
+    (30) logic_statement -> . comp_statement OR comp_expression
+    (31) logic_statement -> . comp_statement AND comp_expression
     (14) expression -> . term
     (15) expression -> . expression SUMA term
     (16) expression -> . expression RESTA term
@@ -837,9 +840,9 @@ state 36
     CTE             shift and go to state 18
     ID              shift and go to state 34
 
-    f_cond                         shift and go to state 59
-    comp_statement                 shift and go to state 57
-    logic_statement                shift and go to state 58
+    cond_if                        shift and go to state 59
+    comp_statement                 shift and go to state 60
+    logic_statement                shift and go to state 61
     expression                     shift and go to state 41
     factor                         shift and go to state 13
     term                           shift and go to state 16
@@ -855,7 +858,7 @@ state 37
     CTE             shift and go to state 18
     ID              shift and go to state 34
 
-    factor                         shift and go to state 60
+    factor                         shift and go to state 62
 
 state 38
 
@@ -868,48 +871,48 @@ state 38
     CTE             shift and go to state 18
     ID              shift and go to state 34
 
-    factor                         shift and go to state 61
+    factor                         shift and go to state 63
 
 state 39
 
-    (34) comp_expression -> comp_statement .
+    (32) comp_expression -> comp_statement .
 
-    LLAVEA          reduce using rule 34 (comp_expression -> comp_statement .)
-    ID              reduce using rule 34 (comp_expression -> comp_statement .)
-    PRINT           reduce using rule 34 (comp_expression -> comp_statement .)
-    IF              reduce using rule 34 (comp_expression -> comp_statement .)
-    WHILE           reduce using rule 34 (comp_expression -> comp_statement .)
-    PARA            reduce using rule 34 (comp_expression -> comp_statement .)
-    CTE             reduce using rule 34 (comp_expression -> comp_statement .)
-    $end            reduce using rule 34 (comp_expression -> comp_statement .)
-    PARC            reduce using rule 34 (comp_expression -> comp_statement .)
-    LLAVEC          reduce using rule 34 (comp_expression -> comp_statement .)
+    LLAVEA          reduce using rule 32 (comp_expression -> comp_statement .)
+    ID              reduce using rule 32 (comp_expression -> comp_statement .)
+    PRINT           reduce using rule 32 (comp_expression -> comp_statement .)
+    IF              reduce using rule 32 (comp_expression -> comp_statement .)
+    WHILE           reduce using rule 32 (comp_expression -> comp_statement .)
+    PARA            reduce using rule 32 (comp_expression -> comp_statement .)
+    CTE             reduce using rule 32 (comp_expression -> comp_statement .)
+    $end            reduce using rule 32 (comp_expression -> comp_statement .)
+    PARC            reduce using rule 32 (comp_expression -> comp_statement .)
+    LLAVEC          reduce using rule 32 (comp_expression -> comp_statement .)
 
 
 state 40
 
-    (32) logic_statement -> comp_statement OR comp_expression .
+    (30) logic_statement -> comp_statement OR comp_expression .
 
-    LLAVEA          reduce using rule 32 (logic_statement -> comp_statement OR comp_expression .)
-    ID              reduce using rule 32 (logic_statement -> comp_statement OR comp_expression .)
-    PRINT           reduce using rule 32 (logic_statement -> comp_statement OR comp_expression .)
-    IF              reduce using rule 32 (logic_statement -> comp_statement OR comp_expression .)
-    WHILE           reduce using rule 32 (logic_statement -> comp_statement OR comp_expression .)
-    PARA            reduce using rule 32 (logic_statement -> comp_statement OR comp_expression .)
-    CTE             reduce using rule 32 (logic_statement -> comp_statement OR comp_expression .)
-    $end            reduce using rule 32 (logic_statement -> comp_statement OR comp_expression .)
-    PARC            reduce using rule 32 (logic_statement -> comp_statement OR comp_expression .)
-    LLAVEC          reduce using rule 32 (logic_statement -> comp_statement OR comp_expression .)
+    LLAVEA          reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
+    ID              reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
+    PRINT           reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
+    IF              reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
+    WHILE           reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
+    PARA            reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
+    CTE             reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
+    $end            reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
+    PARC            reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
+    LLAVEC          reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
 
 
 state 41
 
-    (26) comp_statement -> expression . IGUALA factor
-    (27) comp_statement -> expression . DIST factor
-    (28) comp_statement -> expression . MENOR factor
-    (29) comp_statement -> expression . MENORIGUAL factor
-    (30) comp_statement -> expression . MAYOR factor
-    (31) comp_statement -> expression . MAYORIGUAL factor
+    (24) comp_statement -> expression . IGUALA factor
+    (25) comp_statement -> expression . DIST factor
+    (26) comp_statement -> expression . MENOR factor
+    (27) comp_statement -> expression . MENORIGUAL factor
+    (28) comp_statement -> expression . MAYOR factor
+    (29) comp_statement -> expression . MAYORIGUAL factor
     (15) expression -> expression . SUMA term
     (16) expression -> expression . RESTA term
 
@@ -925,126 +928,126 @@ state 41
 
 state 42
 
-    (33) logic_statement -> comp_statement AND comp_expression .
+    (31) logic_statement -> comp_statement AND comp_expression .
 
-    LLAVEA          reduce using rule 33 (logic_statement -> comp_statement AND comp_expression .)
-    ID              reduce using rule 33 (logic_statement -> comp_statement AND comp_expression .)
-    PRINT           reduce using rule 33 (logic_statement -> comp_statement AND comp_expression .)
-    IF              reduce using rule 33 (logic_statement -> comp_statement AND comp_expression .)
-    WHILE           reduce using rule 33 (logic_statement -> comp_statement AND comp_expression .)
-    PARA            reduce using rule 33 (logic_statement -> comp_statement AND comp_expression .)
-    CTE             reduce using rule 33 (logic_statement -> comp_statement AND comp_expression .)
-    $end            reduce using rule 33 (logic_statement -> comp_statement AND comp_expression .)
-    PARC            reduce using rule 33 (logic_statement -> comp_statement AND comp_expression .)
-    LLAVEC          reduce using rule 33 (logic_statement -> comp_statement AND comp_expression .)
+    LLAVEA          reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
+    ID              reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
+    PRINT           reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
+    IF              reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
+    WHILE           reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
+    PARA            reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
+    CTE             reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
+    $end            reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
+    PARC            reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
+    LLAVEC          reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
 
 
 state 43
 
-    (26) comp_statement -> expression IGUALA factor .
+    (24) comp_statement -> expression IGUALA factor .
 
-    OR              reduce using rule 26 (comp_statement -> expression IGUALA factor .)
-    AND             reduce using rule 26 (comp_statement -> expression IGUALA factor .)
-    LLAVEA          reduce using rule 26 (comp_statement -> expression IGUALA factor .)
-    ID              reduce using rule 26 (comp_statement -> expression IGUALA factor .)
-    PRINT           reduce using rule 26 (comp_statement -> expression IGUALA factor .)
-    IF              reduce using rule 26 (comp_statement -> expression IGUALA factor .)
-    WHILE           reduce using rule 26 (comp_statement -> expression IGUALA factor .)
-    PARA            reduce using rule 26 (comp_statement -> expression IGUALA factor .)
-    CTE             reduce using rule 26 (comp_statement -> expression IGUALA factor .)
-    $end            reduce using rule 26 (comp_statement -> expression IGUALA factor .)
-    PARC            reduce using rule 26 (comp_statement -> expression IGUALA factor .)
-    LLAVEC          reduce using rule 26 (comp_statement -> expression IGUALA factor .)
+    OR              reduce using rule 24 (comp_statement -> expression IGUALA factor .)
+    AND             reduce using rule 24 (comp_statement -> expression IGUALA factor .)
+    LLAVEA          reduce using rule 24 (comp_statement -> expression IGUALA factor .)
+    ID              reduce using rule 24 (comp_statement -> expression IGUALA factor .)
+    PRINT           reduce using rule 24 (comp_statement -> expression IGUALA factor .)
+    IF              reduce using rule 24 (comp_statement -> expression IGUALA factor .)
+    WHILE           reduce using rule 24 (comp_statement -> expression IGUALA factor .)
+    PARA            reduce using rule 24 (comp_statement -> expression IGUALA factor .)
+    CTE             reduce using rule 24 (comp_statement -> expression IGUALA factor .)
+    $end            reduce using rule 24 (comp_statement -> expression IGUALA factor .)
+    PARC            reduce using rule 24 (comp_statement -> expression IGUALA factor .)
+    LLAVEC          reduce using rule 24 (comp_statement -> expression IGUALA factor .)
 
 
 state 44
 
-    (27) comp_statement -> expression DIST factor .
+    (25) comp_statement -> expression DIST factor .
 
-    OR              reduce using rule 27 (comp_statement -> expression DIST factor .)
-    AND             reduce using rule 27 (comp_statement -> expression DIST factor .)
-    LLAVEA          reduce using rule 27 (comp_statement -> expression DIST factor .)
-    ID              reduce using rule 27 (comp_statement -> expression DIST factor .)
-    PRINT           reduce using rule 27 (comp_statement -> expression DIST factor .)
-    IF              reduce using rule 27 (comp_statement -> expression DIST factor .)
-    WHILE           reduce using rule 27 (comp_statement -> expression DIST factor .)
-    PARA            reduce using rule 27 (comp_statement -> expression DIST factor .)
-    CTE             reduce using rule 27 (comp_statement -> expression DIST factor .)
-    $end            reduce using rule 27 (comp_statement -> expression DIST factor .)
-    PARC            reduce using rule 27 (comp_statement -> expression DIST factor .)
-    LLAVEC          reduce using rule 27 (comp_statement -> expression DIST factor .)
+    OR              reduce using rule 25 (comp_statement -> expression DIST factor .)
+    AND             reduce using rule 25 (comp_statement -> expression DIST factor .)
+    LLAVEA          reduce using rule 25 (comp_statement -> expression DIST factor .)
+    ID              reduce using rule 25 (comp_statement -> expression DIST factor .)
+    PRINT           reduce using rule 25 (comp_statement -> expression DIST factor .)
+    IF              reduce using rule 25 (comp_statement -> expression DIST factor .)
+    WHILE           reduce using rule 25 (comp_statement -> expression DIST factor .)
+    PARA            reduce using rule 25 (comp_statement -> expression DIST factor .)
+    CTE             reduce using rule 25 (comp_statement -> expression DIST factor .)
+    $end            reduce using rule 25 (comp_statement -> expression DIST factor .)
+    PARC            reduce using rule 25 (comp_statement -> expression DIST factor .)
+    LLAVEC          reduce using rule 25 (comp_statement -> expression DIST factor .)
 
 
 state 45
 
-    (28) comp_statement -> expression MENOR factor .
+    (26) comp_statement -> expression MENOR factor .
 
-    OR              reduce using rule 28 (comp_statement -> expression MENOR factor .)
-    AND             reduce using rule 28 (comp_statement -> expression MENOR factor .)
-    LLAVEA          reduce using rule 28 (comp_statement -> expression MENOR factor .)
-    ID              reduce using rule 28 (comp_statement -> expression MENOR factor .)
-    PRINT           reduce using rule 28 (comp_statement -> expression MENOR factor .)
-    IF              reduce using rule 28 (comp_statement -> expression MENOR factor .)
-    WHILE           reduce using rule 28 (comp_statement -> expression MENOR factor .)
-    PARA            reduce using rule 28 (comp_statement -> expression MENOR factor .)
-    CTE             reduce using rule 28 (comp_statement -> expression MENOR factor .)
-    $end            reduce using rule 28 (comp_statement -> expression MENOR factor .)
-    PARC            reduce using rule 28 (comp_statement -> expression MENOR factor .)
-    LLAVEC          reduce using rule 28 (comp_statement -> expression MENOR factor .)
+    OR              reduce using rule 26 (comp_statement -> expression MENOR factor .)
+    AND             reduce using rule 26 (comp_statement -> expression MENOR factor .)
+    LLAVEA          reduce using rule 26 (comp_statement -> expression MENOR factor .)
+    ID              reduce using rule 26 (comp_statement -> expression MENOR factor .)
+    PRINT           reduce using rule 26 (comp_statement -> expression MENOR factor .)
+    IF              reduce using rule 26 (comp_statement -> expression MENOR factor .)
+    WHILE           reduce using rule 26 (comp_statement -> expression MENOR factor .)
+    PARA            reduce using rule 26 (comp_statement -> expression MENOR factor .)
+    CTE             reduce using rule 26 (comp_statement -> expression MENOR factor .)
+    $end            reduce using rule 26 (comp_statement -> expression MENOR factor .)
+    PARC            reduce using rule 26 (comp_statement -> expression MENOR factor .)
+    LLAVEC          reduce using rule 26 (comp_statement -> expression MENOR factor .)
 
 
 state 46
 
-    (29) comp_statement -> expression MENORIGUAL factor .
+    (27) comp_statement -> expression MENORIGUAL factor .
 
-    OR              reduce using rule 29 (comp_statement -> expression MENORIGUAL factor .)
-    AND             reduce using rule 29 (comp_statement -> expression MENORIGUAL factor .)
-    LLAVEA          reduce using rule 29 (comp_statement -> expression MENORIGUAL factor .)
-    ID              reduce using rule 29 (comp_statement -> expression MENORIGUAL factor .)
-    PRINT           reduce using rule 29 (comp_statement -> expression MENORIGUAL factor .)
-    IF              reduce using rule 29 (comp_statement -> expression MENORIGUAL factor .)
-    WHILE           reduce using rule 29 (comp_statement -> expression MENORIGUAL factor .)
-    PARA            reduce using rule 29 (comp_statement -> expression MENORIGUAL factor .)
-    CTE             reduce using rule 29 (comp_statement -> expression MENORIGUAL factor .)
-    $end            reduce using rule 29 (comp_statement -> expression MENORIGUAL factor .)
-    PARC            reduce using rule 29 (comp_statement -> expression MENORIGUAL factor .)
-    LLAVEC          reduce using rule 29 (comp_statement -> expression MENORIGUAL factor .)
+    OR              reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
+    AND             reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
+    LLAVEA          reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
+    ID              reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
+    PRINT           reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
+    IF              reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
+    WHILE           reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
+    PARA            reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
+    CTE             reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
+    $end            reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
+    PARC            reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
+    LLAVEC          reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
 
 
 state 47
 
-    (30) comp_statement -> expression MAYOR factor .
+    (28) comp_statement -> expression MAYOR factor .
 
-    OR              reduce using rule 30 (comp_statement -> expression MAYOR factor .)
-    AND             reduce using rule 30 (comp_statement -> expression MAYOR factor .)
-    LLAVEA          reduce using rule 30 (comp_statement -> expression MAYOR factor .)
-    ID              reduce using rule 30 (comp_statement -> expression MAYOR factor .)
-    PRINT           reduce using rule 30 (comp_statement -> expression MAYOR factor .)
-    IF              reduce using rule 30 (comp_statement -> expression MAYOR factor .)
-    WHILE           reduce using rule 30 (comp_statement -> expression MAYOR factor .)
-    PARA            reduce using rule 30 (comp_statement -> expression MAYOR factor .)
-    CTE             reduce using rule 30 (comp_statement -> expression MAYOR factor .)
-    $end            reduce using rule 30 (comp_statement -> expression MAYOR factor .)
-    PARC            reduce using rule 30 (comp_statement -> expression MAYOR factor .)
-    LLAVEC          reduce using rule 30 (comp_statement -> expression MAYOR factor .)
+    OR              reduce using rule 28 (comp_statement -> expression MAYOR factor .)
+    AND             reduce using rule 28 (comp_statement -> expression MAYOR factor .)
+    LLAVEA          reduce using rule 28 (comp_statement -> expression MAYOR factor .)
+    ID              reduce using rule 28 (comp_statement -> expression MAYOR factor .)
+    PRINT           reduce using rule 28 (comp_statement -> expression MAYOR factor .)
+    IF              reduce using rule 28 (comp_statement -> expression MAYOR factor .)
+    WHILE           reduce using rule 28 (comp_statement -> expression MAYOR factor .)
+    PARA            reduce using rule 28 (comp_statement -> expression MAYOR factor .)
+    CTE             reduce using rule 28 (comp_statement -> expression MAYOR factor .)
+    $end            reduce using rule 28 (comp_statement -> expression MAYOR factor .)
+    PARC            reduce using rule 28 (comp_statement -> expression MAYOR factor .)
+    LLAVEC          reduce using rule 28 (comp_statement -> expression MAYOR factor .)
 
 
 state 48
 
-    (31) comp_statement -> expression MAYORIGUAL factor .
+    (29) comp_statement -> expression MAYORIGUAL factor .
 
-    OR              reduce using rule 31 (comp_statement -> expression MAYORIGUAL factor .)
-    AND             reduce using rule 31 (comp_statement -> expression MAYORIGUAL factor .)
-    LLAVEA          reduce using rule 31 (comp_statement -> expression MAYORIGUAL factor .)
-    ID              reduce using rule 31 (comp_statement -> expression MAYORIGUAL factor .)
-    PRINT           reduce using rule 31 (comp_statement -> expression MAYORIGUAL factor .)
-    IF              reduce using rule 31 (comp_statement -> expression MAYORIGUAL factor .)
-    WHILE           reduce using rule 31 (comp_statement -> expression MAYORIGUAL factor .)
-    PARA            reduce using rule 31 (comp_statement -> expression MAYORIGUAL factor .)
-    CTE             reduce using rule 31 (comp_statement -> expression MAYORIGUAL factor .)
-    $end            reduce using rule 31 (comp_statement -> expression MAYORIGUAL factor .)
-    PARC            reduce using rule 31 (comp_statement -> expression MAYORIGUAL factor .)
-    LLAVEC          reduce using rule 31 (comp_statement -> expression MAYORIGUAL factor .)
+    OR              reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
+    AND             reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
+    LLAVEA          reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
+    ID              reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
+    PRINT           reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
+    IF              reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
+    WHILE           reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
+    PARA            reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
+    CTE             reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
+    $end            reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
+    PARC            reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
+    LLAVEC          reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
 
 
 state 49
@@ -1123,8 +1126,8 @@ state 52
     (10) block_decl -> ID . LLAVEC
     (11) block_decl -> ID . OR other_decl
 
-    LLAVEC          shift and go to state 62
-    OR              shift and go to state 63
+    LLAVEC          shift and go to state 64
+    OR              shift and go to state 65
 
 
 state 53
@@ -1152,7 +1155,7 @@ state 54
     (15) expression -> expression . SUMA term
     (16) expression -> expression . RESTA term
 
-    PARC            shift and go to state 64
+    PARC            shift and go to state 66
     SUMA            shift and go to state 28
     RESTA           shift and go to state 29
 
@@ -1187,37 +1190,55 @@ state 55
 
 state 56
 
-    (36) while_statement -> while PARA f_cond . PARC LLAVEA sub_program
+    (37) while_statement -> while PARA cond_while . PARC LLAVEA sub_program
 
-    PARC            shift and go to state 65
+    PARC            shift and go to state 67
 
 
 state 57
 
-    (24) f_cond -> comp_statement .
-    (32) logic_statement -> comp_statement . OR comp_expression
-    (33) logic_statement -> comp_statement . AND comp_expression
+    (34) cond_while -> comp_statement .
+    (30) logic_statement -> comp_statement . OR comp_expression
+    (31) logic_statement -> comp_statement . AND comp_expression
 
-    PARC            reduce using rule 24 (f_cond -> comp_statement .)
+    PARC            reduce using rule 34 (cond_while -> comp_statement .)
     OR              shift and go to state 20
     AND             shift and go to state 21
 
 
 state 58
 
-    (25) f_cond -> logic_statement .
+    (35) cond_while -> logic_statement .
 
-    PARC            reduce using rule 25 (f_cond -> logic_statement .)
+    PARC            reduce using rule 35 (cond_while -> logic_statement .)
 
 
 state 59
 
-    (40) if_statement -> IF PARA f_cond . PARC LLAVEA fcpo1 else_statement
+    (42) if_statement -> IF PARA cond_if . PARC LLAVEA fcpo1 else_statement
 
-    PARC            shift and go to state 66
+    PARC            shift and go to state 68
 
 
 state 60
+
+    (38) cond_if -> comp_statement .
+    (30) logic_statement -> comp_statement . OR comp_expression
+    (31) logic_statement -> comp_statement . AND comp_expression
+
+    PARC            reduce using rule 38 (cond_if -> comp_statement .)
+    OR              shift and go to state 20
+    AND             shift and go to state 21
+
+
+state 61
+
+    (39) cond_if -> logic_statement .
+
+    PARC            reduce using rule 39 (cond_if -> logic_statement .)
+
+
+state 62
 
     (18) term -> term MULT factor .
 
@@ -1243,7 +1264,7 @@ state 60
     LLAVEC          reduce using rule 18 (term -> term MULT factor .)
 
 
-state 61
+state 63
 
     (19) term -> term DIV factor .
 
@@ -1269,7 +1290,7 @@ state 61
     LLAVEC          reduce using rule 19 (term -> term DIV factor .)
 
 
-state 62
+state 64
 
     (10) block_decl -> ID LLAVEC .
 
@@ -1284,7 +1305,7 @@ state 62
     LLAVEC          reduce using rule 10 (block_decl -> ID LLAVEC .)
 
 
-state 63
+state 65
 
     (11) block_decl -> ID OR . other_decl
     (12) other_decl -> . block_decl
@@ -1293,10 +1314,10 @@ state 63
 
     ID              shift and go to state 52
 
-    other_decl                     shift and go to state 67
-    block_decl                     shift and go to state 68
+    other_decl                     shift and go to state 69
+    block_decl                     shift and go to state 70
 
-state 64
+state 66
 
     (23) print_statement -> PRINT PARA expression PARC .
 
@@ -1311,21 +1332,21 @@ state 64
     LLAVEC          reduce using rule 23 (print_statement -> PRINT PARA expression PARC .)
 
 
-state 65
-
-    (36) while_statement -> while PARA f_cond PARC . LLAVEA sub_program
-
-    LLAVEA          shift and go to state 69
-
-
-state 66
-
-    (40) if_statement -> IF PARA f_cond PARC . LLAVEA fcpo1 else_statement
-
-    LLAVEA          shift and go to state 70
-
-
 state 67
+
+    (37) while_statement -> while PARA cond_while PARC . LLAVEA sub_program
+
+    LLAVEA          shift and go to state 71
+
+
+state 68
+
+    (42) if_statement -> IF PARA cond_if PARC . LLAVEA fcpo1 else_statement
+
+    LLAVEA          shift and go to state 72
+
+
+state 69
 
     (11) block_decl -> ID OR other_decl .
 
@@ -1340,7 +1361,7 @@ state 67
     LLAVEC          reduce using rule 11 (block_decl -> ID OR other_decl .)
 
 
-state 68
+state 70
 
     (12) other_decl -> block_decl .
 
@@ -1355,140 +1376,140 @@ state 68
     LLAVEC          reduce using rule 12 (other_decl -> block_decl .)
 
 
-state 69
-
-    (36) while_statement -> while PARA f_cond PARC LLAVEA . sub_program
-    (37) sub_program -> . program LLAVEC
-    (1) program -> . program statement
-    (2) program -> . statement
-    (3) statement -> . print_statement
-    (4) statement -> . comp_statement
-    (5) statement -> . logic_statement
-    (6) statement -> . while_statement
-    (7) statement -> . if_statement
-    (8) statement -> . expression
-    (9) statement -> . LLAVEA INT block_decl
-    (13) statement -> . ID ASIG expression
-    (23) print_statement -> . PRINT PARA expression PARC
-    (26) comp_statement -> . expression IGUALA factor
-    (27) comp_statement -> . expression DIST factor
-    (28) comp_statement -> . expression MENOR factor
-    (29) comp_statement -> . expression MENORIGUAL factor
-    (30) comp_statement -> . expression MAYOR factor
-    (31) comp_statement -> . expression MAYORIGUAL factor
-    (32) logic_statement -> . comp_statement OR comp_expression
-    (33) logic_statement -> . comp_statement AND comp_expression
-    (36) while_statement -> . while PARA f_cond PARC LLAVEA sub_program
-    (40) if_statement -> . IF PARA f_cond PARC LLAVEA fcpo1 else_statement
-    (14) expression -> . term
-    (15) expression -> . expression SUMA term
-    (16) expression -> . expression RESTA term
-    (35) while -> . WHILE
-    (17) term -> . factor
-    (18) term -> . term MULT factor
-    (19) term -> . term DIV factor
-    (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
-
-    LLAVEA          shift and go to state 9
-    ID              shift and go to state 10
-    PRINT           shift and go to state 11
-    IF              shift and go to state 15
-    WHILE           shift and go to state 17
-    PARA            shift and go to state 12
-    CTE             shift and go to state 18
-
-    while                          shift and go to state 14
-    sub_program                    shift and go to state 71
-    program                        shift and go to state 72
-    statement                      shift and go to state 2
-    print_statement                shift and go to state 3
-    comp_statement                 shift and go to state 4
-    logic_statement                shift and go to state 5
-    while_statement                shift and go to state 6
-    if_statement                   shift and go to state 7
-    expression                     shift and go to state 8
-    factor                         shift and go to state 13
-    term                           shift and go to state 16
-
-state 70
-
-    (40) if_statement -> IF PARA f_cond PARC LLAVEA . fcpo1 else_statement
-    (38) fcpo1 -> . sub_program
-    (37) sub_program -> . program LLAVEC
-    (1) program -> . program statement
-    (2) program -> . statement
-    (3) statement -> . print_statement
-    (4) statement -> . comp_statement
-    (5) statement -> . logic_statement
-    (6) statement -> . while_statement
-    (7) statement -> . if_statement
-    (8) statement -> . expression
-    (9) statement -> . LLAVEA INT block_decl
-    (13) statement -> . ID ASIG expression
-    (23) print_statement -> . PRINT PARA expression PARC
-    (26) comp_statement -> . expression IGUALA factor
-    (27) comp_statement -> . expression DIST factor
-    (28) comp_statement -> . expression MENOR factor
-    (29) comp_statement -> . expression MENORIGUAL factor
-    (30) comp_statement -> . expression MAYOR factor
-    (31) comp_statement -> . expression MAYORIGUAL factor
-    (32) logic_statement -> . comp_statement OR comp_expression
-    (33) logic_statement -> . comp_statement AND comp_expression
-    (36) while_statement -> . while PARA f_cond PARC LLAVEA sub_program
-    (40) if_statement -> . IF PARA f_cond PARC LLAVEA fcpo1 else_statement
-    (14) expression -> . term
-    (15) expression -> . expression SUMA term
-    (16) expression -> . expression RESTA term
-    (35) while -> . WHILE
-    (17) term -> . factor
-    (18) term -> . term MULT factor
-    (19) term -> . term DIV factor
-    (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
-
-    LLAVEA          shift and go to state 9
-    ID              shift and go to state 10
-    PRINT           shift and go to state 11
-    IF              shift and go to state 15
-    WHILE           shift and go to state 17
-    PARA            shift and go to state 12
-    CTE             shift and go to state 18
-
-    fcpo1                          shift and go to state 73
-    sub_program                    shift and go to state 74
-    program                        shift and go to state 72
-    statement                      shift and go to state 2
-    print_statement                shift and go to state 3
-    comp_statement                 shift and go to state 4
-    logic_statement                shift and go to state 5
-    while_statement                shift and go to state 6
-    if_statement                   shift and go to state 7
-    expression                     shift and go to state 8
-    factor                         shift and go to state 13
-    while                          shift and go to state 14
-    term                           shift and go to state 16
-
 state 71
 
-    (36) while_statement -> while PARA f_cond PARC LLAVEA sub_program .
+    (37) while_statement -> while PARA cond_while PARC LLAVEA . sub_program
+    (33) sub_program -> . program LLAVEC
+    (1) program -> . program statement
+    (2) program -> . statement
+    (3) statement -> . print_statement
+    (4) statement -> . comp_statement
+    (5) statement -> . logic_statement
+    (6) statement -> . while_statement
+    (7) statement -> . if_statement
+    (8) statement -> . expression
+    (9) statement -> . LLAVEA INT block_decl
+    (13) statement -> . ID ASIG expression
+    (23) print_statement -> . PRINT PARA expression PARC
+    (24) comp_statement -> . expression IGUALA factor
+    (25) comp_statement -> . expression DIST factor
+    (26) comp_statement -> . expression MENOR factor
+    (27) comp_statement -> . expression MENORIGUAL factor
+    (28) comp_statement -> . expression MAYOR factor
+    (29) comp_statement -> . expression MAYORIGUAL factor
+    (30) logic_statement -> . comp_statement OR comp_expression
+    (31) logic_statement -> . comp_statement AND comp_expression
+    (37) while_statement -> . while PARA cond_while PARC LLAVEA sub_program
+    (42) if_statement -> . IF PARA cond_if PARC LLAVEA fcpo1 else_statement
+    (14) expression -> . term
+    (15) expression -> . expression SUMA term
+    (16) expression -> . expression RESTA term
+    (36) while -> . WHILE
+    (17) term -> . factor
+    (18) term -> . term MULT factor
+    (19) term -> . term DIV factor
+    (20) factor -> . PARA expression PARC
+    (21) factor -> . CTE
+    (22) factor -> . ID
 
-    LLAVEA          reduce using rule 36 (while_statement -> while PARA f_cond PARC LLAVEA sub_program .)
-    ID              reduce using rule 36 (while_statement -> while PARA f_cond PARC LLAVEA sub_program .)
-    PRINT           reduce using rule 36 (while_statement -> while PARA f_cond PARC LLAVEA sub_program .)
-    IF              reduce using rule 36 (while_statement -> while PARA f_cond PARC LLAVEA sub_program .)
-    WHILE           reduce using rule 36 (while_statement -> while PARA f_cond PARC LLAVEA sub_program .)
-    PARA            reduce using rule 36 (while_statement -> while PARA f_cond PARC LLAVEA sub_program .)
-    CTE             reduce using rule 36 (while_statement -> while PARA f_cond PARC LLAVEA sub_program .)
-    $end            reduce using rule 36 (while_statement -> while PARA f_cond PARC LLAVEA sub_program .)
-    LLAVEC          reduce using rule 36 (while_statement -> while PARA f_cond PARC LLAVEA sub_program .)
+    LLAVEA          shift and go to state 9
+    ID              shift and go to state 10
+    PRINT           shift and go to state 11
+    IF              shift and go to state 15
+    WHILE           shift and go to state 17
+    PARA            shift and go to state 12
+    CTE             shift and go to state 18
 
+    while                          shift and go to state 14
+    sub_program                    shift and go to state 73
+    program                        shift and go to state 74
+    statement                      shift and go to state 2
+    print_statement                shift and go to state 3
+    comp_statement                 shift and go to state 4
+    logic_statement                shift and go to state 5
+    while_statement                shift and go to state 6
+    if_statement                   shift and go to state 7
+    expression                     shift and go to state 8
+    factor                         shift and go to state 13
+    term                           shift and go to state 16
 
 state 72
 
-    (37) sub_program -> program . LLAVEC
+    (42) if_statement -> IF PARA cond_if PARC LLAVEA . fcpo1 else_statement
+    (40) fcpo1 -> . sub_program
+    (33) sub_program -> . program LLAVEC
+    (1) program -> . program statement
+    (2) program -> . statement
+    (3) statement -> . print_statement
+    (4) statement -> . comp_statement
+    (5) statement -> . logic_statement
+    (6) statement -> . while_statement
+    (7) statement -> . if_statement
+    (8) statement -> . expression
+    (9) statement -> . LLAVEA INT block_decl
+    (13) statement -> . ID ASIG expression
+    (23) print_statement -> . PRINT PARA expression PARC
+    (24) comp_statement -> . expression IGUALA factor
+    (25) comp_statement -> . expression DIST factor
+    (26) comp_statement -> . expression MENOR factor
+    (27) comp_statement -> . expression MENORIGUAL factor
+    (28) comp_statement -> . expression MAYOR factor
+    (29) comp_statement -> . expression MAYORIGUAL factor
+    (30) logic_statement -> . comp_statement OR comp_expression
+    (31) logic_statement -> . comp_statement AND comp_expression
+    (37) while_statement -> . while PARA cond_while PARC LLAVEA sub_program
+    (42) if_statement -> . IF PARA cond_if PARC LLAVEA fcpo1 else_statement
+    (14) expression -> . term
+    (15) expression -> . expression SUMA term
+    (16) expression -> . expression RESTA term
+    (36) while -> . WHILE
+    (17) term -> . factor
+    (18) term -> . term MULT factor
+    (19) term -> . term DIV factor
+    (20) factor -> . PARA expression PARC
+    (21) factor -> . CTE
+    (22) factor -> . ID
+
+    LLAVEA          shift and go to state 9
+    ID              shift and go to state 10
+    PRINT           shift and go to state 11
+    IF              shift and go to state 15
+    WHILE           shift and go to state 17
+    PARA            shift and go to state 12
+    CTE             shift and go to state 18
+
+    fcpo1                          shift and go to state 75
+    sub_program                    shift and go to state 76
+    program                        shift and go to state 74
+    statement                      shift and go to state 2
+    print_statement                shift and go to state 3
+    comp_statement                 shift and go to state 4
+    logic_statement                shift and go to state 5
+    while_statement                shift and go to state 6
+    if_statement                   shift and go to state 7
+    expression                     shift and go to state 8
+    factor                         shift and go to state 13
+    while                          shift and go to state 14
+    term                           shift and go to state 16
+
+state 73
+
+    (37) while_statement -> while PARA cond_while PARC LLAVEA sub_program .
+
+    LLAVEA          reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
+    ID              reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
+    PRINT           reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
+    IF              reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
+    WHILE           reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
+    PARA            reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
+    CTE             reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
+    $end            reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
+    LLAVEC          reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
+
+
+state 74
+
+    (33) sub_program -> program . LLAVEC
     (1) program -> program . statement
     (3) statement -> . print_statement
     (4) statement -> . comp_statement
@@ -1499,20 +1520,20 @@ state 72
     (9) statement -> . LLAVEA INT block_decl
     (13) statement -> . ID ASIG expression
     (23) print_statement -> . PRINT PARA expression PARC
-    (26) comp_statement -> . expression IGUALA factor
-    (27) comp_statement -> . expression DIST factor
-    (28) comp_statement -> . expression MENOR factor
-    (29) comp_statement -> . expression MENORIGUAL factor
-    (30) comp_statement -> . expression MAYOR factor
-    (31) comp_statement -> . expression MAYORIGUAL factor
-    (32) logic_statement -> . comp_statement OR comp_expression
-    (33) logic_statement -> . comp_statement AND comp_expression
-    (36) while_statement -> . while PARA f_cond PARC LLAVEA sub_program
-    (40) if_statement -> . IF PARA f_cond PARC LLAVEA fcpo1 else_statement
+    (24) comp_statement -> . expression IGUALA factor
+    (25) comp_statement -> . expression DIST factor
+    (26) comp_statement -> . expression MENOR factor
+    (27) comp_statement -> . expression MENORIGUAL factor
+    (28) comp_statement -> . expression MAYOR factor
+    (29) comp_statement -> . expression MAYORIGUAL factor
+    (30) logic_statement -> . comp_statement OR comp_expression
+    (31) logic_statement -> . comp_statement AND comp_expression
+    (37) while_statement -> . while PARA cond_while PARC LLAVEA sub_program
+    (42) if_statement -> . IF PARA cond_if PARC LLAVEA fcpo1 else_statement
     (14) expression -> . term
     (15) expression -> . expression SUMA term
     (16) expression -> . expression RESTA term
-    (35) while -> . WHILE
+    (36) while -> . WHILE
     (17) term -> . factor
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
@@ -1520,7 +1541,7 @@ state 72
     (21) factor -> . CTE
     (22) factor -> . ID
 
-    LLAVEC          shift and go to state 75
+    LLAVEC          shift and go to state 77
     LLAVEA          shift and go to state 9
     ID              shift and go to state 10
     PRINT           shift and go to state 11
@@ -1540,101 +1561,101 @@ state 72
     while                          shift and go to state 14
     term                           shift and go to state 16
 
-state 73
-
-    (40) if_statement -> IF PARA f_cond PARC LLAVEA fcpo1 . else_statement
-    (41) else_statement -> . ELSE LLAVEA fcpo2
-    (42) else_statement -> . empty
-    (43) empty -> .
-
-    ELSE            shift and go to state 77
-    LLAVEA          reduce using rule 43 (empty -> .)
-    ID              reduce using rule 43 (empty -> .)
-    PRINT           reduce using rule 43 (empty -> .)
-    IF              reduce using rule 43 (empty -> .)
-    WHILE           reduce using rule 43 (empty -> .)
-    PARA            reduce using rule 43 (empty -> .)
-    CTE             reduce using rule 43 (empty -> .)
-    $end            reduce using rule 43 (empty -> .)
-    LLAVEC          reduce using rule 43 (empty -> .)
-
-    else_statement                 shift and go to state 76
-    empty                          shift and go to state 78
-
-state 74
-
-    (38) fcpo1 -> sub_program .
-
-    ELSE            reduce using rule 38 (fcpo1 -> sub_program .)
-    LLAVEA          reduce using rule 38 (fcpo1 -> sub_program .)
-    ID              reduce using rule 38 (fcpo1 -> sub_program .)
-    PRINT           reduce using rule 38 (fcpo1 -> sub_program .)
-    IF              reduce using rule 38 (fcpo1 -> sub_program .)
-    WHILE           reduce using rule 38 (fcpo1 -> sub_program .)
-    PARA            reduce using rule 38 (fcpo1 -> sub_program .)
-    CTE             reduce using rule 38 (fcpo1 -> sub_program .)
-    $end            reduce using rule 38 (fcpo1 -> sub_program .)
-    LLAVEC          reduce using rule 38 (fcpo1 -> sub_program .)
-
-
 state 75
 
-    (37) sub_program -> program LLAVEC .
+    (42) if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 . else_statement
+    (43) else_statement -> . ELSE LLAVEA fcpo2
+    (44) else_statement -> . empty
+    (45) empty -> .
 
-    LLAVEA          reduce using rule 37 (sub_program -> program LLAVEC .)
-    ID              reduce using rule 37 (sub_program -> program LLAVEC .)
-    PRINT           reduce using rule 37 (sub_program -> program LLAVEC .)
-    IF              reduce using rule 37 (sub_program -> program LLAVEC .)
-    WHILE           reduce using rule 37 (sub_program -> program LLAVEC .)
-    PARA            reduce using rule 37 (sub_program -> program LLAVEC .)
-    CTE             reduce using rule 37 (sub_program -> program LLAVEC .)
-    $end            reduce using rule 37 (sub_program -> program LLAVEC .)
-    LLAVEC          reduce using rule 37 (sub_program -> program LLAVEC .)
-    ELSE            reduce using rule 37 (sub_program -> program LLAVEC .)
+    ELSE            shift and go to state 79
+    LLAVEA          reduce using rule 45 (empty -> .)
+    ID              reduce using rule 45 (empty -> .)
+    PRINT           reduce using rule 45 (empty -> .)
+    IF              reduce using rule 45 (empty -> .)
+    WHILE           reduce using rule 45 (empty -> .)
+    PARA            reduce using rule 45 (empty -> .)
+    CTE             reduce using rule 45 (empty -> .)
+    $end            reduce using rule 45 (empty -> .)
+    LLAVEC          reduce using rule 45 (empty -> .)
 
+    else_statement                 shift and go to state 78
+    empty                          shift and go to state 80
 
 state 76
 
-    (40) if_statement -> IF PARA f_cond PARC LLAVEA fcpo1 else_statement .
+    (40) fcpo1 -> sub_program .
 
-    LLAVEA          reduce using rule 40 (if_statement -> IF PARA f_cond PARC LLAVEA fcpo1 else_statement .)
-    ID              reduce using rule 40 (if_statement -> IF PARA f_cond PARC LLAVEA fcpo1 else_statement .)
-    PRINT           reduce using rule 40 (if_statement -> IF PARA f_cond PARC LLAVEA fcpo1 else_statement .)
-    IF              reduce using rule 40 (if_statement -> IF PARA f_cond PARC LLAVEA fcpo1 else_statement .)
-    WHILE           reduce using rule 40 (if_statement -> IF PARA f_cond PARC LLAVEA fcpo1 else_statement .)
-    PARA            reduce using rule 40 (if_statement -> IF PARA f_cond PARC LLAVEA fcpo1 else_statement .)
-    CTE             reduce using rule 40 (if_statement -> IF PARA f_cond PARC LLAVEA fcpo1 else_statement .)
-    $end            reduce using rule 40 (if_statement -> IF PARA f_cond PARC LLAVEA fcpo1 else_statement .)
-    LLAVEC          reduce using rule 40 (if_statement -> IF PARA f_cond PARC LLAVEA fcpo1 else_statement .)
+    ELSE            reduce using rule 40 (fcpo1 -> sub_program .)
+    LLAVEA          reduce using rule 40 (fcpo1 -> sub_program .)
+    ID              reduce using rule 40 (fcpo1 -> sub_program .)
+    PRINT           reduce using rule 40 (fcpo1 -> sub_program .)
+    IF              reduce using rule 40 (fcpo1 -> sub_program .)
+    WHILE           reduce using rule 40 (fcpo1 -> sub_program .)
+    PARA            reduce using rule 40 (fcpo1 -> sub_program .)
+    CTE             reduce using rule 40 (fcpo1 -> sub_program .)
+    $end            reduce using rule 40 (fcpo1 -> sub_program .)
+    LLAVEC          reduce using rule 40 (fcpo1 -> sub_program .)
 
 
 state 77
 
-    (41) else_statement -> ELSE . LLAVEA fcpo2
+    (33) sub_program -> program LLAVEC .
 
-    LLAVEA          shift and go to state 79
+    LLAVEA          reduce using rule 33 (sub_program -> program LLAVEC .)
+    ID              reduce using rule 33 (sub_program -> program LLAVEC .)
+    PRINT           reduce using rule 33 (sub_program -> program LLAVEC .)
+    IF              reduce using rule 33 (sub_program -> program LLAVEC .)
+    WHILE           reduce using rule 33 (sub_program -> program LLAVEC .)
+    PARA            reduce using rule 33 (sub_program -> program LLAVEC .)
+    CTE             reduce using rule 33 (sub_program -> program LLAVEC .)
+    $end            reduce using rule 33 (sub_program -> program LLAVEC .)
+    LLAVEC          reduce using rule 33 (sub_program -> program LLAVEC .)
+    ELSE            reduce using rule 33 (sub_program -> program LLAVEC .)
 
 
 state 78
 
-    (42) else_statement -> empty .
+    (42) if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .
 
-    LLAVEA          reduce using rule 42 (else_statement -> empty .)
-    ID              reduce using rule 42 (else_statement -> empty .)
-    PRINT           reduce using rule 42 (else_statement -> empty .)
-    IF              reduce using rule 42 (else_statement -> empty .)
-    WHILE           reduce using rule 42 (else_statement -> empty .)
-    PARA            reduce using rule 42 (else_statement -> empty .)
-    CTE             reduce using rule 42 (else_statement -> empty .)
-    $end            reduce using rule 42 (else_statement -> empty .)
-    LLAVEC          reduce using rule 42 (else_statement -> empty .)
+    LLAVEA          reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    ID              reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    PRINT           reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    IF              reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    WHILE           reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    PARA            reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    CTE             reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    $end            reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    LLAVEC          reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
 
 
 state 79
 
-    (41) else_statement -> ELSE LLAVEA . fcpo2
-    (39) fcpo2 -> . sub_program
-    (37) sub_program -> . program LLAVEC
+    (43) else_statement -> ELSE . LLAVEA fcpo2
+
+    LLAVEA          shift and go to state 81
+
+
+state 80
+
+    (44) else_statement -> empty .
+
+    LLAVEA          reduce using rule 44 (else_statement -> empty .)
+    ID              reduce using rule 44 (else_statement -> empty .)
+    PRINT           reduce using rule 44 (else_statement -> empty .)
+    IF              reduce using rule 44 (else_statement -> empty .)
+    WHILE           reduce using rule 44 (else_statement -> empty .)
+    PARA            reduce using rule 44 (else_statement -> empty .)
+    CTE             reduce using rule 44 (else_statement -> empty .)
+    $end            reduce using rule 44 (else_statement -> empty .)
+    LLAVEC          reduce using rule 44 (else_statement -> empty .)
+
+
+state 81
+
+    (43) else_statement -> ELSE LLAVEA . fcpo2
+    (41) fcpo2 -> . sub_program
+    (33) sub_program -> . program LLAVEC
     (1) program -> . program statement
     (2) program -> . statement
     (3) statement -> . print_statement
@@ -1646,20 +1667,20 @@ state 79
     (9) statement -> . LLAVEA INT block_decl
     (13) statement -> . ID ASIG expression
     (23) print_statement -> . PRINT PARA expression PARC
-    (26) comp_statement -> . expression IGUALA factor
-    (27) comp_statement -> . expression DIST factor
-    (28) comp_statement -> . expression MENOR factor
-    (29) comp_statement -> . expression MENORIGUAL factor
-    (30) comp_statement -> . expression MAYOR factor
-    (31) comp_statement -> . expression MAYORIGUAL factor
-    (32) logic_statement -> . comp_statement OR comp_expression
-    (33) logic_statement -> . comp_statement AND comp_expression
-    (36) while_statement -> . while PARA f_cond PARC LLAVEA sub_program
-    (40) if_statement -> . IF PARA f_cond PARC LLAVEA fcpo1 else_statement
+    (24) comp_statement -> . expression IGUALA factor
+    (25) comp_statement -> . expression DIST factor
+    (26) comp_statement -> . expression MENOR factor
+    (27) comp_statement -> . expression MENORIGUAL factor
+    (28) comp_statement -> . expression MAYOR factor
+    (29) comp_statement -> . expression MAYORIGUAL factor
+    (30) logic_statement -> . comp_statement OR comp_expression
+    (31) logic_statement -> . comp_statement AND comp_expression
+    (37) while_statement -> . while PARA cond_while PARC LLAVEA sub_program
+    (42) if_statement -> . IF PARA cond_if PARC LLAVEA fcpo1 else_statement
     (14) expression -> . term
     (15) expression -> . expression SUMA term
     (16) expression -> . expression RESTA term
-    (35) while -> . WHILE
+    (36) while -> . WHILE
     (17) term -> . factor
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
@@ -1675,9 +1696,9 @@ state 79
     PARA            shift and go to state 12
     CTE             shift and go to state 18
 
-    fcpo2                          shift and go to state 80
-    sub_program                    shift and go to state 81
-    program                        shift and go to state 72
+    fcpo2                          shift and go to state 82
+    sub_program                    shift and go to state 83
+    program                        shift and go to state 74
     statement                      shift and go to state 2
     print_statement                shift and go to state 3
     comp_statement                 shift and go to state 4
@@ -1689,32 +1710,32 @@ state 79
     while                          shift and go to state 14
     term                           shift and go to state 16
 
-state 80
+state 82
 
-    (41) else_statement -> ELSE LLAVEA fcpo2 .
+    (43) else_statement -> ELSE LLAVEA fcpo2 .
 
-    LLAVEA          reduce using rule 41 (else_statement -> ELSE LLAVEA fcpo2 .)
-    ID              reduce using rule 41 (else_statement -> ELSE LLAVEA fcpo2 .)
-    PRINT           reduce using rule 41 (else_statement -> ELSE LLAVEA fcpo2 .)
-    IF              reduce using rule 41 (else_statement -> ELSE LLAVEA fcpo2 .)
-    WHILE           reduce using rule 41 (else_statement -> ELSE LLAVEA fcpo2 .)
-    PARA            reduce using rule 41 (else_statement -> ELSE LLAVEA fcpo2 .)
-    CTE             reduce using rule 41 (else_statement -> ELSE LLAVEA fcpo2 .)
-    $end            reduce using rule 41 (else_statement -> ELSE LLAVEA fcpo2 .)
-    LLAVEC          reduce using rule 41 (else_statement -> ELSE LLAVEA fcpo2 .)
+    LLAVEA          reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
+    ID              reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
+    PRINT           reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
+    IF              reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
+    WHILE           reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
+    PARA            reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
+    CTE             reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
+    $end            reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
+    LLAVEC          reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
 
 
-state 81
+state 83
 
-    (39) fcpo2 -> sub_program .
+    (41) fcpo2 -> sub_program .
 
-    LLAVEA          reduce using rule 39 (fcpo2 -> sub_program .)
-    ID              reduce using rule 39 (fcpo2 -> sub_program .)
-    PRINT           reduce using rule 39 (fcpo2 -> sub_program .)
-    IF              reduce using rule 39 (fcpo2 -> sub_program .)
-    WHILE           reduce using rule 39 (fcpo2 -> sub_program .)
-    PARA            reduce using rule 39 (fcpo2 -> sub_program .)
-    CTE             reduce using rule 39 (fcpo2 -> sub_program .)
-    $end            reduce using rule 39 (fcpo2 -> sub_program .)
-    LLAVEC          reduce using rule 39 (fcpo2 -> sub_program .)
+    LLAVEA          reduce using rule 41 (fcpo2 -> sub_program .)
+    ID              reduce using rule 41 (fcpo2 -> sub_program .)
+    PRINT           reduce using rule 41 (fcpo2 -> sub_program .)
+    IF              reduce using rule 41 (fcpo2 -> sub_program .)
+    WHILE           reduce using rule 41 (fcpo2 -> sub_program .)
+    PARA            reduce using rule 41 (fcpo2 -> sub_program .)
+    CTE             reduce using rule 41 (fcpo2 -> sub_program .)
+    $end            reduce using rule 41 (fcpo2 -> sub_program .)
+    LLAVEC          reduce using rule 41 (fcpo2 -> sub_program .)
 

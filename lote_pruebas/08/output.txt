@@ -1,0 +1,17 @@
+Errores/Warnings: 
+['[WAR] DIV result was casted to int: 15.0 >> 15']
+
+Tabla de simbolos: 
+     id name value  length declared
+0  _id1  id1     7       1     True
+1  _id2  id2    15       2     True
+2  _id3  id3    30       2     True
+3   _10   10    10       2     None
+4   _20   20    20       2     None
+5   _30   30    30       2     None
+6    _1    1     1       1     None
+7    _2    2     2       1     None
+8    _3    3     3       1     None
+
+polaca_inversa: 
+['10', 'id1', '=', '20', 'id2', '=', '30', 'id3', '=', 'id1', '1', 'CMP', 26, 'BLT', 'id3', '2', '/', 'id2', '=', 'id1', '3', '-', 'id1', '=', 9, 'BI']

@@ -1,0 +1,18 @@
+Errores/Warnings: 
+[]
+
+Tabla de simbolos: 
+    id name value  length declared
+0   _a    a   240       3     True
+1   _b    b    20       2     True
+2  _10   10    10       2     None
+3  _20   20    20       2     None
+4   _2    2     2       1     None
+5   _1    1     1       1     None
+
+polaca_inversa: 
+['10', 'a', '=', '20', 'b', '=', 'a', 'b', '<', 32, 'BF', 'a', '2', '+', 'a', '=', 'a', 'b', '1', '+', '<', 30, 'BF', 'b', 'a', '*', 'a', '=', 16, 'BI', 6, 'BI']
+
+pila_while: []
+pila_if: []
+pila_comparadores: []

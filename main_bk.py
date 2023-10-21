@@ -1,5 +1,5 @@
 
-ntest = "17"
+ntest = "10"
 path_input = "C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
 path_output = "C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
 
@@ -232,9 +232,9 @@ def p_comparator_iguala(p):
     'comp_statement : expression IGUALA factor'
     p[0] = p[1] == p[3]
     #generacion de polaca inversa
-    polaca_inversa.append("==")
-    #polaca_inversa.append("CMP")
-    #pila_comparadores.append("BNE")
+    #polaca_inversa.append("==")
+    polaca_inversa.append("CMP")
+    pila_comparadores.append("BNE")
 
 #comparador <>
 def p_comparator_dist(p):
@@ -242,45 +242,45 @@ def p_comparator_dist(p):
     p[0] = p[1] != p[3]
     #print(p[0], " : ", p[1], " DIST ", p[3])
     #generacion de polaca inversa
-    #polaca_inversa.append("CMP")
-    polaca_inversa.append("<>")
-    #pila_comparadores.append("BEQ")
+    polaca_inversa.append("CMP")
+    #polaca_inversa.append("<>")
+    pila_comparadores.append("BEQ")
     
 #comparador <
 def p_comparator_menor(p):
     'comp_statement : expression MENOR factor'
     p[0] = p[1] < p[3]
     #generacion de polaca inversa
-    #polaca_inversa.append("CMP")
-    polaca_inversa.append("<")
-    #pila_comparadores.append("BGE")
+    polaca_inversa.append("CMP")
+    #polaca_inversa.append("<")
+    pila_comparadores.append("BGE")
     
 #comparador <=
 def p_comparator_menorigual(p):
     'comp_statement : expression MENORIGUAL factor'
     p[0] = p[1] <= p[3]
     #generacion de polaca inversa
-    #polaca_inversa.append("CMP")
-    polaca_inversa.append("<=")
-    #pila_comparadores.append("BGT")
+    polaca_inversa.append("CMP")
+    #polaca_inversa.append("<=")
+    pila_comparadores.append("BGT")
     
 #comparador >
 def p_comparator_mayor(p):
     'comp_statement : expression MAYOR factor'
     p[0] = p[1] > p[3]
     #generacion de polaca inversa
-    #polaca_inversa.append("CMP")
-    polaca_inversa.append(">")
-    #pila_comparadores.append("BLE")
+    polaca_inversa.append("CMP")
+    #polaca_inversa.append(">")
+    pila_comparadores.append("BLE")
     
 #comparador >=
 def p_comparator_mayorigual(p):
     'comp_statement : expression MAYORIGUAL factor'
     p[0] = p[1] >= p[3]
     #generacion de polaca inversa
-    #polaca_inversa.append("CMP")
-    polaca_inversa.append(">=")
-    #pila_comparadores.append("BLT")
+    polaca_inversa.append("CMP")
+    #polaca_inversa.append(">=")
+    pila_comparadores.append("BLT")
 
 #el operador logico OR puede ser usado en dos expresiones de comparacion
 def p_logic_expr_or(p):
@@ -302,60 +302,75 @@ def p_logic_expr_and(p):
 def p_comp_expression(p):
     'comp_expression : comp_statement'
     p[0] = p[1]
-    pass
 
-#regla del bloque de codigo dentro de una sentencia de control
-def p_subprogram(p):
-    'sub_program : program LLAVEC'
-    pass
+#preguntar si los while/if deben ejecutarse en etapa de parsing
+#preguntar de no ejecutarse en esta etapa, que hacer para mantener actualizada las TS
+#https://stackoverflow.com/questions/62603001/while-cycle-implementation-never-ends-in-ply-issue
+#https://copyprogramming.com/howto/python-ply-issue-with-if-else-and-while-statements#python-ply-issue-with-if-else-and-while-statements
+
+# def p_f_cond(p):
+#     'f_cond : comp_statement'
+#     pila_while.append(len(polaca_inversa)) #apilo pos actual
+#     polaca_inversa.append("f_cond")
+#     polaca_inversa.append(pila_comparadores.pop())
+
+# def p_f_cond_2(p):
+#     'f_cond : logic_statement'
+#     pila_while.append(len(polaca_inversa)) #apilo pos actual
+#     polaca_inversa.append("f_cond")
+#     polaca_inversa.append(pila_comparadores.pop())
     
 def p_condicion_while(p):
     '''cond_while : comp_statement
                   | logic_statement'''
-    polaca_inversa.append("wfree") #reservo un espacio en la lista
-    polaca_inversa.append("BF") #el siguiente espacio pongo BF
-    pila_while.append(len(polaca_inversa)-2) #en la pila while apilo el numero de pos del lugar vacio antes del BF para completar despues
+    pila_while.append(len(polaca_inversa)) #apilo pos actual
+    polaca_inversa.append("wcond") #reservo un espacio para ser asignado cuando termine el while
+    polaca_inversa.append(pila_comparadores.pop()) #agrego el comparador designado
+    
+def p_condicion_if(p):
+    '''cond_if : comp_statement
+               | logic_statement'''
+    pila_if.append(len(polaca_inversa))
+    polaca_inversa.append("icond") #reservo un espacio para ser asignado
+    polaca_inversa.append(pila_comparadores.pop()) #agrego el comparador designado
 
 #regla complementaria del while para poder hacer los saltos
 def p_while(p): 
     'while : WHILE'
-    pila_while.append(len(polaca_inversa)) #apilo el nro de paso actual cuando encuentro el while
+    pila_while.append(len(polaca_inversa)) #apilo el nro de paso actual
 
 #regla del while
 def p_iter_while(p):
     'while_statement : while PARA cond_while PARC LLAVEA sub_program'
-    polaca_inversa.append("wfree") #reservo otro espacio vacio
-    polaca_inversa.append("BI") #el siguiente espacio pongo BI
-    polaca_inversa[pila_while.pop()] = len(polaca_inversa) #desapilo la posicion guardada y en ese posicion agrego la posicion siguiente a la actual
-    polaca_inversa[len(polaca_inversa)-2] = pila_while.pop() #desapilo la otra posicion guardada y la asigno como valor en la casilla anterior a la posicion actual
+    aux = pila_while.pop() #obtengo el nro de paso guardado
+    polaca_inversa[aux] = len(polaca_inversa) + 2 #me voy a ese nro de paso y asigno dos pasos despues del actual como valor
+    polaca_inversa.append(pila_while.pop())
 
+#regla del bloque de codigo dentro de una sentencia de control
+def p_subprogram(p):
+    'sub_program : program LLAVEC'
 
-def p_condicion_if(p):
-    '''cond_if : comp_statement
-               | logic_statement'''
-    polaca_inversa.append("ifree") #reservo un espacio vacio
-    pila_if.append(len(polaca_inversa)-1) #apilo en pila_if la posicion actual
-    polaca_inversa.append("BF") #el siguiente espacio pongo BF
-
-#reglas del cuerpo del if cuando la condicion se cumple
+#reglas que permite saltos para los if
 def p_if_fcpo_1(p):
     'fcpo1 : sub_program'
-    polaca_inversa.append("ifree") #reservo otro espacio vacio
-    pila_if.append(len(polaca_inversa)-1) #apilo en pila_if la posicion actual
-    polaca_inversa.append("BI") #el siguiente espacio pongo BI
-    pila_if.append(len(polaca_inversa)) #apilo en pila_if la posicion siguiente a la actual
+    aux = pila_if.pop()
+    polaca_inversa[aux] = len(polaca_inversa) + 2
+    pila_if.append(len(polaca_inversa))
+    polaca_inversa.append("icond")
+    polaca_inversa.append("icond")
 
-#reglas del cuerpo del if cuando la condicion NO se cumple (else)
+#reglas que permite saltos para los else if
 def p_if_fcpo_2(p):
     'fcpo2 : sub_program'
-    pass
+    aux = pila_if.pop()
+    polaca_inversa[aux] = len(polaca_inversa)
+    polaca_inversa[aux+1] = "BI"
 
-#regla central del if
-def p_selection_if(p):
+#regla del if
+def p_condition_if(p):
     'if_statement : IF PARA cond_if PARC LLAVEA fcpo1 else_statement'
-    despues_BI  = pila_if.pop() #desapilo la posicion que apunta a la posterior a la BI
-    polaca_inversa[pila_if.pop()] = len(polaca_inversa) #desapilo la siguiente posicion guardada, y en esa posicion de la lista agrego como valor la posicion siguiente a la actual
-    polaca_inversa[pila_if.pop()] = despues_BI #desapilo la siguiente posicion guardada, y en esa posicion de la lista agrego como valor la posicion siguiente a la BI
+    pass
+    
 
 #regla del else
 def p_condition_else(p):
