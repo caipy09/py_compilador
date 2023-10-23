@@ -1,0 +1,24 @@
+Errores/Warnings: 
+['[WAR] DIV result was casted to int: 10.0 >> 10', '[WAR] DIV result was casted to int: 20.0 >> 20', '[WAR] DIV result was casted to int: 13.333333333333334 >> 13']
+
+Tabla de simbolos: 
+     id name value  length declared
+0    _a    a    37       2     True
+1    _b    b    20       2     True
+2    _c    c    30       2     True
+3    _d    d    40       2     True
+4    _e    e    50       2     True
+5   _10   10    10       2     None
+6   _20   20    20       2     None
+7   _30   30    30       2     None
+8   _40   40    40       2     None
+9   _50   50    50       2     None
+10   _2    2     2       1     None
+11   _3    3     3       1     None
+
+polaca_inversa: 
+['10', 'a', '=', '20', 'b', '=', '30', 'c', '=', '40', 'd', '=', '50', 'e', '=', 'a', 'b', '<', 78, 'BF', 'a', '2', '*', 'a', '=', 'a', 'c', '<', 54, 'BF', 'b', '2', '*', 'a', '=', 'a', 'd', '<', 47, 'BF', 'c', '2', '*', 'a', '=', 52, 'BI', 'c', '2', '+', 'a', '=', 76, 'BI', 'b', '2', '/', 'a', '=', 'a', 'c', '<', 71, 'BF', 'd', '2', '*', 'a', '=', 76, 'BI', 'd', '2', '+', 'a', '=', 134, 'BI', 'a', '2', '+', 'a', '=', 'a', 'b', '<', 112, 'BF', 'b', '2', '+', 'a', '=', 'a', 'e', '<', 105, 'BF', 'd', '2', '/', 'a', '=', 110, 'BI', 'd', '2', '-', 'a', '=', 134, 'BI', 'b', '2', '-', 'a', '=', 'a', 'd', '<', 129, 'BF', 'd', '3', '/', 'a', '=', 134, 'BI', 'd', '3', '-', 'a', '=']
+
+pila_while: []
+pila_if: []
+pila_anidamientos: []

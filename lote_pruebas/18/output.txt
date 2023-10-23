@@ -1,0 +1,23 @@
+Errores/Warnings: 
+['[ERR] More than 3 nested statements are not allowed', "[ERR] Syntax error at '}'"]
+
+Tabla de simbolos: 
+       id  name value  length declared
+0      _a     a    11       2     True
+1      _b     b    21       2     True
+2      _c     c   111       3     True
+3      _d     d     0       1     True
+4      _e     e     0       1     True
+5     _10    10    10       2     None
+6     _20    20    20       2     None
+7      _0     0     0       1     None
+8      _1     1     1       1     None
+9    _100   100   100       3     None
+10  _1000  1000  1000       4     None
+
+polaca_inversa: 
+['a', 'a', '1000', '+']
+
+pila_while: [15, 18, 25, 28, 35, 38, 45]
+pila_if: []
+pila_anidamientos: ['WHILE', 'WHILE', 'WHILE', 'WHILE']

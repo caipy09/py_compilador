@@ -1,0 +1,18 @@
+{int a | b | c | d | e}
+a = 10
+b = 20
+c = 0
+d = 0
+e = 0
+while(a < b){
+ a = a + 1
+ while(a < c){
+  b = a + 10
+  while(a < d){
+   c = a + 100
+   while(a < e){
+    d = a + 1000
+   }
+  }
+ }
+}

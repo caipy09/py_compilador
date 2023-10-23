@@ -1,7 +1,7 @@
 
-ntest = "17"
-path_input = "C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
-path_output = "C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
+ntest = "23"
+path_input = "C:/Users/fheredia/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
+path_output = "C:/Users/fheredia/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
 
 
 ############################################
@@ -63,7 +63,17 @@ err = []
 polaca_inversa = []
 pila_while = []
 pila_if = []
-pila_comparadores = []
+pila_anidamientos = []
+
+def check_limit_nested_statements(stack):
+    global err
+    global polaca_inversa
+    if len(stack) > 3:
+        e = "[ERR] More than 3-level nested statements are not allowed"
+        err.append(e)
+        polaca_inversa = []
+        print(e)
+        raise(SyntaxError)
 
 #########################################################################################
 #Reglas de la gramatica
@@ -162,7 +172,7 @@ def p_expression_suma(p):
 def p_expression_resta(p):
     'expression : expression RESTA term'
     p[0] = int(p[1]) - int(p[3])
-    #generacion de polaca inversa
+    #polaca inversa
     polaca_inversa.append("-")
 
 #un termino es un factor
@@ -174,7 +184,7 @@ def p_term(p):
 def p_expression_mult(p):
     'term : term MULT factor'
     p[0] = int(p[1]) * int(p[3])
-    #generacion de polaca inversa
+    #polaca inversa
     polaca_inversa.append("*")
 
 #un factor puede dividir a un termino, si la division arroja un float, castea el float a int y tira un warning avisando    
@@ -188,7 +198,7 @@ def p_expression_div(p):
         e = "[WAR] DIV result was casted to int: " + str(aux) + " >> " + str(p[0])
         print(e)
         err.append(e)
-    #generacion de polaca inversa
+    #polaca inversa
     polaca_inversa.append("/")
 
 #un factor puede ser una expresion encerrada entre parentesis
@@ -200,7 +210,7 @@ def p_factor_par(p):
 def p_factor_1(p):
     'factor : CTE'
     p[0] = int(p[1])
-    #generacion de polaca inversa
+    #polaca inversa
     polaca_inversa.append(p[1])
 
 #un factor puede ser un identificador, en este caso busca el valor numerico del identificador antes de asignar a p
@@ -208,7 +218,7 @@ def p_factor_2(p):
     'factor : ID'
     valorSimbolo = (lexer.ts.getSymbolByID(p[1])["value"]).iloc[0]
     p[0] = valorSimbolo
-    #generacion de polaca inversa
+    #polaca inversa
     polaca_inversa.append(p[1])
 
 #estas reglas generan 1 shift-reduce, sin embargo permiten operaciones unarias con constantes y expresiones
@@ -230,72 +240,55 @@ def p_print(p):
 #comparador ==
 def p_comparator_iguala(p):
     'comp_statement : expression IGUALA factor'
-    p[0] = p[1] == p[3]
-    #generacion de polaca inversa
+    #polaca inversa
     polaca_inversa.append("==")
-    #polaca_inversa.append("CMP")
-    #pila_comparadores.append("BNE")
 
 #comparador <>
 def p_comparator_dist(p):
     'comp_statement : expression DIST factor'
-    p[0] = p[1] != p[3]
-    #print(p[0], " : ", p[1], " DIST ", p[3])
-    #generacion de polaca inversa
-    #polaca_inversa.append("CMP")
+    #polaca inversa
     polaca_inversa.append("<>")
-    #pila_comparadores.append("BEQ")
     
 #comparador <
 def p_comparator_menor(p):
     'comp_statement : expression MENOR factor'
     p[0] = p[1] < p[3]
-    #generacion de polaca inversa
-    #polaca_inversa.append("CMP")
+    #polaca inversa
     polaca_inversa.append("<")
-    #pila_comparadores.append("BGE")
     
 #comparador <=
 def p_comparator_menorigual(p):
     'comp_statement : expression MENORIGUAL factor'
     p[0] = p[1] <= p[3]
-    #generacion de polaca inversa
-    #polaca_inversa.append("CMP")
+    #polaca inversa
     polaca_inversa.append("<=")
-    #pila_comparadores.append("BGT")
     
 #comparador >
 def p_comparator_mayor(p):
     'comp_statement : expression MAYOR factor'
     p[0] = p[1] > p[3]
-    #generacion de polaca inversa
-    #polaca_inversa.append("CMP")
+    #polaca inversa
     polaca_inversa.append(">")
-    #pila_comparadores.append("BLE")
     
 #comparador >=
 def p_comparator_mayorigual(p):
     'comp_statement : expression MAYORIGUAL factor'
     p[0] = p[1] >= p[3]
-    #generacion de polaca inversa
-    #polaca_inversa.append("CMP")
+    #polaca inversa
     polaca_inversa.append(">=")
-    #pila_comparadores.append("BLT")
 
 #el operador logico OR puede ser usado en dos expresiones de comparacion
 def p_logic_expr_or(p):
     'logic_statement : comp_statement OR comp_expression'
     p[0] = p[1] or p[3]
-    #print(p[0], " : ", p[1], " OR ", p[3])
-    #generacion de polaca inversa
+    #polaca inversa
     polaca_inversa.append("|")
 
 #el operador logico AND puede ser usado en dos expresiones de comparacion
 def p_logic_expr_and(p):
     'logic_statement : comp_statement AND comp_expression'
     p[0] = p[1] and p[3]
-    #print(p[0], " : ", p[1], " AND ", p[3])
-    #generacion de polaca inversa
+    #polaca inversa
     polaca_inversa.append("&")
 
 #una expresion de comparacion es una declaracion de comparacion
@@ -312,6 +305,7 @@ def p_subprogram(p):
 def p_condicion_while(p):
     '''cond_while : comp_statement
                   | logic_statement'''
+    #polaca inversa
     polaca_inversa.append("wfree") #reservo un espacio en la lista
     polaca_inversa.append("BF") #el siguiente espacio pongo BF
     pila_while.append(len(polaca_inversa)-2) #en la pila while apilo el numero de pos del lugar vacio antes del BF para completar despues
@@ -319,27 +313,38 @@ def p_condicion_while(p):
 #regla complementaria del while para poder hacer los saltos
 def p_while(p): 
     'while : WHILE'
+    #polaca inversa
     pila_while.append(len(polaca_inversa)) #apilo el nro de paso actual cuando encuentro el while
+    #control de anidamientos
+    pila_anidamientos.append("WHILE") #registro que entro en un while: apilo
+    check_limit_nested_statements(pila_anidamientos) #verifico que no sean mas de tres anidamientos
 
 #regla del while
 def p_iter_while(p):
     'while_statement : while PARA cond_while PARC LLAVEA sub_program'
+    #polaca inversa
     polaca_inversa.append("wfree") #reservo otro espacio vacio
     polaca_inversa.append("BI") #el siguiente espacio pongo BI
     polaca_inversa[pila_while.pop()] = len(polaca_inversa) #desapilo la posicion guardada y en ese posicion agrego la posicion siguiente a la actual
     polaca_inversa[len(polaca_inversa)-2] = pila_while.pop() #desapilo la otra posicion guardada y la asigno como valor en la casilla anterior a la posicion actual
-
+    #control de anidamientos
+    pila_anidamientos.pop() #si se cumple esta regla entonces el while fue parseado, desapilo
 
 def p_condicion_if(p):
     '''cond_if : comp_statement
                | logic_statement'''
+    #polaca inversa
     polaca_inversa.append("ifree") #reservo un espacio vacio
     pila_if.append(len(polaca_inversa)-1) #apilo en pila_if la posicion actual
     polaca_inversa.append("BF") #el siguiente espacio pongo BF
+    #control de anidamientos
+    pila_anidamientos.append("IF") #registro que entro en un if: apilo
+    check_limit_nested_statements(pila_anidamientos) #verifico que no sean mas de tres anidamientos
 
 #reglas del cuerpo del if cuando la condicion se cumple
 def p_if_fcpo_1(p):
     'fcpo1 : sub_program'
+    #polaca inversa
     polaca_inversa.append("ifree") #reservo otro espacio vacio
     pila_if.append(len(polaca_inversa)-1) #apilo en pila_if la posicion actual
     polaca_inversa.append("BI") #el siguiente espacio pongo BI
@@ -353,9 +358,12 @@ def p_if_fcpo_2(p):
 #regla central del if
 def p_selection_if(p):
     'if_statement : IF PARA cond_if PARC LLAVEA fcpo1 else_statement'
+    #polaca inversa
     despues_BI  = pila_if.pop() #desapilo la posicion que apunta a la posterior a la BI
     polaca_inversa[pila_if.pop()] = len(polaca_inversa) #desapilo la siguiente posicion guardada, y en esa posicion de la lista agrego como valor la posicion siguiente a la actual
     polaca_inversa[pila_if.pop()] = despues_BI #desapilo la siguiente posicion guardada, y en esa posicion de la lista agrego como valor la posicion siguiente a la BI
+    #control de anidamientos
+    pila_anidamientos.pop() #si se cumple esta regla entonces el if ya fue parseado, desapilo
 
 #regla del else
 def p_condition_else(p):
@@ -390,7 +398,7 @@ lexer.ts.__str__()
 print("polaca_inversa: ", polaca_inversa)
 print("pila_while: ", pila_while)
 print("pila_if: ", pila_if)
-print("pila_comparadores: ", pila_comparadores)
+print("pila_anidamientos: ", pila_anidamientos)
 
 #Grabado de resultados a archivo txt
 file = open(path_output + 'output.txt', "w")
@@ -402,5 +410,5 @@ file.write('\n'+ "polaca_inversa: " + '\n')
 file.write(str(polaca_inversa) + '\n')
 file.write('\n' + "pila_while: " + str(pila_while) + '\n')
 file.write("pila_if: " + str(pila_if) + '\n')
-file.write("pila_comparadores: " + str(pila_comparadores) + '\n')
+file.write("pila_anidamientos: " + str(pila_anidamientos) + '\n')
 file.close()

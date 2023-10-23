@@ -1,0 +1,44 @@
+{int a | b | c | d | e}
+a = 10
+b = 20
+c = 30
+d = 40
+e = 50
+if(a < b){
+	a = a * 2
+	if(a < c){
+		a = b * 2
+		if(a < d){
+			a = c * 2
+		}else{
+			a = c + 2
+		}
+	}else{
+		a = b / 2
+		if(a < c){
+			a = d * 2
+			if(e == d){
+				e = e + 1
+			}
+		}else{
+			a = d + 2
+		}
+	}
+}else{
+	a = a + 2
+	if(a < b){
+		a = b + 2
+		if(a < e){
+			a = d / 2
+		}else{
+			a = d - 2
+		}
+	}else{
+		a = b - 2
+		if(a < d){
+			a = d / 3
+		}else{
+			a = d - 3
+		}
+	}
+}

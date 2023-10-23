@@ -1,0 +1,25 @@
+Errores/Warnings: 
+['[WAR] DIV result was casted to int: 10.0 >> 10', '[ERR] More than 3-level nested statements are not allowed', "[ERR] Syntax error at '}'", "[ERR] Syntax error at '}'", '[ERR] More than 3-level nested statements are not allowed', '[ERR] More than 3-level nested statements are not allowed', '[WAR] DIV result was casted to int: 20.0 >> 20', "[ERR] Syntax error at '}'", "[ERR] Syntax error at '}'", '[ERR] More than 3-level nested statements are not allowed', '[WAR] DIV result was casted to int: 13.333333333333334 >> 13', "[ERR] Syntax error at '}'", "[ERR] Syntax error at '}'"]
+
+Tabla de simbolos: 
+     id name value  length declared
+0    _a    a    80       2     True
+1    _b    b    20       2     True
+2    _c    c    30       2     True
+3    _d    d    40       2     True
+4    _e    e    50       2     True
+5   _10   10    10       2     None
+6   _20   20    20       2     None
+7   _30   30    30       2     None
+8   _40   40    40       2     None
+9   _50   50    50       2     None
+10   _2    2     2       1     None
+11   _1    1     1       1     None
+12   _3    3     3       1     None
+
+polaca_inversa: 
+['d', '3', '/', 'd', '3', '-']
+
+pila_while: []
+pila_if: [18, 28, 52, 54, 62, 72, 12, 6, 12]
+pila_anidamientos: ['IF', 'IF', 'IF', 'IF', 'IF', 'IF', 'IF']

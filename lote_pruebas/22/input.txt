@@ -1,0 +1,47 @@
+{int a | b | c | d | e}
+a = 10
+b = 20
+c = 30
+d = 40
+e = 50
+if(a < b){
+	a = a * 2
+	if(a < c){
+		a = b * 2
+		while(a < d){
+			a = c * 2
+		}
+	}else{
+		a = b / 2
+		while(a < c){
+			a = d * 2
+		}
+	}
+}else{
+	a = a + 2
+	if(a < b){
+		a = b + 2
+		while(a < e){
+			a = d / 2
+		}
+	}else{
+		a = b - 2
+		while(a < d){
+			a = d / 3
+		}
+	}
+}
+while(a < c){
+	a = a * 2
+	if(a < c){
+		a = b * 2
+		while(a < d){
+			a = c * 2
+		}
+	}else{
+		a = b / 2
+		while(a < c){
+			a = d * 2
+		}
+	}
+}
