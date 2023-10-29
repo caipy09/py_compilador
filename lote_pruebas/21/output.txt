@@ -1,13 +1,13 @@
 Errores/Warnings: 
-['[WAR] DIV result was casted to int: 10.0 >> 10', '[ERR] More than 3-level nested statements are not allowed', "[ERR] Syntax error at '}'", "[ERR] Syntax error at '}'", '[ERR] More than 3-level nested statements are not allowed', '[ERR] More than 3-level nested statements are not allowed', '[WAR] DIV result was casted to int: 20.0 >> 20', "[ERR] Syntax error at '}'", "[ERR] Syntax error at '}'", '[ERR] More than 3-level nested statements are not allowed', '[WAR] DIV result was casted to int: 13.333333333333334 >> 13', "[ERR] Syntax error at '}'", "[ERR] Syntax error at '}'"]
+['[ERR] More than 3-level nested statements are not allowed', "[ERR] Syntax error at '}'", "[ERR] Syntax error at '}'", '[ERR] More than 3-level nested statements are not allowed', '[ERR] More than 3-level nested statements are not allowed', "[ERR] Syntax error at '}'", "[ERR] Syntax error at '}'", '[ERR] More than 3-level nested statements are not allowed', "[ERR] Syntax error at '}'", "[ERR] Syntax error at '}'"]
 
 Tabla de simbolos: 
      id name value  length declared
-0    _a    a    80       2     True
-1    _b    b    20       2     True
-2    _c    c    30       2     True
-3    _d    d    40       2     True
-4    _e    e    50       2     True
+0    _a    a     a       0     True
+1    _b    b     b       0     True
+2    _c    c     c       0     True
+3    _d    d     d       0     True
+4    _e    e     e       0     True
 5   _10   10    10       2     None
 6   _20   20    20       2     None
 7   _30   30    30       2     None

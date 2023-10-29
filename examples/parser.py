@@ -1,7 +1,7 @@
 
-ntest = "23"
-path_input = "C:/Users/fheredia/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
-path_output = "C:/Users/fheredia/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
+ntest = "25"
+path_input = "C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
+path_output = "C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
 
 
 ############################################
@@ -64,6 +64,7 @@ polaca_inversa = []
 pila_while = []
 pila_if = []
 pila_anidamientos = []
+pila_comparadores = []
 
 def check_limit_nested_statements(stack):
     global err
@@ -125,16 +126,14 @@ def p_statement_decl(p):
 #el bloque de declaraciones puede tener solo una variable
 def p_block_decl(p):
     'block_decl : ID LLAVEC'
-    if(lexer.ts.getDeclaration(p[1])):
-        e = "[WAR] Var: " + p[1] + " is already declared."
-        err.append(e)
-        print(e)
     lexer.ts.setDeclaration(p[1])
+
 
 #el bloque de declaraciones puede tener multiples variables separadas por un OR
 def p_block_decl2(p):
     'block_decl : ID OR other_decl'
     lexer.ts.setDeclaration(p[1])
+
     
 #regla que hace recursiva las declaraciones, permitiendo declarar la cantidad que sea
 def p_block_decl3(p):
@@ -144,81 +143,52 @@ def p_block_decl3(p):
 #regla de asignacion, valida si la variable esta declarada previamente y asigna, de lo contrario tira error
 def p_statement_asig(p):
     'statement : ID ASIG expression'
-    if lexer.ts.getDeclaration(p[1]): 
-        lexer.ts.setSymbolValue(p[1], p[3])
-        lexer.ts.setSymbolLength(p[1], len(str(p[3]))) 
-        #generacion de polaca inversa
-        polaca_inversa.append(p[1])
-        polaca_inversa.append(p[2])        
-    else:
-        e = "[ERR] Var: " + p[1] + "not declared."
-        err.append(e)
-        print(e)
-        raise(SyntaxError)
+    polaca_inversa.append(p[1])
+    polaca_inversa.append(p[2])
 
 #una expresion puede ser un termino
 def p_expression(p):
     'expression : term'
-    p[0] = p[1]
+    pass
 
 #una expresion se puede sumar a un termino    
 def p_expression_suma(p):
     'expression : expression SUMA term'
-    p[0] = int(p[1]) + int(p[3])
-    #generacion de polaca inversa
     polaca_inversa.append("+")
 
 #una termino puede restarse de una expresion
 def p_expression_resta(p):
     'expression : expression RESTA term'
-    p[0] = int(p[1]) - int(p[3])
-    #polaca inversa
     polaca_inversa.append("-")
 
 #un termino es un factor
 def p_term(p):
     'term : factor'
-    p[0] = p[1]
+    pass
 
 #un termino puede ser multiplicado por un factor
 def p_expression_mult(p):
     'term : term MULT factor'
-    p[0] = int(p[1]) * int(p[3])
-    #polaca inversa
     polaca_inversa.append("*")
 
 #un factor puede dividir a un termino, si la division arroja un float, castea el float a int y tira un warning avisando    
 def p_expression_div(p):
     'term : term DIV factor'
-    aux = int(p[1]) / int(p[3])
-    if isinstance(p[0], int):
-        p[0] = aux
-    else:
-        p[0] = int(aux)
-        e = "[WAR] DIV result was casted to int: " + str(aux) + " >> " + str(p[0])
-        print(e)
-        err.append(e)
-    #polaca inversa
     polaca_inversa.append("/")
 
 #un factor puede ser una expresion encerrada entre parentesis
 def p_factor_par(p):
     'factor : PARA expression PARC'
-    p[0] = p[2]
-
-#un factor puede ser una constante
-def p_factor_1(p):
-    'factor : CTE'
-    p[0] = int(p[1])
-    #polaca inversa
-    polaca_inversa.append(p[1])
+    pass
 
 #un factor puede ser un identificador, en este caso busca el valor numerico del identificador antes de asignar a p
-def p_factor_2(p):
+def p_factor_1(p):
     'factor : ID'
-    valorSimbolo = (lexer.ts.getSymbolByID(p[1])["value"]).iloc[0]
-    p[0] = valorSimbolo
-    #polaca inversa
+    polaca_inversa.append(p[1])
+
+#un factor puede ser una constante
+def p_factor_2(p):
+    'factor : CTE'
     polaca_inversa.append(p[1])
 
 #estas reglas generan 1 shift-reduce, sin embargo permiten operaciones unarias con constantes y expresiones
@@ -235,66 +205,57 @@ def p_factor_2(p):
 #imprimir valor
 def p_print(p):
     'print_statement : PRINT PARA expression PARC'
-    print("[PRINT]: ", p[3])
+    polaca_inversa.append("PRNT")
 
 #comparador ==
 def p_comparator_iguala(p):
     'comp_statement : expression IGUALA factor'
-    #polaca inversa
-    polaca_inversa.append("==")
+    pila_comparadores.append("BNE")
+    polaca_inversa.append("CMP")
 
 #comparador <>
 def p_comparator_dist(p):
     'comp_statement : expression DIST factor'
-    #polaca inversa
-    polaca_inversa.append("<>")
+    pila_comparadores.append("BEQ")
+    polaca_inversa.append("CMP")
     
 #comparador <
 def p_comparator_menor(p):
     'comp_statement : expression MENOR factor'
-    p[0] = p[1] < p[3]
-    #polaca inversa
-    polaca_inversa.append("<")
+    pila_comparadores.append("BGE")
+    polaca_inversa.append("CMP")
     
 #comparador <=
 def p_comparator_menorigual(p):
     'comp_statement : expression MENORIGUAL factor'
-    p[0] = p[1] <= p[3]
-    #polaca inversa
-    polaca_inversa.append("<=")
+    pila_comparadores.append("BGT")
+    polaca_inversa.append("CMP")
     
 #comparador >
 def p_comparator_mayor(p):
     'comp_statement : expression MAYOR factor'
-    p[0] = p[1] > p[3]
-    #polaca inversa
-    polaca_inversa.append(">")
+    pila_comparadores.append("BLE")
+    polaca_inversa.append("CMP")
     
 #comparador >=
 def p_comparator_mayorigual(p):
     'comp_statement : expression MAYORIGUAL factor'
-    p[0] = p[1] >= p[3]
-    #polaca inversa
-    polaca_inversa.append(">=")
+    pila_comparadores.append("BLT")
+    polaca_inversa.append("CMP")
 
 #el operador logico OR puede ser usado en dos expresiones de comparacion
 def p_logic_expr_or(p):
     'logic_statement : comp_statement OR comp_expression'
-    p[0] = p[1] or p[3]
-    #polaca inversa
     polaca_inversa.append("|")
 
 #el operador logico AND puede ser usado en dos expresiones de comparacion
 def p_logic_expr_and(p):
     'logic_statement : comp_statement AND comp_expression'
-    p[0] = p[1] and p[3]
-    #polaca inversa
     polaca_inversa.append("&")
 
 #una expresion de comparacion es una declaracion de comparacion
 def p_comp_expression(p):
     'comp_expression : comp_statement'
-    p[0] = p[1]
     pass
 
 #regla del bloque de codigo dentro de una sentencia de control
@@ -307,7 +268,8 @@ def p_condicion_while(p):
                   | logic_statement'''
     #polaca inversa
     polaca_inversa.append("wfree") #reservo un espacio en la lista
-    polaca_inversa.append("BF") #el siguiente espacio pongo BF
+    #polaca_inversa.append("BF") #el siguiente espacio pongo BF
+    polaca_inversa.append(pila_comparadores.pop())
     pila_while.append(len(polaca_inversa)-2) #en la pila while apilo el numero de pos del lugar vacio antes del BF para completar despues
 
 #regla complementaria del while para poder hacer los saltos
@@ -336,7 +298,8 @@ def p_condicion_if(p):
     #polaca inversa
     polaca_inversa.append("ifree") #reservo un espacio vacio
     pila_if.append(len(polaca_inversa)-1) #apilo en pila_if la posicion actual
-    polaca_inversa.append("BF") #el siguiente espacio pongo BF
+    #polaca_inversa.append("BF") #el siguiente espacio pongo BF
+    polaca_inversa.append(pila_comparadores.pop())
     #control de anidamientos
     pila_anidamientos.append("IF") #registro que entro en un if: apilo
     check_limit_nested_statements(pila_anidamientos) #verifico que no sean mas de tres anidamientos

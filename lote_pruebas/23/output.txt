@@ -3,9 +3,9 @@ Errores/Warnings:
 
 Tabla de simbolos: 
    id name value  length declared
-0  _a    a     5       1     True
-1  _b    b     5       1     True
-2  _c    c     0       1     True
+0  _a    a     a       0     True
+1  _b    b     b       0     True
+2  _c    c     c       0     True
 3  _0    0     0       1     None
 4  _3    3     3       1     None
 5  _2    2     2       1     None

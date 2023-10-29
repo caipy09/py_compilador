@@ -23,8 +23,8 @@ Rule 17    term -> factor
 Rule 18    term -> term MULT factor
 Rule 19    term -> term DIV factor
 Rule 20    factor -> PARA expression PARC
-Rule 21    factor -> CTE
-Rule 22    factor -> ID
+Rule 21    factor -> ID
+Rule 22    factor -> CTE
 Rule 23    print_statement -> PRINT PARA expression PARC
 Rule 24    comp_statement -> expression IGUALA factor
 Rule 25    comp_statement -> expression DIST factor
@@ -53,11 +53,11 @@ Terminals, with rules where they appear
 
 AND                  : 31
 ASIG                 : 13
-CTE                  : 21
+CTE                  : 22
 DIST                 : 25
 DIV                  : 19
 ELSE                 : 43
-ID                   : 10 11 13 22
+ID                   : 10 11 13 21
 IF                   : 42
 IGUALA               : 24
 INT                  : 9
@@ -135,8 +135,8 @@ state 0
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     LLAVEA          shift and go to state 9
     ID              shift and go to state 10
@@ -189,8 +189,8 @@ state 1
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     LLAVEA          shift and go to state 9
     ID              shift and go to state 10
@@ -346,28 +346,28 @@ state 9
 state 10
 
     (13) statement -> ID . ASIG expression
-    (22) factor -> ID .
+    (21) factor -> ID .
 
     ASIG            shift and go to state 31
-    MULT            reduce using rule 22 (factor -> ID .)
-    DIV             reduce using rule 22 (factor -> ID .)
-    IGUALA          reduce using rule 22 (factor -> ID .)
-    DIST            reduce using rule 22 (factor -> ID .)
-    MENOR           reduce using rule 22 (factor -> ID .)
-    MENORIGUAL      reduce using rule 22 (factor -> ID .)
-    MAYOR           reduce using rule 22 (factor -> ID .)
-    MAYORIGUAL      reduce using rule 22 (factor -> ID .)
-    SUMA            reduce using rule 22 (factor -> ID .)
-    RESTA           reduce using rule 22 (factor -> ID .)
-    LLAVEA          reduce using rule 22 (factor -> ID .)
-    ID              reduce using rule 22 (factor -> ID .)
-    PRINT           reduce using rule 22 (factor -> ID .)
-    IF              reduce using rule 22 (factor -> ID .)
-    WHILE           reduce using rule 22 (factor -> ID .)
-    PARA            reduce using rule 22 (factor -> ID .)
-    CTE             reduce using rule 22 (factor -> ID .)
-    $end            reduce using rule 22 (factor -> ID .)
-    LLAVEC          reduce using rule 22 (factor -> ID .)
+    MULT            reduce using rule 21 (factor -> ID .)
+    DIV             reduce using rule 21 (factor -> ID .)
+    IGUALA          reduce using rule 21 (factor -> ID .)
+    DIST            reduce using rule 21 (factor -> ID .)
+    MENOR           reduce using rule 21 (factor -> ID .)
+    MENORIGUAL      reduce using rule 21 (factor -> ID .)
+    MAYOR           reduce using rule 21 (factor -> ID .)
+    MAYORIGUAL      reduce using rule 21 (factor -> ID .)
+    SUMA            reduce using rule 21 (factor -> ID .)
+    RESTA           reduce using rule 21 (factor -> ID .)
+    LLAVEA          reduce using rule 21 (factor -> ID .)
+    ID              reduce using rule 21 (factor -> ID .)
+    PRINT           reduce using rule 21 (factor -> ID .)
+    IF              reduce using rule 21 (factor -> ID .)
+    WHILE           reduce using rule 21 (factor -> ID .)
+    PARA            reduce using rule 21 (factor -> ID .)
+    CTE             reduce using rule 21 (factor -> ID .)
+    $end            reduce using rule 21 (factor -> ID .)
+    LLAVEC          reduce using rule 21 (factor -> ID .)
 
 
 state 11
@@ -387,12 +387,12 @@ state 12
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     expression                     shift and go to state 33
     term                           shift and go to state 16
@@ -475,30 +475,30 @@ state 17
 
 state 18
 
-    (21) factor -> CTE .
+    (22) factor -> CTE .
 
-    MULT            reduce using rule 21 (factor -> CTE .)
-    DIV             reduce using rule 21 (factor -> CTE .)
-    IGUALA          reduce using rule 21 (factor -> CTE .)
-    DIST            reduce using rule 21 (factor -> CTE .)
-    MENOR           reduce using rule 21 (factor -> CTE .)
-    MENORIGUAL      reduce using rule 21 (factor -> CTE .)
-    MAYOR           reduce using rule 21 (factor -> CTE .)
-    MAYORIGUAL      reduce using rule 21 (factor -> CTE .)
-    SUMA            reduce using rule 21 (factor -> CTE .)
-    RESTA           reduce using rule 21 (factor -> CTE .)
-    LLAVEA          reduce using rule 21 (factor -> CTE .)
-    ID              reduce using rule 21 (factor -> CTE .)
-    PRINT           reduce using rule 21 (factor -> CTE .)
-    IF              reduce using rule 21 (factor -> CTE .)
-    WHILE           reduce using rule 21 (factor -> CTE .)
-    PARA            reduce using rule 21 (factor -> CTE .)
-    CTE             reduce using rule 21 (factor -> CTE .)
-    $end            reduce using rule 21 (factor -> CTE .)
-    PARC            reduce using rule 21 (factor -> CTE .)
-    OR              reduce using rule 21 (factor -> CTE .)
-    AND             reduce using rule 21 (factor -> CTE .)
-    LLAVEC          reduce using rule 21 (factor -> CTE .)
+    MULT            reduce using rule 22 (factor -> CTE .)
+    DIV             reduce using rule 22 (factor -> CTE .)
+    IGUALA          reduce using rule 22 (factor -> CTE .)
+    DIST            reduce using rule 22 (factor -> CTE .)
+    MENOR           reduce using rule 22 (factor -> CTE .)
+    MENORIGUAL      reduce using rule 22 (factor -> CTE .)
+    MAYOR           reduce using rule 22 (factor -> CTE .)
+    MAYORIGUAL      reduce using rule 22 (factor -> CTE .)
+    SUMA            reduce using rule 22 (factor -> CTE .)
+    RESTA           reduce using rule 22 (factor -> CTE .)
+    LLAVEA          reduce using rule 22 (factor -> CTE .)
+    ID              reduce using rule 22 (factor -> CTE .)
+    PRINT           reduce using rule 22 (factor -> CTE .)
+    IF              reduce using rule 22 (factor -> CTE .)
+    WHILE           reduce using rule 22 (factor -> CTE .)
+    PARA            reduce using rule 22 (factor -> CTE .)
+    CTE             reduce using rule 22 (factor -> CTE .)
+    $end            reduce using rule 22 (factor -> CTE .)
+    PARC            reduce using rule 22 (factor -> CTE .)
+    OR              reduce using rule 22 (factor -> CTE .)
+    AND             reduce using rule 22 (factor -> CTE .)
+    LLAVEC          reduce using rule 22 (factor -> CTE .)
 
 
 state 19
@@ -533,12 +533,12 @@ state 20
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     comp_statement                 shift and go to state 39
     comp_expression                shift and go to state 40
@@ -563,12 +563,12 @@ state 21
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     comp_statement                 shift and go to state 39
     comp_expression                shift and go to state 42
@@ -580,12 +580,12 @@ state 22
 
     (24) comp_statement -> expression IGUALA . factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     factor                         shift and go to state 43
 
@@ -593,12 +593,12 @@ state 23
 
     (25) comp_statement -> expression DIST . factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     factor                         shift and go to state 44
 
@@ -606,12 +606,12 @@ state 24
 
     (26) comp_statement -> expression MENOR . factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     factor                         shift and go to state 45
 
@@ -619,12 +619,12 @@ state 25
 
     (27) comp_statement -> expression MENORIGUAL . factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     factor                         shift and go to state 46
 
@@ -632,12 +632,12 @@ state 26
 
     (28) comp_statement -> expression MAYOR . factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     factor                         shift and go to state 47
 
@@ -645,12 +645,12 @@ state 27
 
     (29) comp_statement -> expression MAYORIGUAL . factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     factor                         shift and go to state 48
 
@@ -661,12 +661,12 @@ state 28
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     term                           shift and go to state 49
     factor                         shift and go to state 13
@@ -678,12 +678,12 @@ state 29
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     term                           shift and go to state 50
     factor                         shift and go to state 13
@@ -708,12 +708,12 @@ state 31
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     expression                     shift and go to state 53
     term                           shift and go to state 16
@@ -729,12 +729,12 @@ state 32
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     expression                     shift and go to state 54
     term                           shift and go to state 16
@@ -753,30 +753,30 @@ state 33
 
 state 34
 
-    (22) factor -> ID .
+    (21) factor -> ID .
 
-    MULT            reduce using rule 22 (factor -> ID .)
-    DIV             reduce using rule 22 (factor -> ID .)
-    PARC            reduce using rule 22 (factor -> ID .)
-    SUMA            reduce using rule 22 (factor -> ID .)
-    RESTA           reduce using rule 22 (factor -> ID .)
-    IGUALA          reduce using rule 22 (factor -> ID .)
-    DIST            reduce using rule 22 (factor -> ID .)
-    MENOR           reduce using rule 22 (factor -> ID .)
-    MENORIGUAL      reduce using rule 22 (factor -> ID .)
-    MAYOR           reduce using rule 22 (factor -> ID .)
-    MAYORIGUAL      reduce using rule 22 (factor -> ID .)
-    OR              reduce using rule 22 (factor -> ID .)
-    AND             reduce using rule 22 (factor -> ID .)
-    LLAVEA          reduce using rule 22 (factor -> ID .)
-    ID              reduce using rule 22 (factor -> ID .)
-    PRINT           reduce using rule 22 (factor -> ID .)
-    IF              reduce using rule 22 (factor -> ID .)
-    WHILE           reduce using rule 22 (factor -> ID .)
-    PARA            reduce using rule 22 (factor -> ID .)
-    CTE             reduce using rule 22 (factor -> ID .)
-    $end            reduce using rule 22 (factor -> ID .)
-    LLAVEC          reduce using rule 22 (factor -> ID .)
+    MULT            reduce using rule 21 (factor -> ID .)
+    DIV             reduce using rule 21 (factor -> ID .)
+    PARC            reduce using rule 21 (factor -> ID .)
+    SUMA            reduce using rule 21 (factor -> ID .)
+    RESTA           reduce using rule 21 (factor -> ID .)
+    IGUALA          reduce using rule 21 (factor -> ID .)
+    DIST            reduce using rule 21 (factor -> ID .)
+    MENOR           reduce using rule 21 (factor -> ID .)
+    MENORIGUAL      reduce using rule 21 (factor -> ID .)
+    MAYOR           reduce using rule 21 (factor -> ID .)
+    MAYORIGUAL      reduce using rule 21 (factor -> ID .)
+    OR              reduce using rule 21 (factor -> ID .)
+    AND             reduce using rule 21 (factor -> ID .)
+    LLAVEA          reduce using rule 21 (factor -> ID .)
+    ID              reduce using rule 21 (factor -> ID .)
+    PRINT           reduce using rule 21 (factor -> ID .)
+    IF              reduce using rule 21 (factor -> ID .)
+    WHILE           reduce using rule 21 (factor -> ID .)
+    PARA            reduce using rule 21 (factor -> ID .)
+    CTE             reduce using rule 21 (factor -> ID .)
+    $end            reduce using rule 21 (factor -> ID .)
+    LLAVEC          reduce using rule 21 (factor -> ID .)
 
 
 state 35
@@ -799,12 +799,12 @@ state 35
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     cond_while                     shift and go to state 56
     comp_statement                 shift and go to state 57
@@ -833,12 +833,12 @@ state 36
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     cond_if                        shift and go to state 59
     comp_statement                 shift and go to state 60
@@ -851,12 +851,12 @@ state 37
 
     (18) term -> term MULT . factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     factor                         shift and go to state 62
 
@@ -864,12 +864,12 @@ state 38
 
     (19) term -> term DIV . factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
     ID              shift and go to state 34
+    CTE             shift and go to state 18
 
     factor                         shift and go to state 63
 
@@ -1409,8 +1409,8 @@ state 71
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     LLAVEA          shift and go to state 9
     ID              shift and go to state 10
@@ -1467,8 +1467,8 @@ state 72
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     LLAVEA          shift and go to state 9
     ID              shift and go to state 10
@@ -1538,8 +1538,8 @@ state 74
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     LLAVEC          shift and go to state 77
     LLAVEA          shift and go to state 9
@@ -1685,8 +1685,8 @@ state 81
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
     (20) factor -> . PARA expression PARC
-    (21) factor -> . CTE
-    (22) factor -> . ID
+    (21) factor -> . ID
+    (22) factor -> . CTE
 
     LLAVEA          shift and go to state 9
     ID              shift and go to state 10

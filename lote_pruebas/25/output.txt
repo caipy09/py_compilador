@@ -1,0 +1,19 @@
+Errores/Warnings: 
+[]
+
+Tabla de simbolos: 
+     id name value  length declared
+0    _a    a     a       0     True
+1    _b    b     b       0     True
+2    _1    1     1       1     None
+3    _2    2     2       1     None
+4   _10   10    10       2     None
+5   _20   20    20       2     None
+6  _100  100   100       3     None
+
+polaca_inversa: 
+['1', 'a', '=', '2', 'b', '=', 'a', '10', '<', 'b', '20', '>', '&', 20, 'BF', '100', 'b', '=', 20, 'BI']
+
+pila_while: []
+pila_if: []
+pila_anidamientos: []

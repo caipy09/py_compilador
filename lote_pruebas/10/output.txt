@@ -3,9 +3,9 @@ Errores/Warnings:
 
 Tabla de simbolos: 
     id name value  length declared
-0   _a    a     0       1     True
-1   _b    b    20       2     True
-2   _c    c    30       2     True
+0   _a    a     a       0     True
+1   _b    b     b       0     True
+2   _c    c     c       0     True
 3  _10   10    10       2     None
 4  _20   20    20       2     None
 5  _30   30    30       2     None
@@ -15,8 +15,8 @@ Tabla de simbolos:
 9   _0    0     0       1     None
 
 polaca_inversa: 
-['10', 'a', '=', '20', 'b', '=', '30', 'c', '=', 'a', '7', '*', 'b', '+', 'b', 'c', '4', '*', '+', '<', 29, 'BF', 'a', '1', '+', 'a', '=', 32, 'BI', '0', 'a', '=']
+['10', 'a', '=', '20', 'b', '=', '30', 'c', '=', 'a', '7', '*', 'b', '+', 'b', 'c', '4', '*', '+', 'CMP', 29, 'BGE', 'a', '1', '+', 'a', '=', 32, 'BI', '0', 'a', '=']
 
 pila_while: []
 pila_if: []
-pila_comparadores: []
+pila_anidamientos: []
