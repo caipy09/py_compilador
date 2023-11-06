@@ -1,7 +1,7 @@
 
 import parser as p
 
-ntest = "29"
+ntest = "30"
 path_input = "C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
 path_output = "C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
 
@@ -20,6 +20,24 @@ _consts = symbol_table.getSymbolTable().query('declared != True')["id"].values
 assembler = [] #en esta lista se guarda el codigo generado
 pila = [] #pila utilizada para el algoritmo de generacion de codigo
 pila_saltos = []
+
+
+#funcion que retorna la cantidad de variables aux que va a utilizar el programa
+def defineAuxVarsQ():
+    global polaca_inversa
+    symbols = ['+', '-', '*', '/', '>', '<', '>=', '<=', '==', '<>', '&', '|']
+    aux_list = []
+    cant = 0
+    for x in polaca_inversa:
+        if x in symbols:
+            cant += 1
+            aux_list.append(('aux' + str(cant)))
+    return aux_list
+
+#obtengo la cantidad de var auxiliares
+aux_vars = defineAuxVarsQ()
+#copio las variables auxiliares a una pila que sera utilizada en la generacion del codigo de START:
+pila_aux = aux_vars.copy()
 
 #verifica si el valor es un identificador de variable
 def checkID(val):
@@ -70,9 +88,11 @@ def checkJump(pos):
 
 #dado un operador retorna su correspondiente comando assembler
 def getAssemblerOP(op):
-    l = {'+':'ADD', '*': 'MUL', '/':'DIV', '-':'SUB'}
+    l = {'+':'add', '*': 'mul', '/':'div', '-':'sub'}
     if op in l:
         return l[op]
+
+reg1 = "ebx"
 
 #algoritmo generador de codigo
 def polaca_assembler(pol):
@@ -97,17 +117,17 @@ def polaca_assembler(pol):
             pila.append('$_' + x) #apilo
         if checkAssing(x): #si es una asignacion
             #genero codigo
-            aux0 = 'mov ' + pila.pop() + ', bx' 
-            aux1 = 'mov bx, ' + pila.pop()
+            aux0 = '\tmov ' + pila.pop() + ', ' + reg1 
+            aux1 = '\tmov ' + reg1 + ', ' + pila.pop()
             assembler.append(aux1)
             assembler.append(aux0)
         if checkOperator(x): #si es un operador
             op = getAssemblerOP(x) #obtengo el comando assembler del operador
             #genero codigo
-            assembler_aux = 'AUX' + str(cont)
-            aux0 = op + ' bx, ' + pila.pop()
-            aux1 = 'mov bx, ' + pila.pop()
-            aux2 = 'mov ' + assembler_aux + ', bx'
+            assembler_aux = pila_aux.pop(0)
+            aux0 = '\t' + op + ' ' + reg1 + ', ' + pila.pop()
+            aux1 = '\tmov ' + reg1 + ', ' + pila.pop()
+            aux2 = '\tmov ' + assembler_aux + ', ' + reg1
             assembler.append(aux1)
             assembler.append(aux0)
             assembler.append(aux2)
@@ -115,12 +135,15 @@ def polaca_assembler(pol):
             cont += 1
         if checkComparator(x): #si es un comparador
             #genero codigo
-            assembler_aux = 'AUX' + str(cont)
-            aux0 = 'cmp bx, ' + pila.pop()
-            aux1 = 'mov bx, ' + pila.pop()
-            aux2 = 'mov ' + assembler_aux + ', bx'
+            assembler_aux = pila_aux.pop(0)
+            #label = 'LABEL' + str(polaca_inversa[pos+1])
+            aux0 = '\tcmp ' + reg1 + ', ' + pila.pop()
+            aux1 = '\tmov ' + reg1 + ', ' + pila.pop()
+            aux2 = '\tmov ' + assembler_aux + ', ' + reg1
+            #aux3 = '\tjl ' + label
             assembler.append(aux1)
             assembler.append(aux0)
+            #assembler.append(aux3)
             assembler.append(aux2)
             pila.append(assembler_aux)
             cont += 1
@@ -131,15 +154,22 @@ def polaca_assembler(pol):
             pila.append(aux)
         if str(x) == 'BF': #si es una bifurcacion por falso
             #genero codigo 
-            aux0 = 'BF ' + pila.pop()
-            aux1 = 'mov bx, ' + pila.pop()
+            aux0 = '\tjl ' + pila.pop()
+            #aux0 = '\tBF ' + pila.pop()
+            aux1 = '\tmov ' + reg1 + ', ' + pila.pop()
             assembler.append(aux1)
             assembler.append(aux0)
         if str(x) == 'BI': #si es una bifurcacion incondicional
             #genero codigo
-            aux0 = 'BI ' + pila.pop()
-            assembler.append(aux0)     
+            val = pila.pop()
+            if int(val[5:]) >= len(polaca_inversa):
+                assembler.append("\tjmp END_PROGRAM")
+            else:
+                aux0 = '\tjmp ' + val
+                assembler.append(aux0)
+            #assembler.append("\tjmp END_PROGRAM")
         pos += 1
+    assembler.append("\tjmp END_PROGRAM")
                      
             
         
@@ -147,8 +177,9 @@ def polaca_assembler(pol):
 polaca_assembler(polaca_inversa)
 
 #print("Pila assembler: ", pila)
-print("Pila saltos: ", pila_saltos)
-print("assembler: ", assembler)
+#print("Pila saltos: ", pila_saltos)
+#print("assembler: ", assembler)
+
 
 #Grabado de resultados a archivo txt
 file = open(path_output + 'output.asm', "w")
@@ -159,19 +190,20 @@ file.write('\n')
 file.write(".MODEL LARGE; tipo de modelo de memoria utilizado" + '\n')
 file.write(".386" + '\n')
 file.write(".STACK 200h; bytes en el stack" + '\n')
-file.write("MAXTEXTSIZE equ 120" + '\n')
+#file.write("MAXTEXTSIZE equ 120" + '\n')
 file.write('\n')
 file.write('\n')
 file.write('.DATA; bloque de definicion de variables' + '\n')
 file.write('\n')
 
+
 for x in _vars:
     file.write('\t' +  x + '\t' + 'DD' + '\t0' + '\n')
 for y in _consts:
     file.write('\t$' +  y + '\t' + 'DD' + '\t0' + '\n')
+for z in aux_vars:
+    file.write('\t' +  z + '\t' + 'DD' + '\t0' + '\n')
     
-
-
 
 file.write('\n')
 file.write('.CODE; bloque de definiciones de codigo' + '\n')
@@ -179,16 +211,17 @@ file.write('\n')
 file.write('START:' + '\n')
 file.write('\n')
 
-file.write('\tmov ax, @DATA; carga de variables' + '\n')
+file.write('\tmov eax, @DATA; carga de variables' + '\n')
 
 file.write('\n')
 file.write('\t')
 file.write('\n\t' .join(assembler))
 file.write('\n')
 file.write('\n')
-file.write('mov ax, 4c00h' + '\n')
-file.write('int 21h; interrupcion del programa' + '\n')
-file.write('END START; fin del programa' + '\n')
+file.write('\tEND_PROGRAM:\n')
+file.write('\t\tmov ax, 4c00h' + '\n')
+file.write('\t\tint 21h; interrupcion del programa' + '\n')
+file.write('\t\tEND START; fin del programa' + '\n')
 
 
 file.close()

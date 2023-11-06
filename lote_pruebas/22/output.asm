@@ -1,152 +1,178 @@
-MOV R1, 10
-MOV a, R1
-MOV R1, 20
-MOV b, R1
-MOV R1, 30
-MOV c, R1
-MOV R1, 40
-MOV d, R1
-MOV R1, 50
-MOV e, R1
-MOV R1, a
-CMP R1, b
-MOV AUX1, R1
-MOV R1, AUX1
-BF LABEL68
-MOV R1, a
-MUL R1, 2
-MOV AUX2, R1
-MOV R1, AUX2
-MOV a, R1
-MOV R1, a
-CMP R1, c
-MOV AUX3, R1
-MOV R1, AUX3
-BF LABEL49
-MOV R1, b
-MUL R1, 2
-MOV AUX4, R1
-MOV R1, AUX4
-MOV a, R1
-MOV R1, a
-CMP R1, d
-MOV AUX5, R1
-MOV R1, AUX5
-BF LABEL47
-MOV R1, c
-MUL R1, 2
-MOV AUX6, R1
-MOV R1, AUX6
-MOV a, R1
-BI LABEL35
-BI LABEL66
-MOV R1, b
-DIV R1, 2
-MOV AUX7, R1
-MOV R1, AUX7
-MOV a, R1
-MOV R1, a
-CMP R1, c
-MOV AUX8, R1
-MOV R1, AUX8
-BF LABEL66
-MOV R1, d
-MUL R1, 2
-MOV AUX9, R1
-MOV R1, AUX9
-MOV a, R1
-BI LABEL54
-BI LABEL114
-LABEL68:
-MOV R1, a
-ADD R1, 2
-MOV AUX10, R1
-MOV R1, AUX10
-MOV a, R1
-MOV R1, a
-CMP R1, b
-MOV AUX11, R1
-MOV R1, AUX11
-BF LABEL97
-MOV R1, b
-ADD R1, 2
-MOV AUX12, R1
-MOV R1, AUX12
-MOV a, R1
-MOV R1, a
-CMP R1, e
-MOV AUX13, R1
-MOV R1, AUX13
-BF LABEL95
-MOV R1, d
-DIV R1, 2
-MOV AUX14, R1
-MOV R1, AUX14
-MOV a, R1
-BI LABEL83
-BI LABEL114
-MOV R1, b
-SUB R1, 2
-MOV AUX15, R1
-MOV R1, AUX15
-MOV a, R1
-MOV R1, a
-CMP R1, d
-MOV AUX16, R1
-MOV R1, AUX16
-BF LABEL114
-MOV R1, d
-DIV R1, 3
-MOV AUX17, R1
-MOV R1, AUX17
-MOV a, R1
-BI LABEL102
-MOV R1, a
-CMP R1, c
-MOV AUX18, R1
-MOV R1, AUX18
-BF LABEL167
-MOV R1, a
-MUL R1, 2
-MOV AUX19, R1
-MOV R1, AUX19
-MOV a, R1
-MOV R1, a
-CMP R1, c
-MOV AUX20, R1
-MOV R1, AUX20
-BF LABEL148
-MOV R1, b
-MUL R1, 2
-MOV AUX21, R1
-MOV R1, AUX21
-MOV a, R1
-MOV R1, a
-CMP R1, d
-MOV AUX22, R1
-MOV R1, AUX22
-BF LABEL146
-MOV R1, c
-MUL R1, 2
-MOV AUX23, R1
-MOV R1, AUX23
-MOV a, R1
-BI LABEL134
-BI LABEL165
-MOV R1, b
-DIV R1, 2
-MOV AUX24, R1
-MOV R1, AUX24
-MOV a, R1
-MOV R1, a
-CMP R1, c
-MOV AUX25, R1
-MOV R1, AUX25
-BF LABEL165
-MOV R1, d
-MUL R1, 2
-MOV AUX26, R1
-MOV R1, AUX26
-MOV a, R1
-BI LABEL153
-BI LABEL114
+include macros.asm
+include number.asm
+
+.MODEL LARGE; tipo de modelo de memoria utilizado
+.386
+.STACK 200h; bytes en el stack
+
+
+.DATA; bloque de definicion de variables
+
+	_a	DD	0
+	_b	DD	0
+	_c	DD	0
+	_d	DD	0
+	_e	DD	0
+	$_10	DD	0
+	$_20	DD	0
+	$_30	DD	0
+	$_40	DD	0
+	$_50	DD	0
+	$_2	DD	0
+	$_3	DD	0
+	aux1	DD	0
+	aux2	DD	0
+	aux3	DD	0
+	aux4	DD	0
+	aux5	DD	0
+	aux6	DD	0
+	aux7	DD	0
+	aux8	DD	0
+	aux9	DD	0
+	aux10	DD	0
+	aux11	DD	0
+	aux12	DD	0
+	aux13	DD	0
+	aux14	DD	0
+	aux15	DD	0
+	aux16	DD	0
+	aux17	DD	0
+	aux18	DD	0
+	aux19	DD	0
+	aux20	DD	0
+	aux21	DD	0
+	aux22	DD	0
+	aux23	DD	0
+	aux24	DD	0
+	aux25	DD	0
+	aux26	DD	0
+
+.CODE; bloque de definiciones de codigo
+
+START:
+
+	mov eax, @DATA; carga de variables
+
+		mov ebx, $_10
+		mov _a, ebx
+		mov ebx, $_20
+		mov _b, ebx
+		mov ebx, $_30
+		mov _c, ebx
+		mov ebx, $_40
+		mov _d, ebx
+		mov ebx, $_50
+		mov _e, ebx
+		mov ebx, _a
+		cmp ebx, _b
+		mov aux1, ebx
+		mov ebx, _a
+		mul ebx, $_2
+		mov aux2, ebx
+		mov ebx, aux2
+		mov _a, ebx
+		mov ebx, _a
+		cmp ebx, _c
+		mov aux3, ebx
+		mov ebx, _b
+		mul ebx, $_2
+		mov aux4, ebx
+		mov ebx, aux4
+		mov _a, ebx
+		mov ebx, _a
+		cmp ebx, _d
+		mov aux5, ebx
+		mov ebx, _c
+		mul ebx, $_2
+		mov aux6, ebx
+		mov ebx, aux6
+		mov _a, ebx
+		mov ebx, _b
+		div ebx, $_2
+		mov aux7, ebx
+		mov ebx, aux7
+		mov _a, ebx
+		mov ebx, _a
+		cmp ebx, _c
+		mov aux8, ebx
+		mov ebx, _d
+		mul ebx, $_2
+		mov aux9, ebx
+		mov ebx, aux9
+		mov _a, ebx
+	LABEL68:
+		mov ebx, _a
+		add ebx, $_2
+		mov aux10, ebx
+		mov ebx, aux10
+		mov _a, ebx
+		mov ebx, _a
+		cmp ebx, _b
+		mov aux11, ebx
+		mov ebx, _b
+		add ebx, $_2
+		mov aux12, ebx
+		mov ebx, aux12
+		mov _a, ebx
+		mov ebx, _a
+		cmp ebx, _e
+		mov aux13, ebx
+		mov ebx, _d
+		div ebx, $_2
+		mov aux14, ebx
+		mov ebx, aux14
+		mov _a, ebx
+		mov ebx, _b
+		sub ebx, $_2
+		mov aux15, ebx
+		mov ebx, aux15
+		mov _a, ebx
+		mov ebx, _a
+		cmp ebx, _d
+		mov aux16, ebx
+		mov ebx, _d
+		div ebx, $_3
+		mov aux17, ebx
+		mov ebx, aux17
+		mov _a, ebx
+		mov ebx, _a
+		cmp ebx, _c
+		mov aux18, ebx
+		mov ebx, _a
+		mul ebx, $_2
+		mov aux19, ebx
+		mov ebx, aux19
+		mov _a, ebx
+		mov ebx, _a
+		cmp ebx, _c
+		mov aux20, ebx
+		mov ebx, _b
+		mul ebx, $_2
+		mov aux21, ebx
+		mov ebx, aux21
+		mov _a, ebx
+		mov ebx, _a
+		cmp ebx, _d
+		mov aux22, ebx
+		mov ebx, _c
+		mul ebx, $_2
+		mov aux23, ebx
+		mov ebx, aux23
+		mov _a, ebx
+		mov ebx, _b
+		div ebx, $_2
+		mov aux24, ebx
+		mov ebx, aux24
+		mov _a, ebx
+		mov ebx, _a
+		cmp ebx, _c
+		mov aux25, ebx
+		mov ebx, _d
+		mul ebx, $_2
+		mov aux26, ebx
+		mov ebx, aux26
+		mov _a, ebx
+
+mov ax, 4c00h
+int 21h; interrupcion del programa
+END START; fin del programa

@@ -379,7 +379,7 @@ def parser(ntest, path_input, path_output):
     file.write("pila_anidamientos: " + str(pila_anidamientos) + '\n')
     file.close()
 
-    return polaca_inversa
+    return [polaca_inversa, lexer.ts]
 
 
 

@@ -1,24 +1,23 @@
-;ejemplo assembler
-
-section .data
-	;definir identificadores de la tabla de simbolos
-	a dw 0
-	b dw 0
-	c dw 0
-	
-
-section .text
-	;programa principal
-	global _start
-	_start:
-	
-	MOV ax, 0
-	MOV [a], ax
-	MOV ax, 3
-	MOV [b], ax
-	MOV ax, 2
-	IMUL ax, [b] ;en reemplazo de MUL ax, b
-	AUX1 dw 0
-	MOV [AUX1], ax
-	
-	int 0x80 ;fin de programa
+MOV R1, 1
+MOV a, R1
+MOV R1, 2
+MOV b, R1
+MOV R1, a
+CMP R1, 1
+MOV AUX1, R1
+MOV R1, AUX1
+BF LABEL26
+MOV R1, 2
+MOV a, R1
+MOV R1, b
+CMP R1, 2
+MOV AUX2, R1
+MOV R1, AUX2
+BF LABEL24
+MOV R1, 3
+MOV b, R1
+BI LABEL24
+BI LABEL26
+LABEL26:
+MOV R1, 0
+MOV c, R1
