@@ -182,7 +182,6 @@ class Lexer(object):
     #verifica si el ID conformado no esta presente en TS.
     # Si no está, lo agrega.
     def f4(self, c):
-        pass
         if self._is_keyword(self.cache):
             pass
         else:

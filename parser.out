@@ -44,10 +44,11 @@ Rule 38    cond_if -> comp_statement
 Rule 39    cond_if -> logic_statement
 Rule 40    fcpo1 -> sub_program
 Rule 41    fcpo2 -> sub_program
-Rule 42    if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement
-Rule 43    else_statement -> ELSE LLAVEA fcpo2
-Rule 44    else_statement -> empty
-Rule 45    empty -> <empty>
+Rule 42    if -> IF
+Rule 43    if_statement -> if PARA cond_if PARC LLAVEA fcpo1 else_statement
+Rule 44    else_statement -> ELSE LLAVEA fcpo2
+Rule 45    else_statement -> empty
+Rule 46    empty -> <empty>
 
 Terminals, with rules where they appear
 
@@ -56,12 +57,12 @@ ASIG                 : 13
 CTE                  : 22
 DIST                 : 25
 DIV                  : 19
-ELSE                 : 43
+ELSE                 : 44
 ID                   : 10 11 13 21
 IF                   : 42
 IGUALA               : 24
 INT                  : 9
-LLAVEA               : 9 37 42 43
+LLAVEA               : 9 37 43 44
 LLAVEC               : 10 33
 MAYOR                : 28
 MAYORIGUAL           : 29
@@ -69,8 +70,8 @@ MENOR                : 26
 MENORIGUAL           : 27
 MULT                 : 18
 OR                   : 11 30
-PARA                 : 20 23 37 42
-PARC                 : 20 23 37 42
+PARA                 : 20 23 37 43
+PARC                 : 20 23 37 43
 PRINT                : 23
 RESTA                : 16
 SUMA                 : 15
@@ -82,14 +83,15 @@ Nonterminals, with rules where they appear
 block_decl           : 9 12
 comp_expression      : 30 31
 comp_statement       : 4 30 31 32 34 38
-cond_if              : 42
+cond_if              : 43
 cond_while           : 37
-else_statement       : 42
-empty                : 44
+else_statement       : 43
+empty                : 45
 expression           : 8 13 15 16 20 23 24 25 26 27 28 29
 factor               : 17 18 19 24 25 26 27 28 29
-fcpo1                : 42
-fcpo2                : 43
+fcpo1                : 43
+fcpo2                : 44
+if                   : 43
 if_statement         : 7
 logic_statement      : 5 35 39
 other_decl           : 11
@@ -126,11 +128,12 @@ state 0
     (30) logic_statement -> . comp_statement OR comp_expression
     (31) logic_statement -> . comp_statement AND comp_expression
     (37) while_statement -> . while PARA cond_while PARC LLAVEA sub_program
-    (42) if_statement -> . IF PARA cond_if PARC LLAVEA fcpo1 else_statement
+    (43) if_statement -> . if PARA cond_if PARC LLAVEA fcpo1 else_statement
     (14) expression -> . term
     (15) expression -> . expression SUMA term
     (16) expression -> . expression RESTA term
     (36) while -> . WHILE
+    (42) if -> . IF
     (17) term -> . factor
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
@@ -141,10 +144,10 @@ state 0
     LLAVEA          shift and go to state 9
     ID              shift and go to state 10
     PRINT           shift and go to state 11
-    IF              shift and go to state 15
     WHILE           shift and go to state 17
+    IF              shift and go to state 18
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
+    CTE             shift and go to state 19
 
     program                        shift and go to state 1
     statement                      shift and go to state 2
@@ -156,6 +159,7 @@ state 0
     expression                     shift and go to state 8
     factor                         shift and go to state 13
     while                          shift and go to state 14
+    if                             shift and go to state 15
     term                           shift and go to state 16
 
 state 1
@@ -180,11 +184,12 @@ state 1
     (30) logic_statement -> . comp_statement OR comp_expression
     (31) logic_statement -> . comp_statement AND comp_expression
     (37) while_statement -> . while PARA cond_while PARC LLAVEA sub_program
-    (42) if_statement -> . IF PARA cond_if PARC LLAVEA fcpo1 else_statement
+    (43) if_statement -> . if PARA cond_if PARC LLAVEA fcpo1 else_statement
     (14) expression -> . term
     (15) expression -> . expression SUMA term
     (16) expression -> . expression RESTA term
     (36) while -> . WHILE
+    (42) if -> . IF
     (17) term -> . factor
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
@@ -195,12 +200,12 @@ state 1
     LLAVEA          shift and go to state 9
     ID              shift and go to state 10
     PRINT           shift and go to state 11
-    IF              shift and go to state 15
     WHILE           shift and go to state 17
+    IF              shift and go to state 18
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
+    CTE             shift and go to state 19
 
-    statement                      shift and go to state 19
+    statement                      shift and go to state 20
     print_statement                shift and go to state 3
     comp_statement                 shift and go to state 4
     logic_statement                shift and go to state 5
@@ -209,6 +214,7 @@ state 1
     expression                     shift and go to state 8
     factor                         shift and go to state 13
     while                          shift and go to state 14
+    if                             shift and go to state 15
     term                           shift and go to state 16
 
 state 2
@@ -218,8 +224,8 @@ state 2
     LLAVEA          reduce using rule 2 (program -> statement .)
     ID              reduce using rule 2 (program -> statement .)
     PRINT           reduce using rule 2 (program -> statement .)
-    IF              reduce using rule 2 (program -> statement .)
     WHILE           reduce using rule 2 (program -> statement .)
+    IF              reduce using rule 2 (program -> statement .)
     PARA            reduce using rule 2 (program -> statement .)
     CTE             reduce using rule 2 (program -> statement .)
     $end            reduce using rule 2 (program -> statement .)
@@ -233,8 +239,8 @@ state 3
     LLAVEA          reduce using rule 3 (statement -> print_statement .)
     ID              reduce using rule 3 (statement -> print_statement .)
     PRINT           reduce using rule 3 (statement -> print_statement .)
-    IF              reduce using rule 3 (statement -> print_statement .)
     WHILE           reduce using rule 3 (statement -> print_statement .)
+    IF              reduce using rule 3 (statement -> print_statement .)
     PARA            reduce using rule 3 (statement -> print_statement .)
     CTE             reduce using rule 3 (statement -> print_statement .)
     $end            reduce using rule 3 (statement -> print_statement .)
@@ -250,14 +256,14 @@ state 4
     LLAVEA          reduce using rule 4 (statement -> comp_statement .)
     ID              reduce using rule 4 (statement -> comp_statement .)
     PRINT           reduce using rule 4 (statement -> comp_statement .)
-    IF              reduce using rule 4 (statement -> comp_statement .)
     WHILE           reduce using rule 4 (statement -> comp_statement .)
+    IF              reduce using rule 4 (statement -> comp_statement .)
     PARA            reduce using rule 4 (statement -> comp_statement .)
     CTE             reduce using rule 4 (statement -> comp_statement .)
     $end            reduce using rule 4 (statement -> comp_statement .)
     LLAVEC          reduce using rule 4 (statement -> comp_statement .)
-    OR              shift and go to state 20
-    AND             shift and go to state 21
+    OR              shift and go to state 21
+    AND             shift and go to state 22
 
 
 state 5
@@ -267,8 +273,8 @@ state 5
     LLAVEA          reduce using rule 5 (statement -> logic_statement .)
     ID              reduce using rule 5 (statement -> logic_statement .)
     PRINT           reduce using rule 5 (statement -> logic_statement .)
-    IF              reduce using rule 5 (statement -> logic_statement .)
     WHILE           reduce using rule 5 (statement -> logic_statement .)
+    IF              reduce using rule 5 (statement -> logic_statement .)
     PARA            reduce using rule 5 (statement -> logic_statement .)
     CTE             reduce using rule 5 (statement -> logic_statement .)
     $end            reduce using rule 5 (statement -> logic_statement .)
@@ -282,8 +288,8 @@ state 6
     LLAVEA          reduce using rule 6 (statement -> while_statement .)
     ID              reduce using rule 6 (statement -> while_statement .)
     PRINT           reduce using rule 6 (statement -> while_statement .)
-    IF              reduce using rule 6 (statement -> while_statement .)
     WHILE           reduce using rule 6 (statement -> while_statement .)
+    IF              reduce using rule 6 (statement -> while_statement .)
     PARA            reduce using rule 6 (statement -> while_statement .)
     CTE             reduce using rule 6 (statement -> while_statement .)
     $end            reduce using rule 6 (statement -> while_statement .)
@@ -297,8 +303,8 @@ state 7
     LLAVEA          reduce using rule 7 (statement -> if_statement .)
     ID              reduce using rule 7 (statement -> if_statement .)
     PRINT           reduce using rule 7 (statement -> if_statement .)
-    IF              reduce using rule 7 (statement -> if_statement .)
     WHILE           reduce using rule 7 (statement -> if_statement .)
+    IF              reduce using rule 7 (statement -> if_statement .)
     PARA            reduce using rule 7 (statement -> if_statement .)
     CTE             reduce using rule 7 (statement -> if_statement .)
     $end            reduce using rule 7 (statement -> if_statement .)
@@ -320,27 +326,27 @@ state 8
     LLAVEA          reduce using rule 8 (statement -> expression .)
     ID              reduce using rule 8 (statement -> expression .)
     PRINT           reduce using rule 8 (statement -> expression .)
-    IF              reduce using rule 8 (statement -> expression .)
     WHILE           reduce using rule 8 (statement -> expression .)
+    IF              reduce using rule 8 (statement -> expression .)
     PARA            reduce using rule 8 (statement -> expression .)
     CTE             reduce using rule 8 (statement -> expression .)
     $end            reduce using rule 8 (statement -> expression .)
     LLAVEC          reduce using rule 8 (statement -> expression .)
-    IGUALA          shift and go to state 22
-    DIST            shift and go to state 23
-    MENOR           shift and go to state 24
-    MENORIGUAL      shift and go to state 25
-    MAYOR           shift and go to state 26
-    MAYORIGUAL      shift and go to state 27
-    SUMA            shift and go to state 28
-    RESTA           shift and go to state 29
+    IGUALA          shift and go to state 23
+    DIST            shift and go to state 24
+    MENOR           shift and go to state 25
+    MENORIGUAL      shift and go to state 26
+    MAYOR           shift and go to state 27
+    MAYORIGUAL      shift and go to state 28
+    SUMA            shift and go to state 29
+    RESTA           shift and go to state 30
 
 
 state 9
 
     (9) statement -> LLAVEA . INT block_decl
 
-    INT             shift and go to state 30
+    INT             shift and go to state 31
 
 
 state 10
@@ -348,7 +354,7 @@ state 10
     (13) statement -> ID . ASIG expression
     (21) factor -> ID .
 
-    ASIG            shift and go to state 31
+    ASIG            shift and go to state 32
     MULT            reduce using rule 21 (factor -> ID .)
     DIV             reduce using rule 21 (factor -> ID .)
     IGUALA          reduce using rule 21 (factor -> ID .)
@@ -362,8 +368,8 @@ state 10
     LLAVEA          reduce using rule 21 (factor -> ID .)
     ID              reduce using rule 21 (factor -> ID .)
     PRINT           reduce using rule 21 (factor -> ID .)
-    IF              reduce using rule 21 (factor -> ID .)
     WHILE           reduce using rule 21 (factor -> ID .)
+    IF              reduce using rule 21 (factor -> ID .)
     PARA            reduce using rule 21 (factor -> ID .)
     CTE             reduce using rule 21 (factor -> ID .)
     $end            reduce using rule 21 (factor -> ID .)
@@ -374,7 +380,7 @@ state 11
 
     (23) print_statement -> PRINT . PARA expression PARC
 
-    PARA            shift and go to state 32
+    PARA            shift and go to state 33
 
 
 state 12
@@ -391,10 +397,10 @@ state 12
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    expression                     shift and go to state 33
+    expression                     shift and go to state 34
     term                           shift and go to state 16
     factor                         shift and go to state 13
 
@@ -415,8 +421,8 @@ state 13
     LLAVEA          reduce using rule 17 (term -> factor .)
     ID              reduce using rule 17 (term -> factor .)
     PRINT           reduce using rule 17 (term -> factor .)
-    IF              reduce using rule 17 (term -> factor .)
     WHILE           reduce using rule 17 (term -> factor .)
+    IF              reduce using rule 17 (term -> factor .)
     PARA            reduce using rule 17 (term -> factor .)
     CTE             reduce using rule 17 (term -> factor .)
     $end            reduce using rule 17 (term -> factor .)
@@ -428,14 +434,14 @@ state 14
 
     (37) while_statement -> while . PARA cond_while PARC LLAVEA sub_program
 
-    PARA            shift and go to state 35
+    PARA            shift and go to state 36
 
 
 state 15
 
-    (42) if_statement -> IF . PARA cond_if PARC LLAVEA fcpo1 else_statement
+    (43) if_statement -> if . PARA cond_if PARC LLAVEA fcpo1 else_statement
 
-    PARA            shift and go to state 36
+    PARA            shift and go to state 37
 
 
 state 16
@@ -455,15 +461,15 @@ state 16
     LLAVEA          reduce using rule 14 (expression -> term .)
     ID              reduce using rule 14 (expression -> term .)
     PRINT           reduce using rule 14 (expression -> term .)
-    IF              reduce using rule 14 (expression -> term .)
     WHILE           reduce using rule 14 (expression -> term .)
+    IF              reduce using rule 14 (expression -> term .)
     PARA            reduce using rule 14 (expression -> term .)
     CTE             reduce using rule 14 (expression -> term .)
     $end            reduce using rule 14 (expression -> term .)
     PARC            reduce using rule 14 (expression -> term .)
     LLAVEC          reduce using rule 14 (expression -> term .)
-    MULT            shift and go to state 37
-    DIV             shift and go to state 38
+    MULT            shift and go to state 38
+    DIV             shift and go to state 39
 
 
 state 17
@@ -474,6 +480,13 @@ state 17
 
 
 state 18
+
+    (42) if -> IF .
+
+    PARA            reduce using rule 42 (if -> IF .)
+
+
+state 19
 
     (22) factor -> CTE .
 
@@ -490,8 +503,8 @@ state 18
     LLAVEA          reduce using rule 22 (factor -> CTE .)
     ID              reduce using rule 22 (factor -> CTE .)
     PRINT           reduce using rule 22 (factor -> CTE .)
-    IF              reduce using rule 22 (factor -> CTE .)
     WHILE           reduce using rule 22 (factor -> CTE .)
+    IF              reduce using rule 22 (factor -> CTE .)
     PARA            reduce using rule 22 (factor -> CTE .)
     CTE             reduce using rule 22 (factor -> CTE .)
     $end            reduce using rule 22 (factor -> CTE .)
@@ -501,22 +514,22 @@ state 18
     LLAVEC          reduce using rule 22 (factor -> CTE .)
 
 
-state 19
+state 20
 
     (1) program -> program statement .
 
     LLAVEA          reduce using rule 1 (program -> program statement .)
     ID              reduce using rule 1 (program -> program statement .)
     PRINT           reduce using rule 1 (program -> program statement .)
-    IF              reduce using rule 1 (program -> program statement .)
     WHILE           reduce using rule 1 (program -> program statement .)
+    IF              reduce using rule 1 (program -> program statement .)
     PARA            reduce using rule 1 (program -> program statement .)
     CTE             reduce using rule 1 (program -> program statement .)
     $end            reduce using rule 1 (program -> program statement .)
     LLAVEC          reduce using rule 1 (program -> program statement .)
 
 
-state 20
+state 21
 
     (30) logic_statement -> comp_statement OR . comp_expression
     (32) comp_expression -> . comp_statement
@@ -537,16 +550,16 @@ state 20
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    comp_statement                 shift and go to state 39
-    comp_expression                shift and go to state 40
-    expression                     shift and go to state 41
+    comp_statement                 shift and go to state 40
+    comp_expression                shift and go to state 41
+    expression                     shift and go to state 42
     factor                         shift and go to state 13
     term                           shift and go to state 16
 
-state 21
+state 22
 
     (31) logic_statement -> comp_statement AND . comp_expression
     (32) comp_expression -> . comp_statement
@@ -567,16 +580,16 @@ state 21
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    comp_statement                 shift and go to state 39
-    comp_expression                shift and go to state 42
-    expression                     shift and go to state 41
+    comp_statement                 shift and go to state 40
+    comp_expression                shift and go to state 43
+    expression                     shift and go to state 42
     factor                         shift and go to state 13
     term                           shift and go to state 16
 
-state 22
+state 23
 
     (24) comp_statement -> expression IGUALA . factor
     (20) factor -> . PARA expression PARC
@@ -584,12 +597,12 @@ state 22
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    factor                         shift and go to state 43
+    factor                         shift and go to state 44
 
-state 23
+state 24
 
     (25) comp_statement -> expression DIST . factor
     (20) factor -> . PARA expression PARC
@@ -597,12 +610,12 @@ state 23
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    factor                         shift and go to state 44
+    factor                         shift and go to state 45
 
-state 24
+state 25
 
     (26) comp_statement -> expression MENOR . factor
     (20) factor -> . PARA expression PARC
@@ -610,12 +623,12 @@ state 24
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    factor                         shift and go to state 45
+    factor                         shift and go to state 46
 
-state 25
+state 26
 
     (27) comp_statement -> expression MENORIGUAL . factor
     (20) factor -> . PARA expression PARC
@@ -623,12 +636,12 @@ state 25
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    factor                         shift and go to state 46
+    factor                         shift and go to state 47
 
-state 26
+state 27
 
     (28) comp_statement -> expression MAYOR . factor
     (20) factor -> . PARA expression PARC
@@ -636,12 +649,12 @@ state 26
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    factor                         shift and go to state 47
+    factor                         shift and go to state 48
 
-state 27
+state 28
 
     (29) comp_statement -> expression MAYORIGUAL . factor
     (20) factor -> . PARA expression PARC
@@ -649,12 +662,12 @@ state 27
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    factor                         shift and go to state 48
+    factor                         shift and go to state 49
 
-state 28
+state 29
 
     (15) expression -> expression SUMA . term
     (17) term -> . factor
@@ -665,13 +678,13 @@ state 28
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    term                           shift and go to state 49
+    term                           shift and go to state 50
     factor                         shift and go to state 13
 
-state 29
+state 30
 
     (16) expression -> expression RESTA . term
     (17) term -> . factor
@@ -682,23 +695,23 @@ state 29
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    term                           shift and go to state 50
+    term                           shift and go to state 51
     factor                         shift and go to state 13
 
-state 30
+state 31
 
     (9) statement -> LLAVEA INT . block_decl
     (10) block_decl -> . ID LLAVEC
     (11) block_decl -> . ID OR other_decl
 
-    ID              shift and go to state 52
+    ID              shift and go to state 53
 
-    block_decl                     shift and go to state 51
+    block_decl                     shift and go to state 52
 
-state 31
+state 32
 
     (13) statement -> ID ASIG . expression
     (14) expression -> . term
@@ -712,14 +725,14 @@ state 31
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    expression                     shift and go to state 53
+    expression                     shift and go to state 54
     term                           shift and go to state 16
     factor                         shift and go to state 13
 
-state 32
+state 33
 
     (23) print_statement -> PRINT PARA . expression PARC
     (14) expression -> . term
@@ -733,25 +746,25 @@ state 32
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    expression                     shift and go to state 54
+    expression                     shift and go to state 55
     term                           shift and go to state 16
     factor                         shift and go to state 13
 
-state 33
+state 34
 
     (20) factor -> PARA expression . PARC
     (15) expression -> expression . SUMA term
     (16) expression -> expression . RESTA term
 
-    PARC            shift and go to state 55
-    SUMA            shift and go to state 28
-    RESTA           shift and go to state 29
+    PARC            shift and go to state 56
+    SUMA            shift and go to state 29
+    RESTA           shift and go to state 30
 
 
-state 34
+state 35
 
     (21) factor -> ID .
 
@@ -771,15 +784,15 @@ state 34
     LLAVEA          reduce using rule 21 (factor -> ID .)
     ID              reduce using rule 21 (factor -> ID .)
     PRINT           reduce using rule 21 (factor -> ID .)
-    IF              reduce using rule 21 (factor -> ID .)
     WHILE           reduce using rule 21 (factor -> ID .)
+    IF              reduce using rule 21 (factor -> ID .)
     PARA            reduce using rule 21 (factor -> ID .)
     CTE             reduce using rule 21 (factor -> ID .)
     $end            reduce using rule 21 (factor -> ID .)
     LLAVEC          reduce using rule 21 (factor -> ID .)
 
 
-state 35
+state 36
 
     (37) while_statement -> while PARA . cond_while PARC LLAVEA sub_program
     (34) cond_while -> . comp_statement
@@ -803,19 +816,19 @@ state 35
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    cond_while                     shift and go to state 56
-    comp_statement                 shift and go to state 57
-    logic_statement                shift and go to state 58
-    expression                     shift and go to state 41
+    cond_while                     shift and go to state 57
+    comp_statement                 shift and go to state 58
+    logic_statement                shift and go to state 59
+    expression                     shift and go to state 42
     factor                         shift and go to state 13
     term                           shift and go to state 16
 
-state 36
+state 37
 
-    (42) if_statement -> IF PARA . cond_if PARC LLAVEA fcpo1 else_statement
+    (43) if_statement -> if PARA . cond_if PARC LLAVEA fcpo1 else_statement
     (38) cond_if -> . comp_statement
     (39) cond_if -> . logic_statement
     (24) comp_statement -> . expression IGUALA factor
@@ -837,17 +850,17 @@ state 36
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    cond_if                        shift and go to state 59
-    comp_statement                 shift and go to state 60
-    logic_statement                shift and go to state 61
-    expression                     shift and go to state 41
+    cond_if                        shift and go to state 60
+    comp_statement                 shift and go to state 61
+    logic_statement                shift and go to state 62
+    expression                     shift and go to state 42
     factor                         shift and go to state 13
     term                           shift and go to state 16
 
-state 37
+state 38
 
     (18) term -> term MULT . factor
     (20) factor -> . PARA expression PARC
@@ -855,12 +868,12 @@ state 37
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    factor                         shift and go to state 62
+    factor                         shift and go to state 63
 
-state 38
+state 39
 
     (19) term -> term DIV . factor
     (20) factor -> . PARA expression PARC
@@ -868,20 +881,20 @@ state 38
     (22) factor -> . CTE
 
     PARA            shift and go to state 12
-    ID              shift and go to state 34
-    CTE             shift and go to state 18
+    ID              shift and go to state 35
+    CTE             shift and go to state 19
 
-    factor                         shift and go to state 63
+    factor                         shift and go to state 64
 
-state 39
+state 40
 
     (32) comp_expression -> comp_statement .
 
     LLAVEA          reduce using rule 32 (comp_expression -> comp_statement .)
     ID              reduce using rule 32 (comp_expression -> comp_statement .)
     PRINT           reduce using rule 32 (comp_expression -> comp_statement .)
-    IF              reduce using rule 32 (comp_expression -> comp_statement .)
     WHILE           reduce using rule 32 (comp_expression -> comp_statement .)
+    IF              reduce using rule 32 (comp_expression -> comp_statement .)
     PARA            reduce using rule 32 (comp_expression -> comp_statement .)
     CTE             reduce using rule 32 (comp_expression -> comp_statement .)
     $end            reduce using rule 32 (comp_expression -> comp_statement .)
@@ -889,15 +902,15 @@ state 39
     LLAVEC          reduce using rule 32 (comp_expression -> comp_statement .)
 
 
-state 40
+state 41
 
     (30) logic_statement -> comp_statement OR comp_expression .
 
     LLAVEA          reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
     ID              reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
     PRINT           reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
-    IF              reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
     WHILE           reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
+    IF              reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
     PARA            reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
     CTE             reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
     $end            reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
@@ -905,7 +918,7 @@ state 40
     LLAVEC          reduce using rule 30 (logic_statement -> comp_statement OR comp_expression .)
 
 
-state 41
+state 42
 
     (24) comp_statement -> expression . IGUALA factor
     (25) comp_statement -> expression . DIST factor
@@ -916,25 +929,25 @@ state 41
     (15) expression -> expression . SUMA term
     (16) expression -> expression . RESTA term
 
-    IGUALA          shift and go to state 22
-    DIST            shift and go to state 23
-    MENOR           shift and go to state 24
-    MENORIGUAL      shift and go to state 25
-    MAYOR           shift and go to state 26
-    MAYORIGUAL      shift and go to state 27
-    SUMA            shift and go to state 28
-    RESTA           shift and go to state 29
+    IGUALA          shift and go to state 23
+    DIST            shift and go to state 24
+    MENOR           shift and go to state 25
+    MENORIGUAL      shift and go to state 26
+    MAYOR           shift and go to state 27
+    MAYORIGUAL      shift and go to state 28
+    SUMA            shift and go to state 29
+    RESTA           shift and go to state 30
 
 
-state 42
+state 43
 
     (31) logic_statement -> comp_statement AND comp_expression .
 
     LLAVEA          reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
     ID              reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
     PRINT           reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
-    IF              reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
     WHILE           reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
+    IF              reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
     PARA            reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
     CTE             reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
     $end            reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
@@ -942,7 +955,7 @@ state 42
     LLAVEC          reduce using rule 31 (logic_statement -> comp_statement AND comp_expression .)
 
 
-state 43
+state 44
 
     (24) comp_statement -> expression IGUALA factor .
 
@@ -951,8 +964,8 @@ state 43
     LLAVEA          reduce using rule 24 (comp_statement -> expression IGUALA factor .)
     ID              reduce using rule 24 (comp_statement -> expression IGUALA factor .)
     PRINT           reduce using rule 24 (comp_statement -> expression IGUALA factor .)
-    IF              reduce using rule 24 (comp_statement -> expression IGUALA factor .)
     WHILE           reduce using rule 24 (comp_statement -> expression IGUALA factor .)
+    IF              reduce using rule 24 (comp_statement -> expression IGUALA factor .)
     PARA            reduce using rule 24 (comp_statement -> expression IGUALA factor .)
     CTE             reduce using rule 24 (comp_statement -> expression IGUALA factor .)
     $end            reduce using rule 24 (comp_statement -> expression IGUALA factor .)
@@ -960,7 +973,7 @@ state 43
     LLAVEC          reduce using rule 24 (comp_statement -> expression IGUALA factor .)
 
 
-state 44
+state 45
 
     (25) comp_statement -> expression DIST factor .
 
@@ -969,8 +982,8 @@ state 44
     LLAVEA          reduce using rule 25 (comp_statement -> expression DIST factor .)
     ID              reduce using rule 25 (comp_statement -> expression DIST factor .)
     PRINT           reduce using rule 25 (comp_statement -> expression DIST factor .)
-    IF              reduce using rule 25 (comp_statement -> expression DIST factor .)
     WHILE           reduce using rule 25 (comp_statement -> expression DIST factor .)
+    IF              reduce using rule 25 (comp_statement -> expression DIST factor .)
     PARA            reduce using rule 25 (comp_statement -> expression DIST factor .)
     CTE             reduce using rule 25 (comp_statement -> expression DIST factor .)
     $end            reduce using rule 25 (comp_statement -> expression DIST factor .)
@@ -978,7 +991,7 @@ state 44
     LLAVEC          reduce using rule 25 (comp_statement -> expression DIST factor .)
 
 
-state 45
+state 46
 
     (26) comp_statement -> expression MENOR factor .
 
@@ -987,8 +1000,8 @@ state 45
     LLAVEA          reduce using rule 26 (comp_statement -> expression MENOR factor .)
     ID              reduce using rule 26 (comp_statement -> expression MENOR factor .)
     PRINT           reduce using rule 26 (comp_statement -> expression MENOR factor .)
-    IF              reduce using rule 26 (comp_statement -> expression MENOR factor .)
     WHILE           reduce using rule 26 (comp_statement -> expression MENOR factor .)
+    IF              reduce using rule 26 (comp_statement -> expression MENOR factor .)
     PARA            reduce using rule 26 (comp_statement -> expression MENOR factor .)
     CTE             reduce using rule 26 (comp_statement -> expression MENOR factor .)
     $end            reduce using rule 26 (comp_statement -> expression MENOR factor .)
@@ -996,7 +1009,7 @@ state 45
     LLAVEC          reduce using rule 26 (comp_statement -> expression MENOR factor .)
 
 
-state 46
+state 47
 
     (27) comp_statement -> expression MENORIGUAL factor .
 
@@ -1005,8 +1018,8 @@ state 46
     LLAVEA          reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
     ID              reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
     PRINT           reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
-    IF              reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
     WHILE           reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
+    IF              reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
     PARA            reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
     CTE             reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
     $end            reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
@@ -1014,7 +1027,7 @@ state 46
     LLAVEC          reduce using rule 27 (comp_statement -> expression MENORIGUAL factor .)
 
 
-state 47
+state 48
 
     (28) comp_statement -> expression MAYOR factor .
 
@@ -1023,8 +1036,8 @@ state 47
     LLAVEA          reduce using rule 28 (comp_statement -> expression MAYOR factor .)
     ID              reduce using rule 28 (comp_statement -> expression MAYOR factor .)
     PRINT           reduce using rule 28 (comp_statement -> expression MAYOR factor .)
-    IF              reduce using rule 28 (comp_statement -> expression MAYOR factor .)
     WHILE           reduce using rule 28 (comp_statement -> expression MAYOR factor .)
+    IF              reduce using rule 28 (comp_statement -> expression MAYOR factor .)
     PARA            reduce using rule 28 (comp_statement -> expression MAYOR factor .)
     CTE             reduce using rule 28 (comp_statement -> expression MAYOR factor .)
     $end            reduce using rule 28 (comp_statement -> expression MAYOR factor .)
@@ -1032,7 +1045,7 @@ state 47
     LLAVEC          reduce using rule 28 (comp_statement -> expression MAYOR factor .)
 
 
-state 48
+state 49
 
     (29) comp_statement -> expression MAYORIGUAL factor .
 
@@ -1041,8 +1054,8 @@ state 48
     LLAVEA          reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
     ID              reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
     PRINT           reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
-    IF              reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
     WHILE           reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
+    IF              reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
     PARA            reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
     CTE             reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
     $end            reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
@@ -1050,7 +1063,7 @@ state 48
     LLAVEC          reduce using rule 29 (comp_statement -> expression MAYORIGUAL factor .)
 
 
-state 49
+state 50
 
     (15) expression -> expression SUMA term .
     (18) term -> term . MULT factor
@@ -1067,18 +1080,18 @@ state 49
     LLAVEA          reduce using rule 15 (expression -> expression SUMA term .)
     ID              reduce using rule 15 (expression -> expression SUMA term .)
     PRINT           reduce using rule 15 (expression -> expression SUMA term .)
-    IF              reduce using rule 15 (expression -> expression SUMA term .)
     WHILE           reduce using rule 15 (expression -> expression SUMA term .)
+    IF              reduce using rule 15 (expression -> expression SUMA term .)
     PARA            reduce using rule 15 (expression -> expression SUMA term .)
     CTE             reduce using rule 15 (expression -> expression SUMA term .)
     $end            reduce using rule 15 (expression -> expression SUMA term .)
     PARC            reduce using rule 15 (expression -> expression SUMA term .)
     LLAVEC          reduce using rule 15 (expression -> expression SUMA term .)
-    MULT            shift and go to state 37
-    DIV             shift and go to state 38
+    MULT            shift and go to state 38
+    DIV             shift and go to state 39
 
 
-state 50
+state 51
 
     (16) expression -> expression RESTA term .
     (18) term -> term . MULT factor
@@ -1095,42 +1108,42 @@ state 50
     LLAVEA          reduce using rule 16 (expression -> expression RESTA term .)
     ID              reduce using rule 16 (expression -> expression RESTA term .)
     PRINT           reduce using rule 16 (expression -> expression RESTA term .)
-    IF              reduce using rule 16 (expression -> expression RESTA term .)
     WHILE           reduce using rule 16 (expression -> expression RESTA term .)
+    IF              reduce using rule 16 (expression -> expression RESTA term .)
     PARA            reduce using rule 16 (expression -> expression RESTA term .)
     CTE             reduce using rule 16 (expression -> expression RESTA term .)
     $end            reduce using rule 16 (expression -> expression RESTA term .)
     PARC            reduce using rule 16 (expression -> expression RESTA term .)
     LLAVEC          reduce using rule 16 (expression -> expression RESTA term .)
-    MULT            shift and go to state 37
-    DIV             shift and go to state 38
+    MULT            shift and go to state 38
+    DIV             shift and go to state 39
 
 
-state 51
+state 52
 
     (9) statement -> LLAVEA INT block_decl .
 
     LLAVEA          reduce using rule 9 (statement -> LLAVEA INT block_decl .)
     ID              reduce using rule 9 (statement -> LLAVEA INT block_decl .)
     PRINT           reduce using rule 9 (statement -> LLAVEA INT block_decl .)
-    IF              reduce using rule 9 (statement -> LLAVEA INT block_decl .)
     WHILE           reduce using rule 9 (statement -> LLAVEA INT block_decl .)
+    IF              reduce using rule 9 (statement -> LLAVEA INT block_decl .)
     PARA            reduce using rule 9 (statement -> LLAVEA INT block_decl .)
     CTE             reduce using rule 9 (statement -> LLAVEA INT block_decl .)
     $end            reduce using rule 9 (statement -> LLAVEA INT block_decl .)
     LLAVEC          reduce using rule 9 (statement -> LLAVEA INT block_decl .)
 
 
-state 52
+state 53
 
     (10) block_decl -> ID . LLAVEC
     (11) block_decl -> ID . OR other_decl
 
-    LLAVEC          shift and go to state 64
-    OR              shift and go to state 65
+    LLAVEC          shift and go to state 65
+    OR              shift and go to state 66
 
 
-state 53
+state 54
 
     (13) statement -> ID ASIG expression .
     (15) expression -> expression . SUMA term
@@ -1139,28 +1152,28 @@ state 53
     LLAVEA          reduce using rule 13 (statement -> ID ASIG expression .)
     ID              reduce using rule 13 (statement -> ID ASIG expression .)
     PRINT           reduce using rule 13 (statement -> ID ASIG expression .)
-    IF              reduce using rule 13 (statement -> ID ASIG expression .)
     WHILE           reduce using rule 13 (statement -> ID ASIG expression .)
+    IF              reduce using rule 13 (statement -> ID ASIG expression .)
     PARA            reduce using rule 13 (statement -> ID ASIG expression .)
     CTE             reduce using rule 13 (statement -> ID ASIG expression .)
     $end            reduce using rule 13 (statement -> ID ASIG expression .)
     LLAVEC          reduce using rule 13 (statement -> ID ASIG expression .)
-    SUMA            shift and go to state 28
-    RESTA           shift and go to state 29
+    SUMA            shift and go to state 29
+    RESTA           shift and go to state 30
 
 
-state 54
+state 55
 
     (23) print_statement -> PRINT PARA expression . PARC
     (15) expression -> expression . SUMA term
     (16) expression -> expression . RESTA term
 
-    PARC            shift and go to state 66
-    SUMA            shift and go to state 28
-    RESTA           shift and go to state 29
+    PARC            shift and go to state 67
+    SUMA            shift and go to state 29
+    RESTA           shift and go to state 30
 
 
-state 55
+state 56
 
     (20) factor -> PARA expression PARC .
 
@@ -1177,8 +1190,8 @@ state 55
     LLAVEA          reduce using rule 20 (factor -> PARA expression PARC .)
     ID              reduce using rule 20 (factor -> PARA expression PARC .)
     PRINT           reduce using rule 20 (factor -> PARA expression PARC .)
-    IF              reduce using rule 20 (factor -> PARA expression PARC .)
     WHILE           reduce using rule 20 (factor -> PARA expression PARC .)
+    IF              reduce using rule 20 (factor -> PARA expression PARC .)
     PARA            reduce using rule 20 (factor -> PARA expression PARC .)
     CTE             reduce using rule 20 (factor -> PARA expression PARC .)
     $end            reduce using rule 20 (factor -> PARA expression PARC .)
@@ -1188,57 +1201,57 @@ state 55
     LLAVEC          reduce using rule 20 (factor -> PARA expression PARC .)
 
 
-state 56
+state 57
 
     (37) while_statement -> while PARA cond_while . PARC LLAVEA sub_program
 
-    PARC            shift and go to state 67
+    PARC            shift and go to state 68
 
 
-state 57
+state 58
 
     (34) cond_while -> comp_statement .
     (30) logic_statement -> comp_statement . OR comp_expression
     (31) logic_statement -> comp_statement . AND comp_expression
 
     PARC            reduce using rule 34 (cond_while -> comp_statement .)
-    OR              shift and go to state 20
-    AND             shift and go to state 21
+    OR              shift and go to state 21
+    AND             shift and go to state 22
 
 
-state 58
+state 59
 
     (35) cond_while -> logic_statement .
 
     PARC            reduce using rule 35 (cond_while -> logic_statement .)
 
 
-state 59
-
-    (42) if_statement -> IF PARA cond_if . PARC LLAVEA fcpo1 else_statement
-
-    PARC            shift and go to state 68
-
-
 state 60
+
+    (43) if_statement -> if PARA cond_if . PARC LLAVEA fcpo1 else_statement
+
+    PARC            shift and go to state 69
+
+
+state 61
 
     (38) cond_if -> comp_statement .
     (30) logic_statement -> comp_statement . OR comp_expression
     (31) logic_statement -> comp_statement . AND comp_expression
 
     PARC            reduce using rule 38 (cond_if -> comp_statement .)
-    OR              shift and go to state 20
-    AND             shift and go to state 21
+    OR              shift and go to state 21
+    AND             shift and go to state 22
 
 
-state 61
+state 62
 
     (39) cond_if -> logic_statement .
 
     PARC            reduce using rule 39 (cond_if -> logic_statement .)
 
 
-state 62
+state 63
 
     (18) term -> term MULT factor .
 
@@ -1255,8 +1268,8 @@ state 62
     LLAVEA          reduce using rule 18 (term -> term MULT factor .)
     ID              reduce using rule 18 (term -> term MULT factor .)
     PRINT           reduce using rule 18 (term -> term MULT factor .)
-    IF              reduce using rule 18 (term -> term MULT factor .)
     WHILE           reduce using rule 18 (term -> term MULT factor .)
+    IF              reduce using rule 18 (term -> term MULT factor .)
     PARA            reduce using rule 18 (term -> term MULT factor .)
     CTE             reduce using rule 18 (term -> term MULT factor .)
     $end            reduce using rule 18 (term -> term MULT factor .)
@@ -1264,7 +1277,7 @@ state 62
     LLAVEC          reduce using rule 18 (term -> term MULT factor .)
 
 
-state 63
+state 64
 
     (19) term -> term DIV factor .
 
@@ -1281,8 +1294,8 @@ state 63
     LLAVEA          reduce using rule 19 (term -> term DIV factor .)
     ID              reduce using rule 19 (term -> term DIV factor .)
     PRINT           reduce using rule 19 (term -> term DIV factor .)
-    IF              reduce using rule 19 (term -> term DIV factor .)
     WHILE           reduce using rule 19 (term -> term DIV factor .)
+    IF              reduce using rule 19 (term -> term DIV factor .)
     PARA            reduce using rule 19 (term -> term DIV factor .)
     CTE             reduce using rule 19 (term -> term DIV factor .)
     $end            reduce using rule 19 (term -> term DIV factor .)
@@ -1290,93 +1303,93 @@ state 63
     LLAVEC          reduce using rule 19 (term -> term DIV factor .)
 
 
-state 64
+state 65
 
     (10) block_decl -> ID LLAVEC .
 
     LLAVEA          reduce using rule 10 (block_decl -> ID LLAVEC .)
     ID              reduce using rule 10 (block_decl -> ID LLAVEC .)
     PRINT           reduce using rule 10 (block_decl -> ID LLAVEC .)
-    IF              reduce using rule 10 (block_decl -> ID LLAVEC .)
     WHILE           reduce using rule 10 (block_decl -> ID LLAVEC .)
+    IF              reduce using rule 10 (block_decl -> ID LLAVEC .)
     PARA            reduce using rule 10 (block_decl -> ID LLAVEC .)
     CTE             reduce using rule 10 (block_decl -> ID LLAVEC .)
     $end            reduce using rule 10 (block_decl -> ID LLAVEC .)
     LLAVEC          reduce using rule 10 (block_decl -> ID LLAVEC .)
 
 
-state 65
+state 66
 
     (11) block_decl -> ID OR . other_decl
     (12) other_decl -> . block_decl
     (10) block_decl -> . ID LLAVEC
     (11) block_decl -> . ID OR other_decl
 
-    ID              shift and go to state 52
+    ID              shift and go to state 53
 
-    other_decl                     shift and go to state 69
-    block_decl                     shift and go to state 70
+    other_decl                     shift and go to state 70
+    block_decl                     shift and go to state 71
 
-state 66
+state 67
 
     (23) print_statement -> PRINT PARA expression PARC .
 
     LLAVEA          reduce using rule 23 (print_statement -> PRINT PARA expression PARC .)
     ID              reduce using rule 23 (print_statement -> PRINT PARA expression PARC .)
     PRINT           reduce using rule 23 (print_statement -> PRINT PARA expression PARC .)
-    IF              reduce using rule 23 (print_statement -> PRINT PARA expression PARC .)
     WHILE           reduce using rule 23 (print_statement -> PRINT PARA expression PARC .)
+    IF              reduce using rule 23 (print_statement -> PRINT PARA expression PARC .)
     PARA            reduce using rule 23 (print_statement -> PRINT PARA expression PARC .)
     CTE             reduce using rule 23 (print_statement -> PRINT PARA expression PARC .)
     $end            reduce using rule 23 (print_statement -> PRINT PARA expression PARC .)
     LLAVEC          reduce using rule 23 (print_statement -> PRINT PARA expression PARC .)
 
 
-state 67
-
-    (37) while_statement -> while PARA cond_while PARC . LLAVEA sub_program
-
-    LLAVEA          shift and go to state 71
-
-
 state 68
 
-    (42) if_statement -> IF PARA cond_if PARC . LLAVEA fcpo1 else_statement
+    (37) while_statement -> while PARA cond_while PARC . LLAVEA sub_program
 
     LLAVEA          shift and go to state 72
 
 
 state 69
 
+    (43) if_statement -> if PARA cond_if PARC . LLAVEA fcpo1 else_statement
+
+    LLAVEA          shift and go to state 73
+
+
+state 70
+
     (11) block_decl -> ID OR other_decl .
 
     LLAVEA          reduce using rule 11 (block_decl -> ID OR other_decl .)
     ID              reduce using rule 11 (block_decl -> ID OR other_decl .)
     PRINT           reduce using rule 11 (block_decl -> ID OR other_decl .)
-    IF              reduce using rule 11 (block_decl -> ID OR other_decl .)
     WHILE           reduce using rule 11 (block_decl -> ID OR other_decl .)
+    IF              reduce using rule 11 (block_decl -> ID OR other_decl .)
     PARA            reduce using rule 11 (block_decl -> ID OR other_decl .)
     CTE             reduce using rule 11 (block_decl -> ID OR other_decl .)
     $end            reduce using rule 11 (block_decl -> ID OR other_decl .)
     LLAVEC          reduce using rule 11 (block_decl -> ID OR other_decl .)
 
 
-state 70
+state 71
 
     (12) other_decl -> block_decl .
 
     LLAVEA          reduce using rule 12 (other_decl -> block_decl .)
     ID              reduce using rule 12 (other_decl -> block_decl .)
     PRINT           reduce using rule 12 (other_decl -> block_decl .)
-    IF              reduce using rule 12 (other_decl -> block_decl .)
     WHILE           reduce using rule 12 (other_decl -> block_decl .)
+    IF              reduce using rule 12 (other_decl -> block_decl .)
     PARA            reduce using rule 12 (other_decl -> block_decl .)
     CTE             reduce using rule 12 (other_decl -> block_decl .)
     $end            reduce using rule 12 (other_decl -> block_decl .)
     LLAVEC          reduce using rule 12 (other_decl -> block_decl .)
 
 
-state 71
+state 72
 
     (37) while_statement -> while PARA cond_while PARC LLAVEA . sub_program
     (33) sub_program -> . program LLAVEC
@@ -1400,11 +1413,12 @@ state 71
     (30) logic_statement -> . comp_statement OR comp_expression
     (31) logic_statement -> . comp_statement AND comp_expression
     (37) while_statement -> . while PARA cond_while PARC LLAVEA sub_program
-    (42) if_statement -> . IF PARA cond_if PARC LLAVEA fcpo1 else_statement
+    (43) if_statement -> . if PARA cond_if PARC LLAVEA fcpo1 else_statement
     (14) expression -> . term
     (15) expression -> . expression SUMA term
     (16) expression -> . expression RESTA term
     (36) while -> . WHILE
+    (42) if -> . IF
     (17) term -> . factor
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
@@ -1415,14 +1429,14 @@ state 71
     LLAVEA          shift and go to state 9
     ID              shift and go to state 10
     PRINT           shift and go to state 11
-    IF              shift and go to state 15
     WHILE           shift and go to state 17
+    IF              shift and go to state 18
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
+    CTE             shift and go to state 19
 
     while                          shift and go to state 14
-    sub_program                    shift and go to state 73
-    program                        shift and go to state 74
+    sub_program                    shift and go to state 74
+    program                        shift and go to state 75
     statement                      shift and go to state 2
     print_statement                shift and go to state 3
     comp_statement                 shift and go to state 4
@@ -1431,11 +1445,12 @@ state 71
     if_statement                   shift and go to state 7
     expression                     shift and go to state 8
     factor                         shift and go to state 13
+    if                             shift and go to state 15
     term                           shift and go to state 16
 
-state 72
+state 73
 
-    (42) if_statement -> IF PARA cond_if PARC LLAVEA . fcpo1 else_statement
+    (43) if_statement -> if PARA cond_if PARC LLAVEA . fcpo1 else_statement
     (40) fcpo1 -> . sub_program
     (33) sub_program -> . program LLAVEC
     (1) program -> . program statement
@@ -1458,11 +1473,12 @@ state 72
     (30) logic_statement -> . comp_statement OR comp_expression
     (31) logic_statement -> . comp_statement AND comp_expression
     (37) while_statement -> . while PARA cond_while PARC LLAVEA sub_program
-    (42) if_statement -> . IF PARA cond_if PARC LLAVEA fcpo1 else_statement
+    (43) if_statement -> . if PARA cond_if PARC LLAVEA fcpo1 else_statement
     (14) expression -> . term
     (15) expression -> . expression SUMA term
     (16) expression -> . expression RESTA term
     (36) while -> . WHILE
+    (42) if -> . IF
     (17) term -> . factor
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
@@ -1473,14 +1489,15 @@ state 72
     LLAVEA          shift and go to state 9
     ID              shift and go to state 10
     PRINT           shift and go to state 11
-    IF              shift and go to state 15
     WHILE           shift and go to state 17
+    IF              shift and go to state 18
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
+    CTE             shift and go to state 19
 
-    fcpo1                          shift and go to state 75
-    sub_program                    shift and go to state 76
-    program                        shift and go to state 74
+    if                             shift and go to state 15
+    fcpo1                          shift and go to state 76
+    sub_program                    shift and go to state 77
+    program                        shift and go to state 75
     statement                      shift and go to state 2
     print_statement                shift and go to state 3
     comp_statement                 shift and go to state 4
@@ -1492,22 +1509,22 @@ state 72
     while                          shift and go to state 14
     term                           shift and go to state 16
 
-state 73
+state 74
 
     (37) while_statement -> while PARA cond_while PARC LLAVEA sub_program .
 
     LLAVEA          reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
     ID              reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
     PRINT           reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
-    IF              reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
     WHILE           reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
+    IF              reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
     PARA            reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
     CTE             reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
     $end            reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
     LLAVEC          reduce using rule 37 (while_statement -> while PARA cond_while PARC LLAVEA sub_program .)
 
 
-state 74
+state 75
 
     (33) sub_program -> program . LLAVEC
     (1) program -> program . statement
@@ -1529,11 +1546,12 @@ state 74
     (30) logic_statement -> . comp_statement OR comp_expression
     (31) logic_statement -> . comp_statement AND comp_expression
     (37) while_statement -> . while PARA cond_while PARC LLAVEA sub_program
-    (42) if_statement -> . IF PARA cond_if PARC LLAVEA fcpo1 else_statement
+    (43) if_statement -> . if PARA cond_if PARC LLAVEA fcpo1 else_statement
     (14) expression -> . term
     (15) expression -> . expression SUMA term
     (16) expression -> . expression RESTA term
     (36) while -> . WHILE
+    (42) if -> . IF
     (17) term -> . factor
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
@@ -1541,16 +1559,16 @@ state 74
     (21) factor -> . ID
     (22) factor -> . CTE
 
-    LLAVEC          shift and go to state 77
+    LLAVEC          shift and go to state 78
     LLAVEA          shift and go to state 9
     ID              shift and go to state 10
     PRINT           shift and go to state 11
-    IF              shift and go to state 15
     WHILE           shift and go to state 17
+    IF              shift and go to state 18
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
+    CTE             shift and go to state 19
 
-    statement                      shift and go to state 19
+    statement                      shift and go to state 20
     print_statement                shift and go to state 3
     comp_statement                 shift and go to state 4
     logic_statement                shift and go to state 5
@@ -1559,30 +1577,31 @@ state 74
     expression                     shift and go to state 8
     factor                         shift and go to state 13
     while                          shift and go to state 14
+    if                             shift and go to state 15
     term                           shift and go to state 16
 
-state 75
-
-    (42) if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 . else_statement
-    (43) else_statement -> . ELSE LLAVEA fcpo2
-    (44) else_statement -> . empty
-    (45) empty -> .
-
-    ELSE            shift and go to state 79
-    LLAVEA          reduce using rule 45 (empty -> .)
-    ID              reduce using rule 45 (empty -> .)
-    PRINT           reduce using rule 45 (empty -> .)
-    IF              reduce using rule 45 (empty -> .)
-    WHILE           reduce using rule 45 (empty -> .)
-    PARA            reduce using rule 45 (empty -> .)
-    CTE             reduce using rule 45 (empty -> .)
-    $end            reduce using rule 45 (empty -> .)
-    LLAVEC          reduce using rule 45 (empty -> .)
-
-    else_statement                 shift and go to state 78
-    empty                          shift and go to state 80
-
 state 76
+
+    (43) if_statement -> if PARA cond_if PARC LLAVEA fcpo1 . else_statement
+    (44) else_statement -> . ELSE LLAVEA fcpo2
+    (45) else_statement -> . empty
+    (46) empty -> .
+
+    ELSE            shift and go to state 80
+    LLAVEA          reduce using rule 46 (empty -> .)
+    ID              reduce using rule 46 (empty -> .)
+    PRINT           reduce using rule 46 (empty -> .)
+    WHILE           reduce using rule 46 (empty -> .)
+    IF              reduce using rule 46 (empty -> .)
+    PARA            reduce using rule 46 (empty -> .)
+    CTE             reduce using rule 46 (empty -> .)
+    $end            reduce using rule 46 (empty -> .)
+    LLAVEC          reduce using rule 46 (empty -> .)
+
+    else_statement                 shift and go to state 79
+    empty                          shift and go to state 81
+
+state 77
 
     (40) fcpo1 -> sub_program .
 
@@ -1590,23 +1609,23 @@ state 76
     LLAVEA          reduce using rule 40 (fcpo1 -> sub_program .)
     ID              reduce using rule 40 (fcpo1 -> sub_program .)
     PRINT           reduce using rule 40 (fcpo1 -> sub_program .)
-    IF              reduce using rule 40 (fcpo1 -> sub_program .)
     WHILE           reduce using rule 40 (fcpo1 -> sub_program .)
+    IF              reduce using rule 40 (fcpo1 -> sub_program .)
     PARA            reduce using rule 40 (fcpo1 -> sub_program .)
     CTE             reduce using rule 40 (fcpo1 -> sub_program .)
     $end            reduce using rule 40 (fcpo1 -> sub_program .)
     LLAVEC          reduce using rule 40 (fcpo1 -> sub_program .)
 
 
-state 77
+state 78
 
     (33) sub_program -> program LLAVEC .
 
     LLAVEA          reduce using rule 33 (sub_program -> program LLAVEC .)
     ID              reduce using rule 33 (sub_program -> program LLAVEC .)
     PRINT           reduce using rule 33 (sub_program -> program LLAVEC .)
-    IF              reduce using rule 33 (sub_program -> program LLAVEC .)
     WHILE           reduce using rule 33 (sub_program -> program LLAVEC .)
+    IF              reduce using rule 33 (sub_program -> program LLAVEC .)
     PARA            reduce using rule 33 (sub_program -> program LLAVEC .)
     CTE             reduce using rule 33 (sub_program -> program LLAVEC .)
     $end            reduce using rule 33 (sub_program -> program LLAVEC .)
@@ -1614,46 +1633,46 @@ state 77
     ELSE            reduce using rule 33 (sub_program -> program LLAVEC .)
 
 
-state 78
-
-    (42) if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .
-
-    LLAVEA          reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
-    ID              reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
-    PRINT           reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
-    IF              reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
-    WHILE           reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
-    PARA            reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
-    CTE             reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
-    $end            reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
-    LLAVEC          reduce using rule 42 (if_statement -> IF PARA cond_if PARC LLAVEA fcpo1 else_statement .)
-
-
 state 79
 
-    (43) else_statement -> ELSE . LLAVEA fcpo2
+    (43) if_statement -> if PARA cond_if PARC LLAVEA fcpo1 else_statement .
 
-    LLAVEA          shift and go to state 81
+    LLAVEA          reduce using rule 43 (if_statement -> if PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    ID              reduce using rule 43 (if_statement -> if PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    PRINT           reduce using rule 43 (if_statement -> if PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    WHILE           reduce using rule 43 (if_statement -> if PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    IF              reduce using rule 43 (if_statement -> if PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    PARA            reduce using rule 43 (if_statement -> if PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    CTE             reduce using rule 43 (if_statement -> if PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    $end            reduce using rule 43 (if_statement -> if PARA cond_if PARC LLAVEA fcpo1 else_statement .)
+    LLAVEC          reduce using rule 43 (if_statement -> if PARA cond_if PARC LLAVEA fcpo1 else_statement .)
 
 
 state 80
 
-    (44) else_statement -> empty .
+    (44) else_statement -> ELSE . LLAVEA fcpo2
 
-    LLAVEA          reduce using rule 44 (else_statement -> empty .)
-    ID              reduce using rule 44 (else_statement -> empty .)
-    PRINT           reduce using rule 44 (else_statement -> empty .)
-    IF              reduce using rule 44 (else_statement -> empty .)
-    WHILE           reduce using rule 44 (else_statement -> empty .)
-    PARA            reduce using rule 44 (else_statement -> empty .)
-    CTE             reduce using rule 44 (else_statement -> empty .)
-    $end            reduce using rule 44 (else_statement -> empty .)
-    LLAVEC          reduce using rule 44 (else_statement -> empty .)
+    LLAVEA          shift and go to state 82
 
 
 state 81
 
-    (43) else_statement -> ELSE LLAVEA . fcpo2
+    (45) else_statement -> empty .
+
+    LLAVEA          reduce using rule 45 (else_statement -> empty .)
+    ID              reduce using rule 45 (else_statement -> empty .)
+    PRINT           reduce using rule 45 (else_statement -> empty .)
+    WHILE           reduce using rule 45 (else_statement -> empty .)
+    IF              reduce using rule 45 (else_statement -> empty .)
+    PARA            reduce using rule 45 (else_statement -> empty .)
+    CTE             reduce using rule 45 (else_statement -> empty .)
+    $end            reduce using rule 45 (else_statement -> empty .)
+    LLAVEC          reduce using rule 45 (else_statement -> empty .)
+
+
+state 82
+
+    (44) else_statement -> ELSE LLAVEA . fcpo2
     (41) fcpo2 -> . sub_program
     (33) sub_program -> . program LLAVEC
     (1) program -> . program statement
@@ -1676,11 +1695,12 @@ state 81
     (30) logic_statement -> . comp_statement OR comp_expression
     (31) logic_statement -> . comp_statement AND comp_expression
     (37) while_statement -> . while PARA cond_while PARC LLAVEA sub_program
-    (42) if_statement -> . IF PARA cond_if PARC LLAVEA fcpo1 else_statement
+    (43) if_statement -> . if PARA cond_if PARC LLAVEA fcpo1 else_statement
     (14) expression -> . term
     (15) expression -> . expression SUMA term
     (16) expression -> . expression RESTA term
     (36) while -> . WHILE
+    (42) if -> . IF
     (17) term -> . factor
     (18) term -> . term MULT factor
     (19) term -> . term DIV factor
@@ -1691,14 +1711,14 @@ state 81
     LLAVEA          shift and go to state 9
     ID              shift and go to state 10
     PRINT           shift and go to state 11
-    IF              shift and go to state 15
     WHILE           shift and go to state 17
+    IF              shift and go to state 18
     PARA            shift and go to state 12
-    CTE             shift and go to state 18
+    CTE             shift and go to state 19
 
-    fcpo2                          shift and go to state 82
-    sub_program                    shift and go to state 83
-    program                        shift and go to state 74
+    fcpo2                          shift and go to state 83
+    sub_program                    shift and go to state 84
+    program                        shift and go to state 75
     statement                      shift and go to state 2
     print_statement                shift and go to state 3
     comp_statement                 shift and go to state 4
@@ -1708,32 +1728,33 @@ state 81
     expression                     shift and go to state 8
     factor                         shift and go to state 13
     while                          shift and go to state 14
+    if                             shift and go to state 15
     term                           shift and go to state 16
 
-state 82
-
-    (43) else_statement -> ELSE LLAVEA fcpo2 .
-
-    LLAVEA          reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
-    ID              reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
-    PRINT           reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
-    IF              reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
-    WHILE           reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
-    PARA            reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
-    CTE             reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
-    $end            reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
-    LLAVEC          reduce using rule 43 (else_statement -> ELSE LLAVEA fcpo2 .)
-
-
 state 83
+
+    (44) else_statement -> ELSE LLAVEA fcpo2 .
+
+    LLAVEA          reduce using rule 44 (else_statement -> ELSE LLAVEA fcpo2 .)
+    ID              reduce using rule 44 (else_statement -> ELSE LLAVEA fcpo2 .)
+    PRINT           reduce using rule 44 (else_statement -> ELSE LLAVEA fcpo2 .)
+    WHILE           reduce using rule 44 (else_statement -> ELSE LLAVEA fcpo2 .)
+    IF              reduce using rule 44 (else_statement -> ELSE LLAVEA fcpo2 .)
+    PARA            reduce using rule 44 (else_statement -> ELSE LLAVEA fcpo2 .)
+    CTE             reduce using rule 44 (else_statement -> ELSE LLAVEA fcpo2 .)
+    $end            reduce using rule 44 (else_statement -> ELSE LLAVEA fcpo2 .)
+    LLAVEC          reduce using rule 44 (else_statement -> ELSE LLAVEA fcpo2 .)
+
+
+state 84
 
     (41) fcpo2 -> sub_program .
 
     LLAVEA          reduce using rule 41 (fcpo2 -> sub_program .)
     ID              reduce using rule 41 (fcpo2 -> sub_program .)
     PRINT           reduce using rule 41 (fcpo2 -> sub_program .)
-    IF              reduce using rule 41 (fcpo2 -> sub_program .)
     WHILE           reduce using rule 41 (fcpo2 -> sub_program .)
+    IF              reduce using rule 41 (fcpo2 -> sub_program .)
     PARA            reduce using rule 41 (fcpo2 -> sub_program .)
     CTE             reduce using rule 41 (fcpo2 -> sub_program .)
     $end            reduce using rule 41 (fcpo2 -> sub_program .)
