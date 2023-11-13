@@ -17,10 +17,6 @@ _consts = symbol_table.getSymbolTable().query('declared != True')["id"].values
 ################################################################################
 #GENERACION DE CODIGO ASSEMBLER
 
-assembler = [] #en esta lista se guarda el codigo generado
-pila = [] #pila utilizada para el algoritmo de generacion de codigo
-
-
 #funcion que retorna la cantidad de variables aux que va a utilizar el programa
 def defineAuxVarsQ():
     global polaca_inversa
@@ -39,9 +35,11 @@ aux_vars = defineAuxVarsQ()
 pila_aux = aux_vars.copy()
 
 
-###################################################################
-# Funciones de checkeo para el algoritmo principal
-###################################################################
+assembler = [] #en esta lista se guarda el codigo generado
+pila = [] #pila utilizada para el algoritmo de generacion de codigo
+#pila_saltos = []
+
+
 
 #verifica si el valor es un identificador de variable
 def checkID(val):
@@ -92,16 +90,22 @@ def checkJump(pos):
 
 #dado un operador retorna su correspondiente comando assembler
 def getAssemblerOP(op):
-    l = {'+':'add', '*': 'imul', '/':'idiv', '-':'sub'}
+    l = {'+':'add', '*': 'mul', '/':'div', '-':'sub'}
     if op in l:
         return l[op]
 
-###################################################################
-# funciones primitivas
-###################################################################
+############################################
+reserved_const = '__CNST_'
+reg1 = "eax"
+reg2 = "ebx"
 
-def _print(var):
-    aux = "\tdisplayInteger _" + str(var)
+
+def _itoa(val):
+    aux = f'\tmov rdi, [{str("_" + str(val))}]\n\tmov rsi, num_str\n\tcall itoa; convierte el numero en string'
+    return aux
+
+def _print():
+    aux = '\tmov rdi, num_str; direccion del string a imprimir\n\tcall print; imprime el string\n'
     return aux
 
 def _id(val):
@@ -115,20 +119,11 @@ def _const(val):
 
 
 
-###################################################################
-# algoritmo de conversion polaca-assembler
-###################################################################
-
-
-reserved_const = '$'
-reg1 = "eax"
-reg2 = "ebx"
 
 #algoritmo generador de codigo
 def polaca_assembler(pol):
     global assembler
     global pila
-    global pila_saltos
     cont = 1 #para crear variables auxiliares numeradas
     pos = 0 #para controlar que posicion en la lista polaca se esta leyendo en cada iteracion
     for x in pol:
@@ -155,62 +150,69 @@ def polaca_assembler(pol):
             pila.append(assembler_aux)
             cont += 1
         if str(x) == 'PRNT':
-            aux = _print(polaca_inversa[pos-1])
+            var = polaca_inversa[pos-1]
+            aux = _itoa(var)
+            aux2 = _print()
             assembler.append(aux)
+            assembler.append(aux2)
         pos += 1
-    assembler.append("\tjmp END_PROGRAM")
                      
             
-    
+        
+
 polaca_assembler(polaca_inversa)
 
-###################################################################
-# seccion de impresion de codigo .asm
-###################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #Grabado de resultados a archivo txt
 file = open(path_output + 'output.asm', "w")
 
-file.write("include macros.asm" + '\n')
-file.write("include number.asm" + '\n')
+file.write("section .bss" + '\n')
+file.write("\tnum_str resb 32; Reserva 32 bytes para la cadena numerica" + '\n')
 file.write('\n')
-file.write(".MODEL LARGE; tipo de modelo de memoria utilizado" + '\n')
-file.write(".386" + '\n')
-file.write(".STACK 200h; bytes en el stack" + '\n')
-#file.write("MAXTEXTSIZE equ 120" + '\n')
-file.write('\n')
-file.write('\n')
-file.write('.DATA; bloque de definicion de variables' + '\n')
-file.write('\n')
-
+file.write("section .data" + '\n')
 
 for x in _vars:
-    file.write('\t' +  x + '\t' + 'DD' + '\t0' + '\n')
+    file.write('\t' +  x + '\t' + 'dd' + '\t0' + '\n')
 for y in _consts:
-    file.write('\t' + reserved_const +  y + '\t' + 'dd' + '\t' + symbol_table.getSymbolByID(y[1:])["value"].iloc[0] + '\n')
+    file.write('\t' + reserved_const +  y + '\t' + 'dd' + '\t' + symbol_table.getSymbolByID(y[1])["value"].iloc[0] + '\n')
 for z in aux_vars:
-    file.write('\t' +  z + '\t' + 'DD' + '\t0' + '\n')
-    
+    file.write('\t' +  z + '\t' + 'dd' + '\t0' + '\n')
+
 
 file.write('\n')
-file.write('.CODE; bloque de definiciones de codigo' + '\n')
+file.write("section .text" + '\n')
+file.write("\t global _start" + '\n')
+file.write("\t extern itoa" + '\n')
+file.write("\t extern print" + '\n')
 file.write('\n')
-file.write('START:' + '\n')
-file.write('\n')
+file.write('_start:' + '\n')
 
-file.write('\tmov AX, @DATA; carga de variables' + '\n')
-file.write('\tmov DS, AX' + '\n')
-file.write('\tmov es, ax' + '\n')
+file.write('\n' .join(assembler))
 
 file.write('\n')
-file.write('\t')
-file.write('\n\t' .join(assembler))
 file.write('\n')
-file.write('\n')
-file.write('\tEND_PROGRAM:\n')
-file.write('\t\tmov ax, 4c00h' + '\n')
-file.write('\t\tint 21h; interrupcion del programa' + '\n')
-file.write('\t\tEND START; fin del programa' + '\n')
+file.write('\t; Salida del programa' + '\n')
+file.write('\tmov rax, 60; syscall para exit' + '\n')
+file.write('\txor rdi, rdi; codigo de salida 0' + '\n')
+file.write('\tsyscall' + '\n')
+
 
 
 file.close()

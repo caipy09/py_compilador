@@ -1,9 +1,9 @@
-{int a | b | c}
-a = 100
-b = 200
-if(a < b){
-	c = 500
-}else{
-	c = 300
-}
-b = a + c
+{int a | b | c | d}
+a = 20
+b = 4
+c = 10
+d = 400
+d = d - (a * b + c)
+print(d)
+
+
