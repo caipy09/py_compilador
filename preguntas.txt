@@ -1,1 +1,0 @@
-Hay distintas versiones de assembler con distintas sintaxis, que assembler es el mas recomendable?
