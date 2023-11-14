@@ -1,7 +1,7 @@
 
 import parser as p
 
-ntest = "30"
+ntest = "32"
 path_input = "C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
 path_output = "C:/Users/ferna/Onedrive/Documents/GitHub/py_compilador/lote_pruebas/" + ntest + "/"
 

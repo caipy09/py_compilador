@@ -1,0 +1,14 @@
+Errores/Warnings: 
+[]
+
+Tabla de simbolos: 
+    id name value  length declared
+0   _a    a     a       0     True
+1  _20   20    20       2     None
+
+polaca_inversa: 
+['20', 'a', '=', 'a', 'PRNT']
+
+pila_while: []
+pila_if: []
+pila_anidamientos: []
