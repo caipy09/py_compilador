@@ -21,6 +21,7 @@ get_name() {
 # Initialize variables
 file_path=""
 TMP_PATH="/tmp"
+BUILD_PATH="build"
 # Parse command-line options
 while getopts 'f:o:' flag; do
     case "${flag}" in
@@ -45,6 +46,9 @@ fi;
 
 source .venv/bin/activate
 
+if [[ ! -d $BUILD_PATH ]]; then
+    mkdir $BUILD_PATH
+fi;
 
 
 python3 transpiler.py $file_path
@@ -54,17 +58,11 @@ name=$(get_name $file_basename)
 
 # Output file is optional
 if [ -z "$output_file" ]; then
-    echo "Note: Output file not specified. output file will be ./$name"
-    output_file=$(pwd)/$name
+    echo "Note: Output file not specified. output file will be ./$BUILD_PATH/$name"
+    output_file=$(pwd)/$BUILD_PATH/$name
 else
     echo "Compiled executable: $output_file"
 fi
-
-
-
-
-
-
 
 nasm -f elf64 -g -F dwarf ./lib/libitoa.asm -o ./lib/libitoa.o
 nasm -f elf64 -g -F dwarf ./lib/libprint.asm -o ./lib/libprint.o
