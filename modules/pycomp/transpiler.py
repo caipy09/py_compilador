@@ -66,8 +66,31 @@ class Transpiler:
         """
         unique_label = f"{self.label_basename}_{self.label_counter}"
         self.label_counter += 1
-        self.label_positions[position] = unique_label
+        adjusted_position = position if position not in self.label_positions else position + 1
+        self.label_positions[adjusted_position] = unique_label
         return unique_label
+
+    def _insert_labels(self):
+        """
+        Inserta las etiquetas en las posiciones correspondientes dentro del array precompilado.
+        Modifica el array precompilado para incluir las etiquetas en las posiciones correctas.
+        Returns:
+            None
+
+        Example:
+            self._insert_labels()
+        """
+        modified_array = self.precompiled_tokens.copy()
+        label_count = 0
+        for position, label in self.label_positions.items():
+            print(label_count)
+
+            modified_array.insert(
+                position + label_count,
+                [f"{label}:"]
+            )
+            label_count += 1
+        self.precompiled_tokens = modified_array.copy()
 
     def _assign_value_to_variable(self, variable_name, token_index):
         """
@@ -163,27 +186,6 @@ class Transpiler:
             f"MOV rdi, {temp_var}",
             "CALL print"
         ]
-
- 
-    def _insert_labels(self):
-        """
-        Inserta las etiquetas en las posiciones correspondientes dentro del array precompilado.
-        Modifica el array precompilado para incluir las etiquetas en las posiciones correctas.
-        Returns:
-            None
-
-        Example:
-            self._insert_labels()
-        """
-        modified_array = self.precompiled_tokens.copy()
-        label_count = 0
-        for position, label in self.label_positions.items():
-            modified_array.insert(
-                position + label_count,
-                [f"{label}:"]
-            )
-            label_count += 1
-        self.precompiled_tokens = modified_array.copy()
 
     def _make_bss_section(self):
         """
