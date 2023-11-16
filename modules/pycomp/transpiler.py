@@ -10,7 +10,7 @@ class Transpiler:
     var_name_regex = compile(r'^[_a-zA-Z][_a-zA-Z0-9]*$')
     numeric_regex = compile(r'^[0-9]+$')
     math_operator_regex = compile(r'^[+\-*/]+$')
-    math_comparators = ['==', '!=', '<', '>', '=>', '<=']
+    math_comparators = ['==', '<>', '<', '>', '>=', '<=']
     cmp_jumps = ['JNE', 'JE', 'JGE', 'JLE', 'JL', 'JG']
     polish_jmps = ['BF', "BI"]
     label_basename = 'label'
@@ -51,6 +51,12 @@ class Transpiler:
             self.all_variables.append(name)
         return self.variables_to_mem[token]
 
+    def _shift_label_position(self, position: int) -> int:
+        if position not in self.label_positions.keys():
+            return position
+        else:
+            return self._shift_label_position(position + 1)
+
     def _generate_unique_label(self, position: int):
         """
         Genera una etiqueta única para ser usada en las instrucciones de salto.
@@ -65,9 +71,8 @@ class Transpiler:
             label = self._generate_unique_label(5)        
         """
         unique_label = f"{self.label_basename}_{self.label_counter}"
+        self.label_positions[self._shift_label_position(position)] = unique_label
         self.label_counter += 1
-        adjusted_position = position if position not in self.label_positions else position + 1
-        self.label_positions[adjusted_position] = unique_label
         return unique_label
 
     def _insert_labels(self):
@@ -83,7 +88,6 @@ class Transpiler:
         modified_array = self.precompiled_tokens.copy()
         label_count = 0
         for position, label in self.label_positions.items():
-            print(label_count)
 
             modified_array.insert(
                 position + label_count,
@@ -269,7 +273,7 @@ class Transpiler:
                 ]
 
             elif token == "BF":
-                cmp_type = self.tokens[self.tokens.index(token) - 2]
+                cmp_type = self.tokens[token_index - 2]
                 jmp_type = self.cmp_jumps[self.math_comparators.index(cmp_type)]
                 unique_label = self._generate_unique_label(
                     self.tokens[token_index - 1]
@@ -282,7 +286,7 @@ class Transpiler:
                     self.tokens[token_index - 1]
                 )
                 self.assembler_code.insert(
-                    self.tokens[self.tokens.index(token) - 1],
+                    self.tokens[token_index - 1],
                     f'{unique_label}:'
                 )
                 self.precompiled_tokens[token_index] = [f"JMP {unique_label}"]

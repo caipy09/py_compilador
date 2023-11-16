@@ -1,0 +1,19 @@
+{int a | b | c | d}
+a = 10
+b = 20
+c = 1234
+d = 5678
+if(a > b){
+        a = a * 2
+} else {
+	a = a + b * 2
+	if(a > b){
+		print(a)
+        print(b)
+		print(c)
+		print(d)
+	} else {
+		print(a+b)
+	}
+}
+

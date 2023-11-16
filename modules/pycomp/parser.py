@@ -37,7 +37,7 @@ class Parser(object):
     stack_nestings = []
     stack_comparators = []
 
-    local = {}
+    #local = {}
 
     def __init__(self, lexer: Lexer):
         self.lexer = lexer
@@ -87,20 +87,20 @@ class Parser(object):
 
     def p_block_decl(self, p):
         'block_decl : ID LLAVEC'
-        if(len(self.stack_nestings) > 0):
-            self.lexer.ts.addSymbol(p[1] + '%' + str(len(self.stack_nestings)), p[1], p[1], 0, True)
-            self.local['level' + str(len(self.stack_nestings))].append(p[1])
-        else:
-            self.lexer.ts.setDeclaration(p[1])
+       # if(len(self.stack_nestings) > 0):
+       #    self.lexer.ts.addSymbol(p[1] + '%' + str(len(self.stack_nestings)), p[1], p[1], 0, True)
+       #    self.local['level' + str(len(self.stack_nestings))].append(p[1])
+        #else:
+        self.lexer.ts.setDeclaration(p[1])
 
 
     def p_block_decl2(self, p):
         'block_decl : ID OR other_decl'
-        if(len(self.stack_nestings) > 0):
-            self.lexer.ts.addSymbol(p[1] + '%' + str(len(self.stack_nestings)), p[1], p[1], 0, True)
-            self.local['level' + str(len(self.stack_nestings))].append(p[1])
-        else:
-            self.lexer.ts.setDeclaration(p[1])
+       # if(len(self.stack_nestings) > 0):
+        #    self.lexer.ts.addSymbol(p[1] + '%' + str(len(self.stack_nestings)), p[1], p[1], 0, True)
+         #   self.local['level' + str(len(self.stack_nestings))].append(p[1])
+      #  else:"""
+        self.lexer.ts.setDeclaration(p[1])
 
         
     def p_block_decl3(self, p):
@@ -233,16 +233,16 @@ class Parser(object):
 
     def p_if(self, p):
         'if : IF'
-        self.lexer.ts.addCheckPoint("CHKP" + str(len(self.stack_nestings)), "IF")
+       # self.lexer.ts.addCheckPoint("CHKP" + str(len(self.stack_nestings)), "IF")
         self.stack_nestings.append("IF")
         self.check_limit_nested_statements(self.stack_nestings)
-        self.local['level' + str(len(self.stack_nestings))] = []
+        #self.local['level' + str(len(self.stack_nestings))] = []
         
 
     def p_selection_if(self, p):
         'if_statement : if PARA cond_if PARC LLAVEA fcpo1 else_statement'
         self.lexer.ts.__str__()
-        self.lexer.ts.removeUntilCHKP()
+       # self.lexer.ts.removeUntilCHKP()
         despues_BI  = self.stack_if.pop()
         self.ipolish[self.stack_if.pop()] = len(self.ipolish)
         self.ipolish[self.stack_if.pop()] = despues_BI 

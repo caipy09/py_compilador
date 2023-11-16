@@ -7,4 +7,4 @@ if((a*7+b) > (b+c*4)){
 }else{
  a = 0
 } 
-print(a)
+print(a+b)
