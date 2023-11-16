@@ -39,3 +39,6 @@ if __name__ == "__main__":
         print(err)
         sys.exit(1)
     
+
+    # ./compile.sh -f tests/test_cases/32/input.txt -o build/test32
+    # ./build/test32

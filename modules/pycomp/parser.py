@@ -282,7 +282,7 @@ class Parser(object):
             module=self, # creo un objeto yacc y le pasamos a traves del metodo yacc() el objeto donde se encuentran los metodos p_ poniendo module
             outputdir=self.outputdir
         )
-        self.parsed = self.yacc.parse(lexer=self.lexer, debug=True)
+        self.parsed = self.yacc.parse(lexer=self.lexer, debug=False)
         if get_info:
             print(self.get_info())
         return self.ipolish
