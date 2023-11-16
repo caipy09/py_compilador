@@ -1,7 +1,0 @@
-{int a | b | c | d | e}
-a = 10
-b = 20
-while((a * 3 - 7) <= (b * 4)){
- a = a + 2
- print(a)
- c = b - 1
