@@ -9,9 +9,13 @@ if(b <> c){
   while(a<b){
    a = e + 2
    b = d - 1
-   if(b >= e){
+   if(b <= e){
     {int f}
     f = a * 12
    }
   }
 }
+print(a)
+print(b)
+print(c)
+print(f)
